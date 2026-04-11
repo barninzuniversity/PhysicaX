@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CFDStatusCard } from "../components/CFDStatusCard";
+import { ScenarioPlanner, type PlannerScenario } from "../components/ScenarioPlanner";
 
 const workflowCards = [
   {
@@ -48,6 +49,81 @@ const artifactCards = [
     body: "When configured, the streamline VTK output becomes the visual proof that the heavier post-processing path really completed."
   }
 ];
+
+const cfdScenarios = [
+  {
+    id: "validate",
+    label: "Validate geometry",
+    accent: "Fast evidence",
+    title: "Use the quick validation lane when you need to catch setup mistakes before spending time on heavy post-processing.",
+    summary: "A calm first pass for geometry, boundary conditions, and runtime sanity.",
+    body: "This is the right starting point when the question is 'is the stack alive and is the setup sensible?' rather than 'do I already need publication-grade artifacts?'",
+    bullets: [
+      "Check the backend and basic diagnostics before launching anything expensive.",
+      "Use the lightest useful LBM-style run to expose setup issues early.",
+      "Promote only after the quick run gives you confidence in the case."
+    ],
+    metrics: [
+      { label: "Fastest win", value: "Health + LBM" },
+      { label: "Primary goal", value: "Trust the setup" },
+      { label: "Best for", value: "Early iteration" }
+    ],
+    links: [
+      { href: "/cfd", label: "Open diagnostics" },
+      { href: "/labs/mechanics/drag/flow-3d", label: "Start airflow lab", variant: "secondary" },
+      { href: "/desktop", label: "Desktop runtime", variant: "chip" }
+    ],
+    note: "This lane is about finding mistakes cheaply, not proving success expensively."
+  },
+  {
+    id: "artifacts",
+    label: "Review artifacts",
+    accent: "OpenFOAM outputs",
+    title: "Use the artifact lane when the case needs sampled fields, pressure outputs, and streamline files you can inspect later.",
+    summary: "A higher-fidelity path built around concrete exported evidence.",
+    body: "Once the quick checks look healthy, this lane gives you the stronger outputs that make CFD decisions more defensible: sampled grids, pressure fields, and streamline tracks.",
+    bullets: [
+      "Treat the CSV grid and VTK streamlines as the evidence that the heavy path completed.",
+      "Inspect outputs directly instead of trusting logs or process success alone.",
+      "Use exported files to compare runs, share artifacts, or move into analysis."
+    ],
+    metrics: [
+      { label: "Best artifact", value: "uniformGrid.csv" },
+      { label: "Visual proof", value: "tracks.vtk" },
+      { label: "Best for", value: "Review + reporting" }
+    ],
+    links: [
+      { href: "/cfd", label: "Open artifact guide" },
+      { href: "/labs/thermo/heat-transfer/volume", label: "Heat transfer lab", variant: "secondary" },
+      { href: "/registry/models", label: "Model registry", variant: "chip" }
+    ],
+    note: "This lane matters when you need more than a yes-or-no success message."
+  },
+  {
+    id: "deploy",
+    label: "Package locally",
+    accent: "Desktop handoff",
+    title: "Use the packaged lane when you want the CFD stack to run as a local product, not a manual collection of services.",
+    summary: "A deployment-oriented flow for Linux packaging, WSL launch, and repeatable local operation.",
+    body: "This lane is for operators and builders who want a controlled desktop runtime with a bundled backend, release files, and a safer WSL startup path.",
+    bullets: [
+      "Prefer the packaged desktop route when you want one local stack to validate and hand off.",
+      "Use the WSL launcher when AppImage mounting is not the safest startup path.",
+      "Treat the packaged runtime and artifacts as part of one release story."
+    ],
+    metrics: [
+      { label: "Best surface", value: "Linux desktop app" },
+      { label: "Key helper", value: "run-PhysicaX-wsl.sh" },
+      { label: "Best for", value: "Repeatable deploys" }
+    ],
+    links: [
+      { href: "/desktop", label: "Open desktop controls" },
+      { href: "/cfd", label: "CFD checklist", variant: "secondary" },
+      { href: "/platform", label: "Platform overview", variant: "chip" }
+    ],
+    note: "This lane is about stability and handoff quality just as much as solver output."
+  }
+] satisfies PlannerScenario[];
 
 export default function CFDPage() {
   return (
@@ -126,6 +202,15 @@ export default function CFDPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="section reveal">
+        <ScenarioPlanner
+          eyebrow="Planner"
+          title="Choose The CFD Lane Before You Spend Compute"
+          lede="The fastest way to calm down a CFD workflow is to make the purpose of the next run explicit."
+          scenarios={cfdScenarios}
+        />
       </section>
 
       <section className="section reveal">

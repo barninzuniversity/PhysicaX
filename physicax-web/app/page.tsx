@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { GlobalSearch } from "./components/GlobalSearch";
+import { ScenarioPlanner, type PlannerScenario } from "./components/ScenarioPlanner";
 
 const signalMetrics = [
   {
@@ -47,6 +48,81 @@ const workflowModes = [
     badge: "High fidelity"
   }
 ];
+
+const pathfinderScenarios = [
+  {
+    id: "explore",
+    label: "Explore concepts",
+    accent: "Browser-first",
+    title: "Start in the browser when the goal is understanding, teaching, or quick iteration.",
+    summary: "Fast setup, lightweight exploration, and explanation-rich labs.",
+    body: "This path is the fastest way to move from a question to a graph, comparison, or guided simulation. It is ideal when you want to stay focused on the model rather than the runtime.",
+    bullets: [
+      "Launch labs and formulas without touching packaging or local services.",
+      "Use search and shared UI patterns to move between topics quickly.",
+      "Keep the session teachable with assumptions, units, and notes close to the visuals."
+    ],
+    metrics: [
+      { label: "Best surface", value: "Web app" },
+      { label: "Time to first result", value: "< 1 min" },
+      { label: "Ideal for", value: "Class, study, demos" }
+    ],
+    links: [
+      { href: "/labs", label: "Open labs" },
+      { href: "/registry", label: "Browse registry", variant: "secondary" },
+      { href: "/formulas", label: "Formula library", variant: "chip" }
+    ],
+    note: "Choose this when the question is still forming and you want the shortest path to a meaningful visual or comparison."
+  },
+  {
+    id: "operate",
+    label: "Run locally",
+    accent: "Desktop runtime",
+    title: "Choose the desktop app when reliability, packaging, and runtime visibility matter more than raw convenience.",
+    summary: "Bundled services, GPU policy control, and release-aware local execution.",
+    body: "This mode is for serious local operation: offline usage, WSL-safe setup, update-folder handling, and a clearer view into what the packaged stack is doing on the machine.",
+    bullets: [
+      "Inspect backend and GPU state from the same control surface.",
+      "Use compatibility mode when stability matters more than renderer throughput.",
+      "Package and hand off Linux releases with a repeatable local workflow."
+    ],
+    metrics: [
+      { label: "Best surface", value: "Desktop app" },
+      { label: "Strength", value: "Control + portability" },
+      { label: "Ideal for", value: "Operators, local builds" }
+    ],
+    links: [
+      { href: "/desktop", label: "Open desktop controls" },
+      { href: "/platform", label: "Review platform surface", variant: "secondary" },
+      { href: "/research/workflows", label: "Workflow notes", variant: "chip" }
+    ],
+    note: "Choose this when you need the app to behave like a managed tool instead of a single browser tab."
+  },
+  {
+    id: "validate",
+    label: "Validate flow",
+    accent: "CFD escalation",
+    title: "Move into CFD when the model needs evidence from sampled fields, streamline artifacts, or backend diagnostics.",
+    summary: "Backend-aware validation that escalates from quick checks to heavier solver output.",
+    body: "This path keeps CFD grounded: check health first, run the lightest useful validation second, and only then promote the case into OpenFOAM-style export and artifact review.",
+    bullets: [
+      "Verify the runtime before treating the problem as a physics issue.",
+      "Use quick LBM checks to expose setup mistakes early.",
+      "Inspect CSV and VTK artifacts instead of trusting logs alone."
+    ],
+    metrics: [
+      { label: "Best surface", value: "CFD control center" },
+      { label: "Strength", value: "Evidence chain" },
+      { label: "Ideal for", value: "Flow + transport studies" }
+    ],
+    links: [
+      { href: "/cfd", label: "Open CFD control center" },
+      { href: "/labs/mechanics/drag/flow-3d", label: "Start airflow lab", variant: "secondary" },
+      { href: "/labs/thermo/heat-transfer/volume", label: "Heat workflow", variant: "chip" }
+    ],
+    note: "Choose this when a simple plot is no longer enough and you need exported fields or stronger validation signals."
+  }
+] satisfies PlannerScenario[];
 
 const productSpotlights = [
   {
@@ -213,6 +289,15 @@ export default function HomePage() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="section reveal">
+        <ScenarioPlanner
+          eyebrow="Pathfinder"
+          title="Plan The Right PhysicaX Session"
+          lede="Pick the kind of job you are doing and PhysicaX should make the next step obvious, not ambiguous."
+          scenarios={pathfinderScenarios}
+        />
       </section>
 
       <section className="section reveal">

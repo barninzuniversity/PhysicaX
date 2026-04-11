@@ -23,13 +23,28 @@ export function CFDStatusCard() {
   const [checking, setChecking] = useState(false);
   const [testBusy, setTestBusy] = useState(false);
   const [testResult, setTestResult] = useState<string | null>(null);
+  const [testTone, setTestTone] = useState<"good" | "bad" | null>(null);
   const [lastChecked, setLastChecked] = useState<Date | null>(null);
+
+  const fetchWithTimeout = async (input: string, init?: RequestInit, timeoutMs = 5000) => {
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      return await fetch(input, {
+        cache: "no-store",
+        ...init,
+        signal: controller.signal
+      });
+    } finally {
+      window.clearTimeout(timeout);
+    }
+  };
 
   useEffect(() => {
     const load = async () => {
       setChecking(true);
       try {
-        const res = await fetch("/api/cfd");
+        const res = await fetchWithTimeout("/api/cfd");
         if (!res.ok) {
           setError("CFD backend not reachable.");
           return;
@@ -50,9 +65,10 @@ export function CFDStatusCard() {
   const refresh = async () => {
     setError(null);
     setTestResult(null);
+    setTestTone(null);
     setChecking(true);
     try {
-      const res = await fetch("/api/cfd", { cache: "no-store" });
+      const res = await fetchWithTimeout("/api/cfd");
       if (!res.ok) {
         setError("CFD backend not reachable.");
         return;
@@ -70,13 +86,15 @@ export function CFDStatusCard() {
   const runTest = async () => {
     setTestBusy(true);
     setTestResult(null);
+    setTestTone(null);
     try {
-      const res = await fetch("/api/cfd", {
+      const res = await fetchWithTimeout("/api/cfd", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ engine: "lbm", flowSpeed: 1.2, radius: 0.35, resolution: 24, steps: 40, requireBackend: false })
-      });
+      }, 12000);
       if (!res.ok) {
+        setTestTone("bad");
         setTestResult("LBM test failed.");
         return;
       }
@@ -85,22 +103,24 @@ export function CFDStatusCard() {
       const nx = field?.nx ?? "?";
       const ny = field?.ny ?? "?";
       const nz = field?.nz ?? "?";
+      setTestTone("good");
       setTestResult(`LBM test ok - source=${payload?.source ?? "unknown"} - grid=${nx}x${ny}x${nz}`);
     } catch {
-      setTestResult("LBM test failed.");
+      setTestTone("bad");
+      setTestResult("LBM test failed or timed out.");
     } finally {
       setTestBusy(false);
     }
   };
 
   const formatBytes = (value?: number | null) => {
-    if (!value || !Number.isFinite(value)) return "n/a";
+    if (value == null || !Number.isFinite(value)) return "n/a";
     const mb = value / (1024 * 1024);
     return `${mb.toFixed(2)} MB`;
   };
 
   const formatTime = (value?: number | null) => {
-    if (!value || !Number.isFinite(value)) return "n/a";
+    if (value == null || !Number.isFinite(value)) return "n/a";
     return new Date(value * 1000).toLocaleString();
   };
 
@@ -194,7 +214,7 @@ export function CFDStatusCard() {
         </button>
         {lastChecked ? <span className="demo-note">Last checked: {lastChecked.toLocaleTimeString()}</span> : null}
       </div>
-      {testResult ? <div className="pill pill-good">{testResult}</div> : null}
+      {testResult ? <div className={`pill ${testTone === "bad" ? "pill-bad" : "pill-good"}`}>{testResult}</div> : null}
     </div>
   );
 }

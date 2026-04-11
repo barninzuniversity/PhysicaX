@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { ScenarioPlanner, type PlannerScenario } from "../components/ScenarioPlanner";
 
 type DesktopSettings = {
   gpuMode: "high" | "low";
@@ -26,6 +27,83 @@ const operatingTracks = [
   }
 ];
 
+const operatingScenarios = [
+  {
+    id: "native",
+    label: "Native performance",
+    accent: "Renderer-first",
+    title: "Use the high-performance profile when the machine is a validated native Linux or Windows runtime.",
+    summary: "Maximum renderer throughput when the GPU stack is already known to be stable.",
+    body: "This profile is the right fit for workstations and validated laptops where Electron rendering, local services, and packaging are all behaving normally.",
+    bullets: [
+      "Prefer this when the backend is healthy and the renderer has already proven stable.",
+      "Use it for demos or research sessions where performance matters more than defensive compatibility.",
+      "Treat it as the default only after you have validated the hardware path once."
+    ],
+    metrics: [
+      { label: "GPU policy", value: "High" },
+      { label: "Best on", value: "Native GPU stacks" },
+      { label: "Tradeoff", value: "Speed over caution" }
+    ],
+    links: [
+      { href: "/desktop", label: "Review controls" },
+      { href: "/labs", label: "Open labs", variant: "secondary" },
+      { href: "/cfd", label: "Inspect CFD state", variant: "chip" }
+    ],
+    note: "If the renderer or driver stack is uncertain, start one step safer and promote to this profile after validation."
+  },
+  {
+    id: "compatibility",
+    label: "Compatibility mode",
+    accent: "WSL-safe",
+    title: "Use the compatibility profile when the runtime is inside WSL, a VM, or an unstable graphics environment.",
+    summary: "Safer renderer behavior that protects reliability on less predictable stacks.",
+    body: "This profile reduces surprises when GPU acceleration is the least trustworthy part of the environment. It is the safer starting point on WSL and other layered runtimes.",
+    bullets: [
+      "Choose this first on WSL, virtualized desktops, and older drivers.",
+      "Prioritize repeatable launches and readable diagnostics over raw rendering speed.",
+      "Promote back to high performance only after the local stack is demonstrably stable."
+    ],
+    metrics: [
+      { label: "GPU policy", value: "Low" },
+      { label: "Best on", value: "WSL + VMs" },
+      { label: "Tradeoff", value: "Stability over speed" }
+    ],
+    links: [
+      { href: "/desktop", label: "Desktop guide" },
+      { href: "/cfd", label: "Backend checks", variant: "secondary" },
+      { href: "/research/workflows", label: "Ops notes", variant: "chip" }
+    ],
+    note: "This should feel like the calm, predictable operating mode rather than a downgrade."
+  },
+  {
+    id: "handoff",
+    label: "Release handoff",
+    accent: "Package-ready",
+    title: "Use the release handoff path when you are validating builds, packaging Linux artifacts, or preparing an offline drop.",
+    summary: "A practical operating lane for packaging, update folders, and controlled deployment.",
+    body: "This profile is about operational completeness: you are less concerned with interactive exploration and more concerned with whether the packaged runtime is ready for someone else to install and use.",
+    bullets: [
+      "Check runtime state, backend health, and update-folder behavior before packaging.",
+      "Use the WSL launcher when Linux packaging needs a safer startup story.",
+      "Treat packaged artifacts as outputs to inspect, not just files to assume are correct."
+    ],
+    metrics: [
+      { label: "Focus", value: "Packaging" },
+      { label: "Best outcome", value: "Repeatable release" },
+      { label: "Ideal for", value: "Local handoff" }
+    ],
+    links: [
+      { href: "/desktop", label: "Open desktop page" },
+      { href: "/platform", label: "Platform overview", variant: "secondary" },
+      { href: "/cfd", label: "Artifact checklist", variant: "chip" }
+    ],
+    note: "This is the right lane when the question is 'can another machine run this cleanly?' rather than 'can I click through it right now?'"
+  }
+] satisfies PlannerScenario[];
+
+const describeDesktopError = (error: unknown) => (error instanceof Error ? error.message : "Unexpected desktop runtime error.");
+
 declare global {
   interface Window {
     physicaxDesktop?: {
@@ -46,13 +124,25 @@ export default function DesktopSettingsPage() {
   const [backendUrl, setBackendUrl] = useState("");
   const [backendHealth, setBackendHealth] = useState<BackendHealth>("checking");
   const [message, setMessage] = useState("");
+  const [runtimeBusy, setRuntimeBusy] = useState(false);
+  const [actionBusy, setActionBusy] = useState<string | null>(null);
+  const [runtimeError, setRuntimeError] = useState("");
+  const [lastSynced, setLastSynced] = useState<Date | null>(null);
+  const [lastBackendCheck, setLastBackendCheck] = useState<Date | null>(null);
 
-  useEffect(() => {
-    const load = async () => {
-      if (!window.physicaxDesktop) {
-        return;
+  const syncDesktopState = async (announce = false) => {
+    if (!window.physicaxDesktop) {
+      if (announce) {
+        setMessage("Open the packaged desktop app to refresh runtime state.");
       }
-      setReady(true);
+      return;
+    }
+
+    setReady(true);
+    setRuntimeBusy(true);
+    setRuntimeError("");
+
+    try {
       const [setts, ver, backend] = await Promise.all([
         window.physicaxDesktop.getSettings(),
         window.physicaxDesktop.getVersion(),
@@ -61,8 +151,56 @@ export default function DesktopSettingsPage() {
       setSettings(setts);
       setVersion(ver);
       setBackendUrl(backend);
-    };
-    void load();
+      setLastSynced(new Date());
+      if (announce) {
+        setMessage("Desktop runtime state refreshed.");
+      }
+    } catch (error) {
+      const detail = describeDesktopError(error);
+      setRuntimeError(detail);
+      if (announce) {
+        setMessage(`Unable to refresh runtime state: ${detail}`);
+      }
+    } finally {
+      setRuntimeBusy(false);
+    }
+  };
+
+  const refreshBackendHealth = async (announce = false) => {
+    if (!ready || !backendUrl) {
+      setBackendHealth(ready ? "offline" : "checking");
+      if (announce) {
+        setMessage(ready ? "No backend URL is configured for the packaged runtime." : "Backend checks are available inside the desktop app.");
+      }
+      return;
+    }
+
+    setActionBusy(announce ? "backend" : null);
+    setRuntimeError("");
+
+    try {
+      setBackendHealth("checking");
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 3500);
+      const response = await fetch(`${backendUrl}/status`, { cache: "no-store", signal: controller.signal });
+      window.clearTimeout(timeout);
+      setBackendHealth(response.ok ? "ready" : "offline");
+      setLastBackendCheck(new Date());
+      if (announce) {
+        setMessage(response.ok ? "Backend health refreshed successfully." : "Backend responded, but not with a healthy status.");
+      }
+    } catch (error) {
+      setBackendHealth("offline");
+      if (announce) {
+        setMessage(`Backend check failed: ${describeDesktopError(error)}`);
+      }
+    } finally {
+      setActionBusy(null);
+    }
+  };
+
+  useEffect(() => {
+    void syncDesktopState();
   }, []);
 
   useEffect(() => {
@@ -76,9 +214,13 @@ export default function DesktopSettingsPage() {
     const checkBackend = async () => {
       try {
         setBackendHealth("checking");
-        const response = await fetch(`${backendUrl}/status`, { cache: "no-store" });
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 3500);
+        const response = await fetch(`${backendUrl}/status`, { cache: "no-store", signal: controller.signal });
+        window.clearTimeout(timeout);
         if (cancelled) return;
         setBackendHealth(response.ok ? "ready" : "offline");
+        setLastBackendCheck(new Date());
       } catch {
         if (!cancelled) {
           setBackendHealth("offline");
@@ -87,26 +229,56 @@ export default function DesktopSettingsPage() {
     };
 
     void checkBackend();
+    const interval = window.setInterval(() => {
+      void checkBackend();
+    }, 20000);
 
     return () => {
       cancelled = true;
+      window.clearInterval(interval);
     };
   }, [ready, backendUrl]);
 
   const toggleGpu = async (mode: "high" | "low") => {
     if (!window.physicaxDesktop) return;
+    setActionBusy(mode);
     setMessage(`Switching to ${mode === "high" ? "high performance" : "compatibility"} mode and restarting...`);
-    await window.physicaxDesktop.setGpuMode(mode);
+    try {
+      await window.physicaxDesktop.setGpuMode(mode);
+    } catch (error) {
+      setMessage(`Could not change GPU mode: ${describeDesktopError(error)}`);
+      setActionBusy(null);
+    }
   };
 
   const checkUpdates = async () => {
     if (!window.physicaxDesktop) return;
-    const result = await window.physicaxDesktop.checkForUpdates();
-    if (!result.available) {
-      setMessage("You are up to date. The packaged desktop stack already matches the current release.");
-      return;
+    setActionBusy("updates");
+    try {
+      const result = await window.physicaxDesktop.checkForUpdates();
+      if (!result.available) {
+        setMessage("You are up to date. The packaged desktop stack already matches the current release.");
+        return;
+      }
+      setMessage(`Update available: ${result.version ?? "latest"}. Open the update folder to inspect the package files.`);
+    } catch (error) {
+      setMessage(`Update check failed: ${describeDesktopError(error)}`);
+    } finally {
+      setActionBusy(null);
     }
-    setMessage(`Update available: ${result.version ?? "latest"}. Open the update folder to inspect the package files.`);
+  };
+
+  const openUpdateFolder = async () => {
+    if (!window.physicaxDesktop) return;
+    setActionBusy("folder");
+    try {
+      await window.physicaxDesktop.openUpdateFolder();
+      setMessage("Update folder opened. Drop package files there for offline handoff and release verification.");
+    } catch (error) {
+      setMessage(`Could not open the update folder: ${describeDesktopError(error)}`);
+    } finally {
+      setActionBusy(null);
+    }
   };
 
   const modeGuidance = useMemo(
@@ -141,9 +313,11 @@ export default function DesktopSettingsPage() {
       },
       {
         label: "Backend",
-        value: backendHealth === "ready" ? "Ready" : backendHealth === "offline" ? "Attention needed" : "Checking",
+        value: !ready ? "Preview only" : backendHealth === "ready" ? "Ready" : backendHealth === "offline" ? "Attention needed" : "Checking",
         note:
-          backendHealth === "ready"
+          !ready
+            ? "Backend health becomes actionable inside the packaged desktop runtime."
+            : backendHealth === "ready"
             ? "The local backend answered the health endpoint."
             : backendHealth === "offline"
               ? "Check the packaged backend before assuming the CFD layer is broken."
@@ -153,7 +327,9 @@ export default function DesktopSettingsPage() {
         label: "GPU policy",
         value: settings?.gpuMode === "low" ? "Compatibility" : settings?.gpuMode === "high" ? "High performance" : "Pending",
         note:
-          settings?.gpuMode === "low"
+          !ready
+            ? "The browser preview explains the desktop policy, but does not change the runtime."
+            : settings?.gpuMode === "low"
             ? "Safer for WSL, older drivers, and virtualized graphics stacks."
             : "Prefer this on validated native GPU stacks."
       },
@@ -188,11 +364,12 @@ export default function DesktopSettingsPage() {
               <>
                 <span className="pill">Version: {version || "unknown"}</span>
                 <span className="pill">Backend URL: {backendUrl || "not set"}</span>
-                <span className="pill">GPU: {settings?.gpuMode ?? "high"}</span>
+                <span className="pill">GPU: {settings?.gpuMode ?? "pending"}</span>
                 <span className={`pill ${backendHealth === "ready" ? "pill-good" : backendHealth === "offline" ? "pill-bad" : ""}`}>
                   Backend: {backendHealth}
                 </span>
                 {settings?.updateDir ? <span className="pill">Updates: ready</span> : null}
+                {lastSynced ? <span className="pill">Synced: {lastSynced.toLocaleTimeString()}</span> : null}
               </>
             ) : (
               <>
@@ -209,6 +386,11 @@ export default function DesktopSettingsPage() {
             <Link className="control-button secondary" href="/labs">
               Open Labs
             </Link>
+            {ready ? (
+              <button type="button" className="control-chip" onClick={() => void syncDesktopState(true)} disabled={runtimeBusy}>
+                {runtimeBusy ? "Refreshing..." : "Refresh runtime state"}
+              </button>
+            ) : null}
           </div>
           <div className="status-grid">
             {runtimeSnapshot.map((item) => (
@@ -232,6 +414,12 @@ export default function DesktopSettingsPage() {
               </div>
             ))}
           </div>
+          {runtimeError ? (
+            <div className="details-block">
+              <strong>Runtime issue</strong>
+              <p className="demo-note">{runtimeError}</p>
+            </div>
+          ) : null}
         </div>
         <div className="hero-panel">
           <div className="panel-card">
@@ -255,37 +443,71 @@ export default function DesktopSettingsPage() {
 
       {ready ? (
         <section className="section reveal">
-          <h2>Runtime Controls</h2>
-          <p>Each control changes one part of the local stack. The explanations below are there so you do not have to infer the side effects.</p>
+          <div className="section-header">
+            <p className="section-kicker">Action center</p>
+            <h2>Runtime Controls</h2>
+            <p className="section-lede">
+              Each control changes one part of the local stack. The descriptions are here so you do not have to guess
+              what happens after you click.
+            </p>
+          </div>
+          <div className="inline-kv">
+            <span className={`pill ${runtimeBusy ? "pill-active" : ""}`}>{runtimeBusy ? "Syncing runtime" : "Runtime ready"}</span>
+            <span className={`pill ${backendHealth === "ready" ? "pill-good" : backendHealth === "offline" ? "pill-bad" : ""}`}>
+              Backend health: {backendHealth}
+            </span>
+            {lastBackendCheck ? <span className="pill">Last backend check: {lastBackendCheck.toLocaleTimeString()}</span> : null}
+          </div>
           <div className="control-row">
             <div className="control-group">
-              <button type="button" className="control-button" onClick={() => toggleGpu("high")}>
-                High Performance
+              <button type="button" className="control-button" onClick={() => void toggleGpu("high")} disabled={Boolean(actionBusy)}>
+                {actionBusy === "high" ? "Restarting..." : "High Performance"}
               </button>
               <div className="control-help">Prefer this on native GPU stacks when you want maximum renderer throughput.</div>
             </div>
             <div className="control-group">
-              <button type="button" className="control-button secondary" onClick={() => toggleGpu("low")}>
-                Compatibility Mode
+              <button type="button" className="control-button secondary" onClick={() => void toggleGpu("low")} disabled={Boolean(actionBusy)}>
+                {actionBusy === "low" ? "Restarting..." : "Compatibility Mode"}
               </button>
               <div className="control-help">Prefer this on WSL, VMs, or unstable drivers when reliability matters more than speed.</div>
             </div>
             <div className="control-group">
-              <button type="button" className="control-button secondary" onClick={checkUpdates}>
-                Check for Updates
+              <button type="button" className="control-button secondary" onClick={() => void checkUpdates()} disabled={Boolean(actionBusy)}>
+                {actionBusy === "updates" ? "Checking..." : "Check for Updates"}
               </button>
               <div className="control-help">Reads the current packaged release channel and reports whether a newer package is available.</div>
             </div>
             <div className="control-group">
-              <button type="button" className="control-button secondary" onClick={() => window.physicaxDesktop?.openUpdateFolder()}>
-                Open Update Folder
+              <button type="button" className="control-button secondary" onClick={() => void openUpdateFolder()} disabled={Boolean(actionBusy)}>
+                {actionBusy === "folder" ? "Opening..." : "Open Update Folder"}
               </button>
               <div className="control-help">Shows the folder used for offline update packages and release handoff files.</div>
+            </div>
+            <div className="control-group">
+              <button type="button" className="control-button ghost" onClick={() => void refreshBackendHealth(true)} disabled={Boolean(actionBusy)}>
+                {actionBusy === "backend" ? "Refreshing..." : "Refresh Backend Health"}
+              </button>
+              <div className="control-help">Re-checks the packaged backend with a short timeout so hanging services do not stall the page.</div>
+            </div>
+            <div className="control-group">
+              <button type="button" className="control-button ghost" onClick={() => void syncDesktopState(true)} disabled={runtimeBusy || Boolean(actionBusy)}>
+                {runtimeBusy ? "Refreshing..." : "Reload Runtime State"}
+              </button>
+              <div className="control-help">Re-reads settings, backend URL, and version from the live desktop bridge.</div>
             </div>
           </div>
           {message ? <div className="details-block"><strong>Desktop message</strong><p className="demo-note">{message}</p></div> : null}
         </section>
       ) : null}
+
+      <section className="section reveal">
+        <ScenarioPlanner
+          eyebrow="Operating profiles"
+          title="Choose The Desktop Lane That Matches The Machine"
+          lede="The desktop app is most useful when the runtime profile is explicit. These tracks turn that choice into something readable and repeatable."
+          scenarios={operatingScenarios}
+        />
+      </section>
 
       <section className="section reveal">
         <div className="section-header">
