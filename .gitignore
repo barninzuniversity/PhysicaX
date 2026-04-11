@@ -4,3 +4,8 @@ _frames/
 _video_frames/
 dist/
 build/
+.next/
+node_modules/
+*.sst
+*.pack
+.DS_Store
