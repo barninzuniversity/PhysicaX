@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="160" y1="120" x2="880" y2="920" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="256" y1="192" x2="768" y2="832" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#60A5FA" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#8B5CF6" stop-opacity="0.95"/>
+    </linearGradient>
+    <filter id="shadow" x="90" y="90" width="844" height="844" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="26" stdDeviation="32" flood-color="#020617" flood-opacity="0.38"/>
+    </filter>
+  </defs>
+
+  <rect width="1024" height="1024" rx="248" fill="#E2E8F0"/>
+  <g filter="url(#shadow)">
+    <rect x="118" y="118" width="788" height="788" rx="224" fill="url(#bg)"/>
+    <path d="M182 182C182 150.549 207.549 125 239 125H785C816.451 125 842 150.549 842 182V430C842 461.451 816.451 487 785 487H239C207.549 487 182 461.451 182 430V182Z" fill="url(#glow)" fill-opacity="0.18"/>
+    <path d="M328 714V314H496C610 314 684 374 684 472C684 570 610 630 496 630H430V714H328ZM430 544H489C554 544 595 518 595 472C595 426 554 400 489 400H430V544Z" fill="white"/>
+    <path d="M622 700L742 548L626 394H715L788 489L861 394H949L833 548L953 700H864L788 605L712 700H622Z" fill="#8B5CF6"/>
+  </g>
+</svg>

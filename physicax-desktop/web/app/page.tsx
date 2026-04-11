@@ -1,41 +1,91 @@
 import Link from "next/link";
 import { GlobalSearch } from "./components/GlobalSearch";
 
+const signalMetrics = [
+  {
+    value: "70+",
+    label: "routes and labs",
+    note: "Mechanics, thermo, waves, EM, chaos, ODE/PDE, math, and platform tools."
+  },
+  {
+    value: "3",
+    label: "working modes",
+    note: "Browser exploration, operator-grade desktop runtime, and CFD escalation."
+  },
+  {
+    value: "1",
+    label: "shared workspace",
+    note: "Search, formulas, notes, exports, and operating guidance stay connected."
+  },
+  {
+    value: "OpenFOAM",
+    label: "solver handoff",
+    note: "Start light, then promote the case only when the question truly needs it."
+  }
+];
+
 const workflowModes = [
   {
     title: "Browser Workspace",
-    body: "Best for fast concept checks, plotting, notebook-style exploration, and classroom use.",
+    body: "Best for fast concept checks, plotting, notebook-style exploration, and classroom use with almost no setup overhead.",
     href: "/labs",
     action: "Open labs",
     badge: "Fast start"
   },
   {
     title: "Desktop App",
-    body: "Best for bundled local services, offline work, WSL-friendly Linux packaging, and controlled GPU modes.",
+    body: "Best for bundled local services, offline work, WSL-friendly Linux packaging, update folders, and controlled GPU modes.",
     href: "/desktop",
     action: "Open desktop controls",
     badge: "Local runtime"
   },
   {
     title: "CFD Workflow",
-    body: "Best for airflow diagnostics, sampled fields, streamlines, and full OpenFOAM-backed validation.",
+    body: "Best for airflow diagnostics, sampled fields, streamlines, and full OpenFOAM-backed validation when the model needs deeper evidence.",
     href: "/cfd",
     action: "Open CFD control center",
     badge: "High fidelity"
   }
 ];
 
+const productSpotlights = [
+  {
+    tag: "Modeling",
+    title: "Formula-aware labs that stay explainable",
+    body: "PhysicaX keeps formulas, units, assumptions, and visual output close together so the model is easier to trust and teach.",
+    bullets: ["Formula registry and glossary", "Guided labs with shared UI language", "Validation notes instead of black-box behavior"]
+  },
+  {
+    tag: "Operations",
+    title: "Desktop controls built for local reliability",
+    body: "The desktop surface is not just a wrapper. It exposes runtime status, backend health, GPU policy, and package-oriented workflows.",
+    bullets: ["Bundled backend awareness", "Compatibility mode for WSL", "Update folder and release handoff"]
+  },
+  {
+    tag: "CFD",
+    title: "A graceful path into solver-backed workflows",
+    body: "Run a quick validation pass first, then escalate into sampled fields and streamline artifacts when the question deserves a heavier stack.",
+    bullets: ["Backend status checks", "LBM-style quick validation", "OpenFOAM-oriented export pipeline"]
+  },
+  {
+    tag: "Teaching",
+    title: "One platform that works for class and research",
+    body: "The same workspace supports guided learning, self-study, and more serious experiment tracking without forcing a different tool for each mode.",
+    bullets: ["Challenges and classroom surfaces", "Search and discoverability", "Notebook and dashboard workflows"]
+  }
+];
+
 const executionFlow = [
   {
-    title: "1. Frame the question",
+    title: "Frame the question",
     body: "Start from a lab, search the formula registry, or resume a saved experiment so the model and assumptions are explicit."
   },
   {
-    title: "2. Run and compare",
+    title: "Run and compare",
     body: "Adjust parameters, compare numerical and exact behavior, and keep notes, diagnostics, and plots in the same workspace."
   },
   {
-    title: "3. Escalate only when needed",
+    title: "Escalate only when needed",
     body: "Promote the run into desktop-backed CFD or richer exports when the question needs local services, OpenFOAM, or packaged tooling."
   }
 ];
@@ -56,6 +106,27 @@ const platformCards = [
   {
     title: "Classroom Friendly",
     body: "Guided challenges, explainable visuals, and a structure that makes it easier to teach from the same tools you use to explore."
+  }
+];
+
+const audienceCards = [
+  {
+    title: "Educators",
+    body: "Use PhysicaX to move from explanation to demonstration without swapping tools in the middle of a lesson.",
+    href: "/education",
+    action: "See education pages"
+  },
+  {
+    title: "Students",
+    body: "Use the labs, formula registry, and guided workflows to turn concepts into repeatable experiments instead of one-off screenshots.",
+    href: "/labs",
+    action: "Start exploring"
+  },
+  {
+    title: "Builders and researchers",
+    body: "Use desktop controls, richer exports, and CFD escalation when you need a local stack you can operate with confidence.",
+    href: "/research",
+    action: "Open research tools"
   }
 ];
 
@@ -89,11 +160,20 @@ export default function HomePage() {
               CFD Control Center
             </Link>
           </div>
+          <div className="hero-signal-grid">
+            {signalMetrics.map((metric) => (
+              <div className="signal-card" key={metric.label}>
+                <div className="signal-value">{metric.value}</div>
+                <div className="signal-label">{metric.label}</div>
+                <div className="signal-note">{metric.note}</div>
+              </div>
+            ))}
+          </div>
         </div>
         <div className="hero-panel">
           <div className="panel-card">
             <h3>Start where you are</h3>
-            <ul>
+            <ul className="feature-list">
               <li>Use the browser when you want quick understanding, graphing, or teaching flow.</li>
               <li>Use the desktop app when you want a packaged local stack and runtime controls.</li>
               <li>Use CFD when drag, airflow, or heat transfer needs sampled outputs and solver diagnostics.</li>
@@ -101,7 +181,7 @@ export default function HomePage() {
           </div>
           <div className="panel-card">
             <h3>Operational promises</h3>
-            <ul>
+            <ul className="feature-list">
               <li>Scientific correctness stays ahead of UI convenience.</li>
               <li>Every lab shares the same workspace logic, so learning transfers quickly.</li>
               <li>High-fidelity workflows are available without making the everyday path feel heavy.</li>
@@ -111,11 +191,14 @@ export default function HomePage() {
       </section>
 
       <section className="section reveal">
-        <h2>Choose The Right Mode</h2>
-        <p>
-          PhysicaX is one workspace with three working styles. Pick the mode that matches today&apos;s job instead of
-          forcing every task through the same interface.
-        </p>
+        <div className="section-header">
+          <p className="section-kicker">Choose the mode</p>
+          <h2>Choose The Right Mode</h2>
+          <p className="section-lede">
+            PhysicaX is one workspace with three working styles. Pick the mode that matches today&apos;s job instead of
+            forcing every task through the same interface.
+          </p>
+        </div>
         <div className="card-grid">
           {workflowModes.map((mode) => (
             <div className="card" key={mode.title}>
@@ -133,14 +216,43 @@ export default function HomePage() {
       </section>
 
       <section className="section reveal">
-        <h2>How Work Moves Through PhysicaX</h2>
-        <p>
-          The interface is designed to keep explanation close to execution, so you can understand the model, run it,
-          and only then escalate into heavier tooling.
-        </p>
-        <div className="card-grid">
-          {executionFlow.map((item) => (
-            <div className="card" key={item.title}>
+        <div className="section-header">
+          <p className="section-kicker">Product map</p>
+          <h2>What Makes PhysicaX Feel Different</h2>
+          <p className="section-lede">
+            This is not just a collection of simulations. The product is shaped around explanation, operation, and
+            escalation, so it works as a serious workspace instead of a demo shelf.
+          </p>
+        </div>
+        <div className="spotlight-grid">
+          {productSpotlights.map((spotlight) => (
+            <div className="spotlight-card" key={spotlight.title}>
+              <span className="spotlight-tag">{spotlight.tag}</span>
+              <h3>{spotlight.title}</h3>
+              <p>{spotlight.body}</p>
+              <ul className="spotlight-list">
+                {spotlight.bullets.map((bullet) => (
+                  <li key={bullet}>{bullet}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="section reveal">
+        <div className="section-header">
+          <p className="section-kicker">Execution model</p>
+          <h2>How Work Moves Through PhysicaX</h2>
+          <p className="section-lede">
+            The interface is designed to keep explanation close to execution, so you can understand the model, run it,
+            and only then escalate into heavier tooling.
+          </p>
+        </div>
+        <div className="workflow-strip">
+          {executionFlow.map((item, index) => (
+            <div className="workflow-card" key={item.title}>
+              <div className="workflow-index">0{index + 1}</div>
               <h3>{item.title}</h3>
               <p>{item.body}</p>
             </div>
@@ -149,11 +261,34 @@ export default function HomePage() {
       </section>
 
       <section className="section reveal">
-        <h2>Platform Map</h2>
-        <p>
-          The platform is organized as a set of labs wrapped by a common workspace shell, a formula registry, and a
-          validation layer. This is the architectural idea that keeps the experience scalable.
-        </p>
+        <div className="section-header">
+          <p className="section-kicker">Who it serves</p>
+          <h2>Built For Teaching, Exploration, And Serious Runtime Work</h2>
+          <p className="section-lede">
+            PhysicaX is intentionally broad, but not vague. Each part of the platform is there to support a distinct
+            kind of user momentum.
+          </p>
+        </div>
+        <div className="card-grid">
+          {audienceCards.map((card) => (
+            <Link className="card card-link" href={card.href} key={card.title}>
+              <h3>{card.title}</h3>
+              <p>{card.body}</p>
+              <span className="control-chip">{card.action}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="section reveal">
+        <div className="section-header">
+          <p className="section-kicker">Architecture</p>
+          <h2>Platform Map</h2>
+          <p className="section-lede">
+            The platform is organized as a set of labs wrapped by a common workspace shell, a formula registry, and a
+            validation layer. This is the architectural idea that keeps the experience scalable.
+          </p>
+        </div>
         <div className="diagram">
           <svg viewBox="0 0 900 360" role="img" aria-label="Platform map diagram">
             <rect x="20" y="20" width="860" height="320" rx="24" fill="#f8f4ec" stroke="#d9cfc1" />
@@ -189,7 +324,14 @@ export default function HomePage() {
       </section>
 
       <section className="section reveal">
-        <h2>What Ships Together</h2>
+        <div className="section-header">
+          <p className="section-kicker">Platform promises</p>
+          <h2>What Ships Together</h2>
+          <p className="section-lede">
+            These are the product qualities that tie the web app, the desktop runtime, and the CFD workflow into one
+            coherent system.
+          </p>
+        </div>
         <div className="card-grid">
           {platformCards.map((card) => (
             <div className="card" key={card.title}>
@@ -201,15 +343,19 @@ export default function HomePage() {
       </section>
 
       <section className="section reveal">
-        <h2>Search The Platform</h2>
-        <p>Find labs, models, pages, and features with the global index.</p>
+        <div className="section-header">
+          <p className="section-kicker">Discovery</p>
+          <h2>Search The Platform</h2>
+          <p className="section-lede">Find labs, models, pages, and features with the global index.</p>
+        </div>
         <GlobalSearch />
       </section>
 
       <section className="section reveal quick-actions">
-        <div>
+        <div className="section-header">
+          <p className="section-kicker">Launch board</p>
           <h2>Quick Actions</h2>
-          <p>Jump straight into the area you need and keep momentum when you already know the job.</p>
+          <p className="section-lede">Jump straight into the area you need and keep momentum when you already know the job.</p>
         </div>
         <div className="quick-action-grid">
           <a className="quick-card" href="/labs">

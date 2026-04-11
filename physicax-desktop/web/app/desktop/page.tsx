@@ -11,6 +11,21 @@ type DesktopSettings = {
 
 type BackendHealth = "checking" | "ready" | "offline";
 
+const operatingTracks = [
+  {
+    title: "Teaching / Demo",
+    body: "Use the desktop app to keep the runtime stable in classrooms or demos where you want predictable local behavior and fewer moving parts."
+  },
+  {
+    title: "Research / Build",
+    body: "Use it when you want a packaged local stack, clearer backend visibility, and a more reliable path into exports, captures, and heavier workflows."
+  },
+  {
+    title: "WSL / Compatibility",
+    body: "Use compatibility mode on WSL or virtualized environments first, then move to higher-performance settings only after validation."
+  }
+];
+
 declare global {
   interface Window {
     physicaxDesktop?: {
@@ -115,6 +130,44 @@ export default function DesktopSettingsPage() {
     [settings?.gpuMode, backendHealth]
   );
 
+  const runtimeSnapshot = useMemo(
+    () => [
+      {
+        label: "Runtime surface",
+        value: ready ? "Desktop app" : "Browser preview",
+        note: ready
+          ? "You are inside the packaged runtime and can operate GPU and backend controls directly."
+          : "You are seeing the desktop guide from the web surface."
+      },
+      {
+        label: "Backend",
+        value: backendHealth === "ready" ? "Ready" : backendHealth === "offline" ? "Attention needed" : "Checking",
+        note:
+          backendHealth === "ready"
+            ? "The local backend answered the health endpoint."
+            : backendHealth === "offline"
+              ? "Check the packaged backend before assuming the CFD layer is broken."
+              : "Waiting for the local runtime to report service health."
+      },
+      {
+        label: "GPU policy",
+        value: settings?.gpuMode === "low" ? "Compatibility" : settings?.gpuMode === "high" ? "High performance" : "Pending",
+        note:
+          settings?.gpuMode === "low"
+            ? "Safer for WSL, older drivers, and virtualized graphics stacks."
+            : "Prefer this on validated native GPU stacks."
+      },
+      {
+        label: "Release handoff",
+        value: settings?.updateDir ? "Configured" : "Local package flow",
+        note: ready
+          ? "Update-folder operations are visible from the runtime."
+          : "The browser preview explains the packaged release path and WSL launcher."
+      }
+    ],
+    [backendHealth, ready, settings?.gpuMode, settings?.updateDir]
+  );
+
   return (
     <>
       <section className="section reveal hero">
@@ -157,11 +210,33 @@ export default function DesktopSettingsPage() {
               Open Labs
             </Link>
           </div>
+          <div className="status-grid">
+            {runtimeSnapshot.map((item) => (
+              <div
+                className={`status-card ${
+                  item.label === "Backend"
+                    ? backendHealth === "ready"
+                      ? "is-good"
+                      : backendHealth === "offline"
+                        ? "is-bad"
+                        : "is-warn"
+                    : item.label === "GPU policy" && settings?.gpuMode === "low"
+                      ? "is-warn"
+                      : ""
+                }`}
+                key={item.label}
+              >
+                <div className="status-label">{item.label}</div>
+                <div className="status-value">{item.value}</div>
+                <div className="status-note">{item.note}</div>
+              </div>
+            ))}
+          </div>
         </div>
         <div className="hero-panel">
           <div className="panel-card">
             <h3>Recommended profile</h3>
-            <ul>
+            <ul className="feature-list">
               <li>On WSL, keep GPU mode on compatibility unless you have already validated accelerated rendering.</li>
               <li>If the backend shows offline, start with status checks before assuming the CFD tools are broken.</li>
               <li>Use the update folder for offline package drops and release handoff.</li>
@@ -169,7 +244,7 @@ export default function DesktopSettingsPage() {
           </div>
           <div className="panel-card">
             <h3>What PhysicaX desktop manages</h3>
-            <ul>
+            <ul className="feature-list">
               <li>A packaged web UI served locally.</li>
               <li>The bundled CFD backend and local runtime paths.</li>
               <li>Release-specific update files for repeatable installs.</li>
@@ -213,7 +288,14 @@ export default function DesktopSettingsPage() {
       ) : null}
 
       <section className="section reveal">
-        <h2>Mode Guide</h2>
+        <div className="section-header">
+          <p className="section-kicker">Operating modes</p>
+          <h2>Mode Guide</h2>
+          <p className="section-lede">
+            These mode descriptions are meant to remove guesswork. You should be able to tell which runtime profile
+            fits the machine you are on before you press anything risky.
+          </p>
+        </div>
         <div className="card-grid">
           {modeGuidance.map((item) => (
             <div className="card" key={item.title}>
@@ -228,24 +310,54 @@ export default function DesktopSettingsPage() {
       </section>
 
       <section className="section reveal">
-        <h2>How The Desktop Stack Works</h2>
-        <div className="card-grid">
-          <div className="card">
-            <h3>1. Local UI</h3>
+        <div className="section-header">
+          <p className="section-kicker">Operational model</p>
+          <h2>How The Desktop Stack Works</h2>
+          <p className="section-lede">
+            The desktop app is designed like a small control plane for the packaged runtime, not just a separate skin
+            on top of the website.
+          </p>
+        </div>
+        <div className="workflow-strip">
+          <div className="workflow-card">
+            <div className="workflow-index">01</div>
+            <h3>Local UI</h3>
             <p>The packaged app serves the same workspace UI locally, so the browser and desktop stay aligned.</p>
           </div>
-          <div className="card">
-            <h3>2. Backend Health</h3>
+          <div className="workflow-card">
+            <div className="workflow-index">02</div>
+            <h3>Backend Health</h3>
             <p>The desktop app exposes a backend URL and uses it to power CFD diagnostics, tests, and packaged workflows.</p>
           </div>
-          <div className="card">
-            <h3>3. Runtime Tuning</h3>
-            <p>GPU mode is a runtime policy choice: faster rendering on stable stacks, safer software/compatibility paths on WSL.</p>
+          <div className="workflow-card">
+            <div className="workflow-index">03</div>
+            <h3>Runtime Tuning</h3>
+            <p>GPU mode is a runtime policy choice: faster rendering on stable stacks, safer compatibility paths on WSL.</p>
           </div>
-          <div className="card">
-            <h3>4. Release Operations</h3>
+          <div className="workflow-card">
+            <div className="workflow-index">04</div>
+            <h3>Release Operations</h3>
             <p>Updates are organized around package files and folders so you can hand off builds without rebuilding everything.</p>
           </div>
+        </div>
+      </section>
+
+      <section className="section reveal">
+        <div className="section-header">
+          <p className="section-kicker">Recommended usage</p>
+          <h2>When The Desktop App Shines</h2>
+          <p className="section-lede">
+            Use the desktop runtime when the job benefits from operational confidence, local services, or a clearer
+            deployment story than a browser tab alone can provide.
+          </p>
+        </div>
+        <div className="card-grid">
+          {operatingTracks.map((track) => (
+            <div className="card" key={track.title}>
+              <h3>{track.title}</h3>
+              <p>{track.body}</p>
+            </div>
+          ))}
         </div>
       </section>
 

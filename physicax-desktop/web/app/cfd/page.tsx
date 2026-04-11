@@ -34,6 +34,21 @@ const successSignals = [
   }
 ];
 
+const artifactCards = [
+  {
+    title: "Health endpoint",
+    body: "A successful `/status` check tells you the local runtime is alive before you spend time debugging the wrong layer."
+  },
+  {
+    title: "Uniform grid CSV",
+    body: "This is the sampled field artifact you can inspect, compare, and carry into analysis workflows after export."
+  },
+  {
+    title: "Streamline tracks",
+    body: "When configured, the streamline VTK output becomes the visual proof that the heavier post-processing path really completed."
+  }
+];
+
 export default function CFDPage() {
   return (
     <>
@@ -60,11 +75,28 @@ export default function CFDPage() {
               Open heat transfer
             </Link>
           </div>
+          <div className="workflow-strip">
+            <div className="workflow-card">
+              <div className="workflow-index">01</div>
+              <h3>Check service health</h3>
+              <p>Confirm the backend responds before treating any CFD problem as a modeling issue.</p>
+            </div>
+            <div className="workflow-card">
+              <div className="workflow-index">02</div>
+              <h3>Validate fast</h3>
+              <p>Use the lightest useful run first so geometry and boundary-condition mistakes surface quickly.</p>
+            </div>
+            <div className="workflow-card">
+              <div className="workflow-index">03</div>
+              <h3>Export artifacts</h3>
+              <p>Promote the case only when you need sampled fields, pressure output, or streamline review.</p>
+            </div>
+          </div>
         </div>
         <div className="hero-panel">
           <div className="panel-card">
             <h3>Choose the right engine</h3>
-            <ul>
+            <ul className="feature-list">
               <li>Use LBM for fast iteration and geometry sanity checks.</li>
               <li>Use OpenFOAM when you need higher-fidelity post-processing outputs.</li>
               <li>Use the packaged desktop flow when you want the whole stack managed locally.</li>
@@ -72,7 +104,7 @@ export default function CFDPage() {
           </div>
           <div className="panel-card">
             <h3>What you should expect</h3>
-            <ul>
+            <ul className="feature-list">
               <li>A clear backend status before you launch the heavy step.</li>
               <li>Explicit exported artifacts instead of vague solver success.</li>
               <li>Enough explanation in the UI to know what to run next.</li>
@@ -103,22 +135,32 @@ export default function CFDPage() {
       </section>
 
       <section className="section reveal">
-        <h2>Recommended Workflow</h2>
-        <div className="card-grid">
-          <div className="card">
-            <h3>1. Start with status</h3>
+        <div className="section-header">
+          <p className="section-kicker">Run order</p>
+          <h2>Recommended Workflow</h2>
+          <p className="section-lede">
+            CFD gets much calmer when you treat it like an evidence chain instead of a single magic button.
+          </p>
+        </div>
+        <div className="workflow-strip">
+          <div className="workflow-card">
+            <div className="workflow-index">01</div>
+            <h3>Start with status</h3>
             <p>Use the diagnostics panel to verify the backend is reachable and the current runtime is the one you expect.</p>
           </div>
-          <div className="card">
-            <h3>2. Run the quick test</h3>
+          <div className="workflow-card">
+            <div className="workflow-index">02</div>
+            <h3>Run the quick test</h3>
             <p>Launch the LBM smoke test first. It gives you fast feedback on whether the stack is alive before longer runs.</p>
           </div>
-          <div className="card">
-            <h3>3. Promote to OpenFOAM</h3>
+          <div className="workflow-card">
+            <div className="workflow-index">03</div>
+            <h3>Promote to OpenFOAM</h3>
             <p>When the geometry and flow setup look sensible, export to OpenFOAM for sampled grids, pressure fields, and streamlines.</p>
           </div>
-          <div className="card">
-            <h3>4. Inspect artifacts</h3>
+          <div className="workflow-card">
+            <div className="workflow-index">04</div>
+            <h3>Inspect artifacts</h3>
             <p>Look for the CSV grid and streamline VTK outputs. Those files are the proof that the full pipeline actually completed.</p>
           </div>
         </div>
@@ -173,6 +215,24 @@ postProcess -func sample
           The app now expects valid OpenFOAM 10 sampling and only runs streamlines when the required configuration is
           present, which avoids the old hard failures.
         </p>
+      </section>
+
+      <section className="section reveal">
+        <div className="section-header">
+          <p className="section-kicker">Artifact review</p>
+          <h2>What To Look For After A Successful Run</h2>
+          <p className="section-lede">
+            These artifacts are the concrete outputs that tell you the solver path did more than simply avoid crashing.
+          </p>
+        </div>
+        <div className="card-grid">
+          {artifactCards.map((card) => (
+            <div className="card" key={card.title}>
+              <h3>{card.title}</h3>
+              <p>{card.body}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="section reveal">
