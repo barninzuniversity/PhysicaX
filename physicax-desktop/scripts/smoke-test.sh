@@ -72,6 +72,17 @@ if ! wait_for_url "$UI_URL" 40; then
   exit 1
 fi
 
+INDEX_HTML="$LOG_DIR/index.html"
+if ! curl -fsS "$UI_URL" >"$INDEX_HTML"; then
+  echo "Failed to fetch homepage HTML from: $UI_URL"
+  exit 1
+fi
+
+if ! grep -q "PhysicaX" "$INDEX_HTML"; then
+  echo "Homepage HTML did not contain the expected PhysicaX marker."
+  exit 1
+fi
+
 CSS_DIR="$STANDALONE_DIR/.next/static/css"
 CSS_FILE=""
 if [[ -d "$CSS_DIR" ]]; then
@@ -89,5 +100,6 @@ fi
 
 echo "[smoke] backend ok: ${BACKEND_URL}/status"
 echo "[smoke] ui ok: ${UI_URL}"
+echo "[smoke] homepage ok: ${UI_URL}"
 echo "[smoke] css ok: ${UI_URL}/_next/static/css/${CSS_FILE}"
 echo "[smoke] logs: $LOG_DIR"

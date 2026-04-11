@@ -104,10 +104,10 @@ Notes:
 - On WSL, if no user DBus session is present, the wrapper starts one automatically.
 - The app defaults to low GPU mode on WSL for stability. To force high mode: PHYSICAX_GPU_MODE=high ./run-PhysicaX-wsl.sh
 
-Rebuild (WSL):
-cd /mnt/c/Users/ibzao/Downloads/Project/physicax-web
+Rebuild from the repository root:
+cd /path/to/PhysicaX/physicax-web
 npm run build
-cd /mnt/c/Users/ibzao/Downloads/Project/physicax-desktop
+cd ../physicax-desktop
 npm run desktop:package:linux
 `;
 

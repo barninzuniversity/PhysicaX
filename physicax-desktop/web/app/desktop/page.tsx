@@ -257,7 +257,7 @@ export default function DesktopSettingsPage() {
         </p>
         <div className="code-block">
           <pre>
-            <code>{`cd /mnt/c/Users/ibzao/Downloads/Project/physicax-desktop/dist/linux-release
+            <code>{`cd /path/to/PhysicaX/physicax-desktop/dist/linux-release
 chmod +x run-PhysicaX-wsl.sh
 ./run-PhysicaX-wsl.sh`}</code>
           </pre>

@@ -1,4 +1,6 @@
 :root {
+  --font-geist: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-geist-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   --bg: #f8fafc;
   --bg-alt: #f1f5f9;
   --ink: #0a0a0a;

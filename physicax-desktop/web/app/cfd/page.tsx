@@ -128,7 +128,7 @@ export default function CFDPage() {
         <h2>WSL + Desktop Quick Start</h2>
         <div className="code-block">
           <pre>
-            <code>{`cd /mnt/c/Users/ibzao/Downloads/Project/physicax-desktop/dist/linux-release
+            <code>{`cd /path/to/PhysicaX/physicax-desktop/dist/linux-release
 chmod +x run-PhysicaX-wsl.sh
 ./run-PhysicaX-wsl.sh`}</code>
           </pre>
@@ -143,7 +143,7 @@ chmod +x run-PhysicaX-wsl.sh
         <h2>Manual Backend Quick Start</h2>
         <div className="code-block">
           <pre>
-            <code>{`cd /mnt/c/Users/ibzao/Downloads/Project/physicax-web/cfd/backend
+            <code>{`cd /path/to/PhysicaX/physicax-web/cfd/backend
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -161,7 +161,7 @@ uvicorn app:app --host 0.0.0.0 --port 8000`}</code>
         <div className="code-block">
           <pre>
             <code>{`# Inside your OpenFOAM case
-cp /mnt/c/Users/ibzao/Downloads/Project/physicax-web/cfd/openfoam/sampleDict system/sampleDict
+cp /path/to/PhysicaX/physicax-web/cfd/openfoam/sampleDict system/sampleDict
 postProcess -func sample
 
 # Expected artifacts include:
