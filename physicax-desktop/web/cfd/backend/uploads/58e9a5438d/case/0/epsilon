@@ -1,0 +1,36 @@
+/* Auto-generated epsilon */
+dimensions      [0 2 -3 0 0 0 0];
+internalField   uniform 4.673074e-07;
+boundaryField
+{
+    inlet
+    {
+        type fixedValue;
+        value uniform 4.673074e-07;
+    }
+    outlet
+    {
+        type zeroGradient;
+    }
+    bottom
+    {
+        type symmetryPlane;
+    }
+    top
+    {
+        type symmetryPlane;
+    }
+    front
+    {
+        type symmetryPlane;
+    }
+    back
+    {
+        type symmetryPlane;
+    }
+    model
+    {
+        type epsilonWallFunction;
+        value uniform 4.673074e-07;
+    }
+}

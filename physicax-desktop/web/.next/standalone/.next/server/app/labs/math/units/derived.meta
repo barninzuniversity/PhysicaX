@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/math/layout,_N_T_/labs/math/units/layout,_N_T_/labs/math/units/derived/layout,_N_T_/labs/math/units/derived/page,_N_T_/labs/math/units/derived"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/math/units/derived/__PAGE__",
+    "/labs/math/units/derived",
+    "/labs/math/units",
+    "/labs/math",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

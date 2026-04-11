@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/waves/layout,_N_T_/labs/waves/superposition/layout,_N_T_/labs/waves/superposition/basic/layout,_N_T_/labs/waves/superposition/basic/page,_N_T_/labs/waves/superposition/basic"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/waves/superposition/basic/__PAGE__",
+    "/labs/waves/superposition/basic",
+    "/labs/waves/superposition",
+    "/labs/waves",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/thermo/layout,_N_T_/labs/thermo/entropy/layout,_N_T_/labs/thermo/entropy/page,_N_T_/labs/thermo/entropy"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/thermo/entropy/__PAGE__",
+    "/labs/thermo/entropy",
+    "/labs/thermo",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

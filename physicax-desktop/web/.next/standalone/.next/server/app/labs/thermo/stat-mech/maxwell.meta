@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/thermo/layout,_N_T_/labs/thermo/stat-mech/layout,_N_T_/labs/thermo/stat-mech/maxwell/layout,_N_T_/labs/thermo/stat-mech/maxwell/page,_N_T_/labs/thermo/stat-mech/maxwell"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/thermo/stat-mech/maxwell/__PAGE__",
+    "/labs/thermo/stat-mech/maxwell",
+    "/labs/thermo/stat-mech",
+    "/labs/thermo",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

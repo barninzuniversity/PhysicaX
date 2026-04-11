@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/stat/layout,_N_T_/labs/stat/monte-carlo/layout,_N_T_/labs/stat/monte-carlo/pi/layout,_N_T_/labs/stat/monte-carlo/pi/page,_N_T_/labs/stat/monte-carlo/pi"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/stat/monte-carlo/pi/__PAGE__",
+    "/labs/stat/monte-carlo/pi",
+    "/labs/stat/monte-carlo",
+    "/labs/stat",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

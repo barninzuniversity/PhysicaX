@@ -1,0 +1,57 @@
+/* Auto-generated controlDict (adjust as needed) */
+application     simpleFoam;
+startFrom       startTime;
+startTime       0;
+stopAt          endTime;
+endTime         600;
+deltaT          1;
+writeControl    timeStep;
+writeInterval   100;
+purgeWrite      0;
+writeFormat     ascii;
+writePrecision  6;
+writeCompression off;
+timeFormat      general;
+timePrecision   6;
+runTimeModifiable yes;
+functions
+{
+    #includeFunc streamlinesLine
+    (
+        funcName=streamlines,
+        start=(-3587.3623 -3983.9661 -1.1155),
+        end=(-3587.3623 3989.2180 -1.1155),
+        nPoints=36,
+        fields=(U p)
+    )
+
+    forceCoeffs
+    {
+        type            forceCoeffs;
+        libs            ("libforces.so");
+        patches         (model);
+        rhoInf          1.2040;
+        magUInf         1.2000;
+        lRef            1993.2960;
+        Aref            0.120000;
+        CofR            (0.5705 2.6260 -1.1155);
+        liftDir         (0 1 0);
+        dragDir         (1 0 0);
+        pitchAxis       (0 0 1);
+        log             true;
+        writeControl    timeStep;
+        writeInterval   100;
+    }
+
+    forces
+    {
+        type            forces;
+        libs            ("libforces.so");
+        patches         (model);
+        rhoInf          1.2040;
+        CofR            (0.5705 2.6260 -1.1155);
+        log             true;
+        writeControl    timeStep;
+        writeInterval   100;
+    }
+}

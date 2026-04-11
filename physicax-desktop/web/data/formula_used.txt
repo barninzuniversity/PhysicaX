@@ -1,0 +1,241 @@
+<html lang="en">
+<li>{"Heat equation stability enforces r <= 1/2."}</li>
+<li>{"Wave equation stability enforces s <= 1."}</li>
+<li>Adiabatic reversible: DeltaS = 0.</li>
+<li>Double pendulum energy conserved when damping = 0.</li>
+<li>Isothermal: DeltaU = 0 and Q = W.</li>
+<li>Logistic map fixed-point behavior at r=2.9.</li>
+<li>Logistic map r=2.9 converges to fixed point.</li>
+<li>Pressure: 1 atm = 101325 Pa, 1 bar = 1e5 Pa</li>
+<li>RLC resonance near omega0 = 1/sqrt(L C).</li>
+<li>SHO energy constant when damping = 0.</li>
+<li>Temperature: T(K) = T(C) + 273.15</li>
+<li>Volume: 1 L = 1e-3 m^3</li>
+<line x1="200" y1="95" x2="230" y2="95" stroke="#101820" strokeWidth="2" />
+<line x1="400" y1="95" x2="430" y2="95" stroke="#101820" strokeWidth="2" />
+<line x1="600" y1="95" x2="630" y2="95" stroke="#101820" strokeWidth="2" />
+<p>&lt;E&gt; = E * p1.</p>
+<p>&lt;x&gt; = 0, &lt;x^2&gt; = N a^2</p>
+<p>{"Assumptions: discrete time, 0<=x<=1."}</p>
+<p>{"Domain: 0 <= x <= 1, 0 <= r <= 4."}</p>
+<p>{"Domains: 0<=r<=4."}</p>
+<p>{"Equation: x_{n+1} = r x_n (1 - x_n)"}</p>
+<p>{"Stability: r = alpha dt/dx^2 <= 1/2."}</p>
+<p>{"Stability: s = c dt/dx <= 1."}</p>
+<p>{"Validation: n=1, T=273.15 K, P=101325 Pa -> V=0.022414 m^3."}</p>
+<p>{"Validation: small-angle period T = 2 pi sqrt(L/g)."}</p>
+<p>{"Validation: stability requires r=alpha dt/dx^2 <= 1/2."}</p>
+<p>{"x_{n+1} = r (1 - x_n) if x_n >= 0.5"}</p>
+<p>{"x_{n+1} = r x_n (1 - x_n)"}</p>
+<p>{"x_{n+1} = r x_n if x_n < 0.5"}</p>
+<p>{"y_{n+1} = y_n + h f(t_n, y_n)"}</p>
+<p>1D: &lt;x^2&gt; = 2 D t</p>
+<p>2D: &lt;r^2&gt; = 4 D t</p>
+<p>Beat frequency f_beat = |f1 - f2|.</p>
+<p>DeltaS = 0 only for reversible adiabatic. Not true for irreversible.</p>
+<p>dT/dt = -k (T - T_env)</p>
+<p>E = k q / r^2 r_hat</p>
+<p>Equation: PV = n R T</p>
+<p>Equation: q(t) = C V (1 - exp(-t/(R C)))</p>
+<p>Equation: theta'' + (g/L) sin(theta) = 0</p>
+<p>Equation: u_t = alpha u_xx</p>
+<p>eta = 1 - (1/r^(gamma-1)) * ((rho^gamma - 1)/(gamma (rho - 1)))</p>
+<p>eta = 1 - 1/r^(gamma-1)</p>
+<p>eta = 1 - Tc/Th</p>
+<p>F = (1/(4 pi epsilon0)) (q1 q2 / r^2) r_hat</p>
+<p>f(x) = a0/2 + sum [a_n cos(n pi x/L) + b_n sin(n pi x/L)]</p>
+<p>F_d = -0.5 rho Cd A |v| v</p>
+<p>F_d = -b v, m dv/dt = sumF - b v</p>
+<p>f_n = n v / (2 L)</p>
+<p>i(t) = (V/R) (1 - exp(-t/(L/R)))</p>
+<p>L q'' + R q' + (1/C) q = V(t)</p>
+<p>lambda = (1/N) sum ln |f'(x_n)|</p>
+<p>omega0 = 1 / sqrt(L C).</p>
+<p>Open-closed: f_n = (2n-1) v / (4 L)</p>
+<p>Open-open: f_n = n v / (2 L)</p>
+<p>P = const, W = P (V2 - V1)</p>
+<p>P V^gamma = const, Q = 0</p>
+<p>P V^m = const, W = (P2 V2 - P1 V1)/(1 - m)</p>
+<p>p_i = exp(-E_i/(kB T)) / Z</p>
+<p>PV = const, W = n R T ln(V2/V1)</p>
+<p>PV = n R T</p>
+<p>q(t) = C V (1 - exp(-t/(R C)))</p>
+<p>RMS displacement: x_rms = a sqrt(N).</p>
+<p>tau = L/R.</p>
+<p>tau = R C.</p>
+<p>theta'' + (g/L) sin(theta) = 0</p>
+<p>u_t = alpha u_xx</p>
+<p>u_t = D u_xx</p>
+<p>u_tt = c^2 u_xx</p>
+<p>V = const, W = 0, Q = n Cv (T2 - T1)</p>
+<p>V = k q / r</p>
+<p>v = sqrt(G M / r)</p>
+<p>v_esc = sqrt(2 G M / r)</p>
+<p>Validation: DeltaS = 0.</p>
+<p>Validation: DeltaU = 0 and Q = W.</p>
+<p>Validation: energy conservation when damping = 0.</p>
+<p>Validation: fixed point for r=2.9.</p>
+<p>Validation: n = 1,2,3...</p>
+<p>Validation: period T = 2 pi / omega.</p>
+<p>Validation: period T = 2 pi sqrt(r^3/(G M)).</p>
+<p>Validation: r=2.9 converges to fixed point.</p>
+<p>Validation: range R = v0^2 sin(2 theta)/g.</p>
+<p>Validation: terminal speed v_t = m g / b.</p>
+<p>Validation: W = 0 for all states.</p>
+<p>Validation: W = n R (T2 - T1).</p>
+<p>Wave speed v = omega / k.</p>
+<p>x'' + (k/m) x = 0, omega = sqrt(k/m)</p>
+<p>x'' + 2 gamma x' + omega0^2 x = (F0/m) cos(omega t)</p>
+<p>x'' + 2 gamma x' + omega0^2 x = 0</p>
+<p>x'' + delta x' + alpha x + beta x^3 = gamma cos(omega t)</p>
+<p>x' = sigma (y - x)</p>
+<p>x' = -y - z</p>
+<p>x(t) = x0 + v0 cos(theta) t</p>
+<p>y' = x (rho - z) - y</p>
+<p>y' = x + a y</p>
+<p>y(t) = y0 + v0 sin(theta) t - 0.5 g t^2</p>
+<p>y(x,t) = 2 A sin(k x) cos(omega t)</p>
+<p>y(x,t) = A sin(k x - omega t + phi)</p>
+<p>Z = 1 + exp(-E/(kB T))</p>
+<p>z' = b + z (x - c)</p>
+<p>Z = sum exp(-E_i/(kB T)).</p>
+<p>z' = x y - beta z</p>
+<rect x="120" y="200" width="660" height="110" rx="18" fill="#ffffff" stroke="#d9cfc1" />
+<rect x="20" y="20" width="860" height="320" rx="24" fill="#f8f4ec" stroke="#d9cfc1" />
+<rect x="230" y="60" width="170" height="70" rx="12" fill="#fbeee6" />
+<rect x="30" y="60" width="170" height="70" rx="12" fill="#e8f4f2" />
+<rect x="340" y="50" width="520" height="240" rx="18" fill="#ffffff" stroke="#d9cfc1" />
+<rect x="340" y="60" width="220" height="80" rx="16" fill="#ffffff" stroke="#d9cfc1" />
+<rect x="370" y="110" width="140" height="50" rx="12" fill="#e8f4f2" />
+<rect x="370" y="180" width="140" height="50" rx="12" fill="#fbeee6" />
+<rect x="430" y="60" width="170" height="70" rx="12" fill="#e8f4f2" />
+<rect x="530" y="110" width="140" height="50" rx="12" fill="#fbeee6" />
+<rect x="530" y="180" width="140" height="50" rx="12" fill="#e8f4f2" />
+<rect x="60" y="180" width="220" height="110" rx="16" fill="#ffffff" stroke="#d9cfc1" />
+<rect x="60" y="70" width="220" height="80" rx="16" fill="#ffffff" stroke="#d9cfc1" />
+<rect x="600" y="60" width="220" height="80" rx="16" fill="#ffffff" stroke="#d9cfc1" />
+<rect x="630" y="60" width="170" height="70" rx="12" fill="#fbeee6" />
+<rect x="690" y="110" width="140" height="50" rx="12" fill="#e8f4f2" />
+<rect x="690" y="180" width="140" height="50" rx="12" fill="#fbeee6" />
+<rect x="80" y="60" width="220" height="80" rx="16" fill="#ffffff" stroke="#d9cfc1" />
+<text x="115" y="100" textAnchor="middle" fontSize="13" fill="#101820">Select Model</text>
+<text x="170" y="110" textAnchor="middle" fontSize="14" fill="#101820">Workspace Shell</text>
+<text x="170" y="210" textAnchor="middle" fontSize="14" fill="#101820">Formula Registry</text>
+<text x="170" y="235" textAnchor="middle" fontSize="12" fill="#4d5b63">Equations + assumptions</text>
+<text x="170" y="255" textAnchor="middle" fontSize="12" fill="#4d5b63">Units + validation</text>
+<text x="190" y="95" textAnchor="middle" fontSize="14">Frontend (Next.js)</text>
+<text x="315" y="100" textAnchor="middle" fontSize="13" fill="#101820">Set Parameters</text>
+<text x="440" y="140" textAnchor="middle" fontSize="12" fill="#101820">ThermoLab</text>
+<text x="440" y="210" textAnchor="middle" fontSize="12" fill="#101820">WaveLab</text>
+<text x="450" y="230" textAnchor="middle" fontSize="14">Domain Engines</text>
+<text x="450" y="255" textAnchor="middle" fontSize="12" fill="#4d5b63">
+<text x="450" y="275" textAnchor="middle" fontSize="12" fill="#4d5b63">
+<text x="450" y="95" textAnchor="middle" fontSize="14">API (FastAPI)</text>
+<text x="515" y="100" textAnchor="middle" fontSize="13" fill="#101820">Run Solver</text>
+<text x="600" y="140" textAnchor="middle" fontSize="12" fill="#101820">MechanicsLab</text>
+<text x="600" y="210" textAnchor="middle" fontSize="12" fill="#101820">EMLab</text>
+<text x="600" y="80" textAnchor="middle" fontSize="14" fill="#101820">Labs</text>
+<text x="710" y="95" textAnchor="middle" fontSize="14">Workers</text>
+<text x="715" y="100" textAnchor="middle" fontSize="13" fill="#101820">Analyze + Compare</text>
+<text x="760" y="140" textAnchor="middle" fontSize="12" fill="#101820">ChaosLab</text>
+<text x="760" y="210" textAnchor="middle" fontSize="12" fill="#101820">ODE/PDE Lab</text>
+assumptions: "Typical a=0.2, b=0.2, c=5.7.",
+equation: "<x^2> = 2 D t",
+equation: "<x^2> = N a^2",
+equation: "C = epsilon0 A / d",
+equation: "DeltaS = n Cv ln(T2/T1) + n R ln(V2/V1)",
+equation: "DeltaU = Q - W",
+equation: "dT/dt = -k (T - T_env)",
+equation: "dy/dt = f(t, y)",
+equation: "E = k q / r^2 r_hat",
+equation: "epsilon = v^2/2 - G M / r",
+equation: "eta = 1 - (1/r^(gamma-1)) * ((rho^gamma - 1)/(gamma (rho - 1)))",
+equation: "eta = 1 - 1 / rp^((gamma-1)/gamma)",
+equation: "eta = 1 - 1/r^(gamma-1)",
+equation: "eta = 1 - Tc/Th",
+equation: "F = (1/(4 pi epsilon0)) (q1 q2 / r^2) r_hat",
+equation: "F = G m1 m2 / r^2",
+equation: "f(v) = 4 pi (m/(2 pi kB T))^(3/2) v^2 exp(-m v^2/(2 kB T))",
+equation: "f(x) = a0/2 + sum [a_n cos(n pi x/L) + b_n sin(n pi x/L)]",
+equation: "F_d = -0.5 rho Cd A |v| v",
+equation: "f_n = n v / (2 L)",
+equation: "H = n Cp T, DeltaH = n Cp (T2 - T1)",
+equation: "i(t) = (V/R) (1 - exp(-t/(L/R)))",
+equation: "K = 0.5 m v^2",
+equation: "L q'' + R q' + (1/C) q = V(t)",
+equation: "lambda = (1/N) sum ln |f'(x_n)|",
+equation: "m dv/dt = sumF - b v",
+equation: "Open-closed: f_n = (2n-1) v / (4 L)",
+equation: "P V^gamma = const, Q = 0",
+equation: "P V^m = const, W = (P2 V2 - P1 V1)/(1 - m)",
+equation: "p_i = exp(-E_i/(kB T)) / Z",
+equation: "PV = n R T",
+equation: "q(t) = C V (1 - exp(-t/(R C)))",
+equation: "sumF = m a",
+equation: "T = 4 sqrt(L/g) K(k)",
+equation: "theta'' + (g/L) sin(theta) = 0",
+equation: "theta'' + (g/L) theta = 0",
+equation: "U = 0.5 k x^2",
+equation: "U = k q1 q2 / r",
+equation: "U = m g h",
+equation: "U = n Cv T, DeltaU = n Cv (T2 - T1)",
+equation: "u_t = alpha u_xx",
+equation: "u_t = D u_xx",
+equation: "u_tt = c^2 u_xx",
+equation: "V = k q / r",
+equation: "v = sqrt(G M / r)",
+equation: "v = sqrt(T/mu)",
+equation: "v_esc = sqrt(2 G M / r)",
+equation: "W = 0, Q = n Cv (T2 - T1)",
+equation: "W = integral(F dot dx)",
+equation: "W = n R T ln(V2/V1)",
+equation: "W = P (V2 - V1), Q = n Cp (T2 - T1)",
+equation: "x'' + (k/m) x = 0",
+equation: "x'' + 2 gamma x' + omega0^2 x = (F0/m) cos(omega t)",
+equation: "x'' + 2 gamma x' + omega0^2 x = 0",
+equation: "x'' + delta x' + alpha x + beta x^3 = gamma cos(omega t)",
+equation: "x' = sigma (y - x), y' = x (rho - z) - y, z' = x y - beta z",
+equation: "x = x0 + v0 t + 0.5 a t^2",
+equation: "x' = -y - z, y' = x + a y, z' = b + z (x - c)",
+equation: "x_{n+1} = r x_n (1 - x_n)",
+equation: "y(t) = y0 + v0 sin(theta) t - 0.5 g t^2",
+equation: "y(x,t) = 2 A sin(k x) cos(omega t)",
+equation: "y(x,t) = A sin(k x - omega t + phi)",
+equation: "y_{n+1} = y_n + h f(t_n, y_n)",
+equation: "Z = 1 + exp(-E/(kB T))",
+Global sign convention: W = work done by the system. Do not mix conventions.
+validation: "<E> = E * p1."
+validation: "0 <= eta <= 1."
+validation: "2D gives <r^2> = 4 D t."
+validation: "Beat frequency = |f1 - f2|."
+validation: "Bound ellipse epsilon = -G M/(2 a)."
+validation: "Constant force gives W = F dot Delta x."
+validation: "DeltaS = 0."
+validation: "DeltaU = m g Delta h."
+validation: "Energy conservation when damping = 0."
+validation: "F = -k x."
+validation: "H = U + P V."
+validation: "Isothermal: DeltaU = 0 and Q = W."
+validation: "k = sin(theta0/2)."
+validation: "K >= 0."
+validation: "Monatomic: U = 1.5 n R T."
+validation: "n = 1,2,3..."
+validation: "n=1, T=273.15 K, P=101325 Pa -> V=0.022414 m^3."
+validation: "omega0 = 1/sqrt(L C)."
+validation: "PV = const."
+validation: "r = alpha dt/dx^2 <= 1/2."
+validation: "r=2.9 converges to fixed point."
+validation: "Range R = v0^2 sin(2 theta)/g."
+validation: "Reversible adiabatic gives DeltaS = 0."
+validation: "s = c dt/dx <= 1."
+validation: "Static case sumF = 0."
+validation: "T = 2 pi sqrt(L/g)."
+validation: "T = 2 pi sqrt(m/k)."
+validation: "T = 2 pi sqrt(r^3/(G M))."
+validation: "U = 0.5 C V^2."
+validation: "v = omega/k."
+validation: "v^2 = v0^2 + 2 a (x - x0)."
+validation: "v_rms = sqrt(3 kB T / m)."
+validation: "v_t = m g / b."
+validation: "W = n R (T2 - T1)."
+validation: "x_rms = a sqrt(N)."

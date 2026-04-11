@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/ode-pde/layout,_N_T_/labs/ode-pde/wave/layout,_N_T_/labs/ode-pde/wave/1d/layout,_N_T_/labs/ode-pde/wave/1d/page,_N_T_/labs/ode-pde/wave/1d"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/ode-pde/wave/1d/__PAGE__",
+    "/labs/ode-pde/wave/1d",
+    "/labs/ode-pde/wave",
+    "/labs/ode-pde",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

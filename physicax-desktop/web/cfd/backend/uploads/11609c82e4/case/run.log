@@ -1,0 +1,144 @@
+
+
+--> FOAM FATAL IO ERROR: 
+keyword meshQualityControls is undefined in dictionary "/mnt/c/Users/ibzao/Downloads/Project/physicax-web/cfd/backend/uploads/11609c82e4/case/system/snappyHexMeshDict"
+
+file: /mnt/c/Users/ibzao/Downloads/Project/physicax-web/cfd/backend/uploads/11609c82e4/case/system/snappyHexMeshDict from line 12 to line 50.
+
+    From function const Foam::dictionary& Foam::dictionary::subDict(const Foam::word&) const
+    in file db/dictionary/dictionary.C at line 1008.
+
+FOAM exiting
+
+
+
+--> FOAM FATAL IO ERROR: 
+keyword meshQualityControls is undefined in dictionary "/mnt/c/Users/ibzao/Downloads/Project/physicax-web/cfd/backend/uploads/11609c82e4/case/system/snappyHexMeshDict"
+
+file: /mnt/c/Users/ibzao/Downloads/Project/physicax-web/cfd/backend/uploads/11609c82e4/case/system/snappyHexMeshDict from line 12 to line 50.
+
+    From function const Foam::dictionary& Foam::dictionary::subDict(const Foam::word&) const
+    in file db/dictionary/dictionary.C at line 1008.
+
+FOAM exiting
+
+"
+
+Creating block mesh from
+    "system/blockMeshDict"
+Creating block edges
+No non-planar block faces defined
+Creating topology blocks
+Creating topology patches
+
+Creating block mesh topology
+
+Check topology
+
+	Basic statistics
+		Number of internal faces : 0
+		Number of boundary faces : 6
+		Number of defined boundary faces : 6
+		Number of undefined boundary faces : 0
+	Checking patch -> block consistency
+
+Creating block offsets
+Creating merge list .
+
+Creating polyMesh from blockMesh
+Creating patches
+Creating cells
+Creating points with scale 1
+    Block 0 cell size :
+        i : 274.937 .. 274.937
+        j : 227.805
+        k : 419.641 .. 419.641
+
+Writing polyMesh
+----------------
+Mesh Information
+----------------
+  boundingBox: (-3994.94 -3983.97 -3980.18) (3978.25 3989.22 3993)
+  nPoints: 21600
+  nCells: 19285
+  nFaces: 60086
+  nInternalFaces: 55624
+----------------
+Patches
+----------------
+  patch 0 (start: 55624 size: 665) name: inlet
+  patch 1 (start: 56289 size: 665) name: outlet
+  patch 2 (start: 56954 size: 551) name: bottom
+  patch 3 (start: 57505 size: 551) name: top
+  patch 4 (start: 58056 size: 1015) name: front
+  patch 5 (start: 59071 size: 1015) name: back
+
+End
+
+
+The surfaceFeatureExtract utility has been superseded and replaced by by the
+more general surfaceFeatures utility.
+
+surfaceFeatures reads a surfaceFeaturesDict input file with a much
+simpler, more convenient format.  Example surfaceFeaturesDict files
+can be found in the tutorial and template cases, e.g. located as
+follows:
+find $FOAM_TUTORIALS -name surfaceFeaturesDict
+find $FOAM_ETC -name surfaceFeaturesDict
+
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  10
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 10-c4cf895ad8fa
+Exec   : snappyHexMesh -overwrite
+Date   : Mar 23 2026
+Time   : 17:02:34
+Host   : "Cyborg15A13VE"
+PID    : 841
+I/O    : uncollated
+Case   : /mnt/c/Users/ibzao/Downloads/Project/physicax-web/cfd/backend/uploads/11609c82e4/case
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Read mesh in = 0.216706 s
+Reading "snappyHexMeshDict"
+
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  10
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 10-c4cf895ad8fa
+Exec   : snappyHexMesh
+Date   : Mar 23 2026
+Time   : 17:02:38
+Host   : "Cyborg15A13VE"
+PID    : 842
+I/O    : uncollated
+Case   : /mnt/c/Users/ibzao/Downloads/Project/physicax-web/cfd/backend/uploads/11609c82e4/case
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Read mesh in = 0.224957 s
+Reading "snappyHexMeshDict"
+

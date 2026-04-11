@@ -1,0 +1,7 @@
+1:"$Sreact.fragment"
+2:I[73454,["4168","static/chunks/4168-ee31cb491b9065e5.js","9249","static/chunks/9249-0c462ab69a78851e.js","424","static/chunks/424-55e310a32322b1b5.js","2310","static/chunks/app/labs/math/units/page-a25a94b9a1062cb5.js"],"LocaleText"]
+3:I[8862,["4168","static/chunks/4168-ee31cb491b9065e5.js","9249","static/chunks/9249-0c462ab69a78851e.js","424","static/chunks/424-55e310a32322b1b5.js","2310","static/chunks/app/labs/math/units/page-a25a94b9a1062cb5.js"],"UnitConsistencySim"]
+4:I[90484,[],"OutletBoundary"]
+5:"$Sreact.suspense"
+0:{"buildId":"hEBjtYnGSIW4q-pOyZeba","rsc":["$","$1","c",{"children":[[["$","section",null,{"className":"section reveal","children":[["$","h2",null,{"children":["$","$L2",null,{"id":"mathUnitsPageTitle","fallback":"Unit Consistency"}]}],["$","p",null,{"children":["$","$L2",null,{"id":"mathUnitsPageIntro","fallback":"Check dimensional consistency and validate custom expressions."}]}]]}],["$","$L3",null,{}],["$","section",null,{"className":"section reveal","children":["$","p",null,{"children":[["$","$L2",null,{"id":"mathUnitsDerivedHint","fallback":"Looking for derived-unit matching?"}]," ",["$","a",null,{"href":"/labs/math/units/derived","children":["$","$L2",null,{"id":"mathUnitsDerivedLink","fallback":"Open derived units"}]}]]}]}]],null,["$","$L4",null,{"children":["$","$5",null,{"name":"Next.MetadataOutlet","children":"$@6"}]}]]}],"loading":null,"isPartial":false}
+6:null

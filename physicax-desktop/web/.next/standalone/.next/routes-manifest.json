@@ -1,0 +1,1255 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/api/assignments/[id]",
+      "regex": "^/api/assignments/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/assignments/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/auth/[...nextauth]",
+      "regex": "^/api/auth/(.+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPnextauth": "nxtPnextauth"
+      },
+      "namedRegex": "^/api/auth/(?<nxtPnextauth>.+?)(?:/)?$"
+    },
+    {
+      "page": "/api/gallery/[id]",
+      "regex": "^/api/gallery/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/gallery/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/gallery/[id]/boost",
+      "regex": "^/api/gallery/([^/]+?)/boost(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/gallery/(?<nxtPid>[^/]+?)/boost(?:/)?$"
+    },
+    {
+      "page": "/api/gallery/[id]/comment",
+      "regex": "^/api/gallery/([^/]+?)/comment(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/gallery/(?<nxtPid>[^/]+?)/comment(?:/)?$"
+    },
+    {
+      "page": "/api/gallery/[id]/feature",
+      "regex": "^/api/gallery/([^/]+?)/feature(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/gallery/(?<nxtPid>[^/]+?)/feature(?:/)?$"
+    },
+    {
+      "page": "/api/gallery/[id]/fork",
+      "regex": "^/api/gallery/([^/]+?)/fork(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/gallery/(?<nxtPid>[^/]+?)/fork(?:/)?$"
+    },
+    {
+      "page": "/api/gallery/[id]/like",
+      "regex": "^/api/gallery/([^/]+?)/like(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/gallery/(?<nxtPid>[^/]+?)/like(?:/)?$"
+    },
+    {
+      "page": "/classrooms/assignments/[id]",
+      "regex": "^/classrooms/assignments/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/classrooms/assignments/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/gallery/[id]",
+      "regex": "^/gallery/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/gallery/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/profile/[id]",
+      "regex": "^/profile/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/profile/(?<nxtPid>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/admin/users",
+      "regex": "^/admin/users(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/users(?:/)?$"
+    },
+    {
+      "page": "/api/admin/users",
+      "regex": "^/api/admin/users(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/admin/users(?:/)?$"
+    },
+    {
+      "page": "/api/assets",
+      "regex": "^/api/assets(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/assets(?:/)?$"
+    },
+    {
+      "page": "/api/assignments",
+      "regex": "^/api/assignments(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/assignments(?:/)?$"
+    },
+    {
+      "page": "/api/auth/register",
+      "regex": "^/api/auth/register(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/register(?:/)?$"
+    },
+    {
+      "page": "/api/badges",
+      "regex": "^/api/badges(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/badges(?:/)?$"
+    },
+    {
+      "page": "/api/cfd",
+      "regex": "^/api/cfd(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/cfd(?:/)?$"
+    },
+    {
+      "page": "/api/challenge-progress",
+      "regex": "^/api/challenge\\-progress(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/challenge\\-progress(?:/)?$"
+    },
+    {
+      "page": "/api/challenge-sets",
+      "regex": "^/api/challenge\\-sets(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/challenge\\-sets(?:/)?$"
+    },
+    {
+      "page": "/api/challenges",
+      "regex": "^/api/challenges(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/challenges(?:/)?$"
+    },
+    {
+      "page": "/api/classrooms",
+      "regex": "^/api/classrooms(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/classrooms(?:/)?$"
+    },
+    {
+      "page": "/api/classrooms/join",
+      "regex": "^/api/classrooms/join(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/classrooms/join(?:/)?$"
+    },
+    {
+      "page": "/api/collections",
+      "regex": "^/api/collections(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/collections(?:/)?$"
+    },
+    {
+      "page": "/api/experiments",
+      "regex": "^/api/experiments(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/experiments(?:/)?$"
+    },
+    {
+      "page": "/api/folders",
+      "regex": "^/api/folders(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/folders(?:/)?$"
+    },
+    {
+      "page": "/api/gallery",
+      "regex": "^/api/gallery(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/gallery(?:/)?$"
+    },
+    {
+      "page": "/api/notebooks",
+      "regex": "^/api/notebooks(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/notebooks(?:/)?$"
+    },
+    {
+      "page": "/api/presets",
+      "regex": "^/api/presets(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/presets(?:/)?$"
+    },
+    {
+      "page": "/api/profile",
+      "regex": "^/api/profile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/profile(?:/)?$"
+    },
+    {
+      "page": "/api/research",
+      "regex": "^/api/research(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/research(?:/)?$"
+    },
+    {
+      "page": "/api/search",
+      "regex": "^/api/search(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/search(?:/)?$"
+    },
+    {
+      "page": "/api/submissions",
+      "regex": "^/api/submissions(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/submissions(?:/)?$"
+    },
+    {
+      "page": "/api/tags",
+      "regex": "^/api/tags(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/tags(?:/)?$"
+    },
+    {
+      "page": "/appendix",
+      "regex": "^/appendix(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/appendix(?:/)?$"
+    },
+    {
+      "page": "/architecture",
+      "regex": "^/architecture(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/architecture(?:/)?$"
+    },
+    {
+      "page": "/build",
+      "regex": "^/build(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/build(?:/)?$"
+    },
+    {
+      "page": "/cfd",
+      "regex": "^/cfd(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/cfd(?:/)?$"
+    },
+    {
+      "page": "/challenges",
+      "regex": "^/challenges(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/challenges(?:/)?$"
+    },
+    {
+      "page": "/classrooms",
+      "regex": "^/classrooms(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/classrooms(?:/)?$"
+    },
+    {
+      "page": "/dashboard",
+      "regex": "^/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard(?:/)?$"
+    },
+    {
+      "page": "/desktop",
+      "regex": "^/desktop(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/desktop(?:/)?$"
+    },
+    {
+      "page": "/education",
+      "regex": "^/education(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/education(?:/)?$"
+    },
+    {
+      "page": "/formulas",
+      "regex": "^/formulas(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/formulas(?:/)?$"
+    },
+    {
+      "page": "/formulas/glossary",
+      "regex": "^/formulas/glossary(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/formulas/glossary(?:/)?$"
+    },
+    {
+      "page": "/gallery",
+      "regex": "^/gallery(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/gallery(?:/)?$"
+    },
+    {
+      "page": "/governance",
+      "regex": "^/governance(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/governance(?:/)?$"
+    },
+    {
+      "page": "/labs",
+      "regex": "^/labs(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs(?:/)?$"
+    },
+    {
+      "page": "/labs/chaos",
+      "regex": "^/labs/chaos(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/chaos(?:/)?$"
+    },
+    {
+      "page": "/labs/chaos/advanced",
+      "regex": "^/labs/chaos/advanced(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/chaos/advanced(?:/)?$"
+    },
+    {
+      "page": "/labs/chaos/connections",
+      "regex": "^/labs/chaos/connections(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/chaos/connections(?:/)?$"
+    },
+    {
+      "page": "/labs/chaos/continuous",
+      "regex": "^/labs/chaos/continuous(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/chaos/continuous(?:/)?$"
+    },
+    {
+      "page": "/labs/chaos/continuous/duffing",
+      "regex": "^/labs/chaos/continuous/duffing(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/chaos/continuous/duffing(?:/)?$"
+    },
+    {
+      "page": "/labs/chaos/continuous/lorenz",
+      "regex": "^/labs/chaos/continuous/lorenz(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/chaos/continuous/lorenz(?:/)?$"
+    },
+    {
+      "page": "/labs/chaos/continuous/pendulum",
+      "regex": "^/labs/chaos/continuous/pendulum(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/chaos/continuous/pendulum(?:/)?$"
+    },
+    {
+      "page": "/labs/chaos/continuous/rossler",
+      "regex": "^/labs/chaos/continuous/rossler(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/chaos/continuous/rossler(?:/)?$"
+    },
+    {
+      "page": "/labs/chaos/discrete",
+      "regex": "^/labs/chaos/discrete(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/chaos/discrete(?:/)?$"
+    },
+    {
+      "page": "/labs/chaos/discrete/bifurcation",
+      "regex": "^/labs/chaos/discrete/bifurcation(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/chaos/discrete/bifurcation(?:/)?$"
+    },
+    {
+      "page": "/labs/chaos/discrete/cobweb",
+      "regex": "^/labs/chaos/discrete/cobweb(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/chaos/discrete/cobweb(?:/)?$"
+    },
+    {
+      "page": "/labs/chaos/discrete/logistic",
+      "regex": "^/labs/chaos/discrete/logistic(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/chaos/discrete/logistic(?:/)?$"
+    },
+    {
+      "page": "/labs/chaos/discrete/lyapunov",
+      "regex": "^/labs/chaos/discrete/lyapunov(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/chaos/discrete/lyapunov(?:/)?$"
+    },
+    {
+      "page": "/labs/em",
+      "regex": "^/labs/em(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/em(?:/)?$"
+    },
+    {
+      "page": "/labs/em/circuits",
+      "regex": "^/labs/em/circuits(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/em/circuits(?:/)?$"
+    },
+    {
+      "page": "/labs/em/circuits/phasor",
+      "regex": "^/labs/em/circuits/phasor(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/em/circuits/phasor(?:/)?$"
+    },
+    {
+      "page": "/labs/em/circuits/rc",
+      "regex": "^/labs/em/circuits/rc(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/em/circuits/rc(?:/)?$"
+    },
+    {
+      "page": "/labs/em/circuits/rl",
+      "regex": "^/labs/em/circuits/rl(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/em/circuits/rl(?:/)?$"
+    },
+    {
+      "page": "/labs/em/circuits/rlc",
+      "regex": "^/labs/em/circuits/rlc(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/em/circuits/rlc(?:/)?$"
+    },
+    {
+      "page": "/labs/em/fields",
+      "regex": "^/labs/em/fields(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/em/fields(?:/)?$"
+    },
+    {
+      "page": "/labs/em/fields/coulomb",
+      "regex": "^/labs/em/fields/coulomb(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/em/fields/coulomb(?:/)?$"
+    },
+    {
+      "page": "/labs/em/fields/dipole",
+      "regex": "^/labs/em/fields/dipole(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/em/fields/dipole(?:/)?$"
+    },
+    {
+      "page": "/labs/em/fields/lines",
+      "regex": "^/labs/em/fields/lines(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/em/fields/lines(?:/)?$"
+    },
+    {
+      "page": "/labs/em/fields/multi",
+      "regex": "^/labs/em/fields/multi(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/em/fields/multi(?:/)?$"
+    },
+    {
+      "page": "/labs/em/motion",
+      "regex": "^/labs/em/motion(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/em/motion(?:/)?$"
+    },
+    {
+      "page": "/labs/math",
+      "regex": "^/labs/math(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math(?:/)?$"
+    },
+    {
+      "page": "/labs/math/approximations",
+      "regex": "^/labs/math/approximations(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/approximations(?:/)?$"
+    },
+    {
+      "page": "/labs/math/assumptions",
+      "regex": "^/labs/math/assumptions(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/assumptions(?:/)?$"
+    },
+    {
+      "page": "/labs/math/calculus",
+      "regex": "^/labs/math/calculus(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/calculus(?:/)?$"
+    },
+    {
+      "page": "/labs/math/cas",
+      "regex": "^/labs/math/cas(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/cas(?:/)?$"
+    },
+    {
+      "page": "/labs/math/connections",
+      "regex": "^/labs/math/connections(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/connections(?:/)?$"
+    },
+    {
+      "page": "/labs/math/derivation",
+      "regex": "^/labs/math/derivation(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/derivation(?:/)?$"
+    },
+    {
+      "page": "/labs/math/differentiation",
+      "regex": "^/labs/math/differentiation(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/differentiation(?:/)?$"
+    },
+    {
+      "page": "/labs/math/fitting",
+      "regex": "^/labs/math/fitting(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/fitting(?:/)?$"
+    },
+    {
+      "page": "/labs/math/formulas",
+      "regex": "^/labs/math/formulas(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/formulas(?:/)?$"
+    },
+    {
+      "page": "/labs/math/graphing",
+      "regex": "^/labs/math/graphing(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/graphing(?:/)?$"
+    },
+    {
+      "page": "/labs/math/integration",
+      "regex": "^/labs/math/integration(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/integration(?:/)?$"
+    },
+    {
+      "page": "/labs/math/interpolation",
+      "regex": "^/labs/math/interpolation(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/interpolation(?:/)?$"
+    },
+    {
+      "page": "/labs/math/linear-algebra",
+      "regex": "^/labs/math/linear\\-algebra(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/linear\\-algebra(?:/)?$"
+    },
+    {
+      "page": "/labs/math/linearization",
+      "regex": "^/labs/math/linearization(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/linearization(?:/)?$"
+    },
+    {
+      "page": "/labs/math/nondimensional",
+      "regex": "^/labs/math/nondimensional(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/nondimensional(?:/)?$"
+    },
+    {
+      "page": "/labs/math/optimization",
+      "regex": "^/labs/math/optimization(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/optimization(?:/)?$"
+    },
+    {
+      "page": "/labs/math/regimes",
+      "regex": "^/labs/math/regimes(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/regimes(?:/)?$"
+    },
+    {
+      "page": "/labs/math/roots",
+      "regex": "^/labs/math/roots(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/roots(?:/)?$"
+    },
+    {
+      "page": "/labs/math/scaling",
+      "regex": "^/labs/math/scaling(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/scaling(?:/)?$"
+    },
+    {
+      "page": "/labs/math/scaling/explorer",
+      "regex": "^/labs/math/scaling/explorer(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/scaling/explorer(?:/)?$"
+    },
+    {
+      "page": "/labs/math/scaling/groups",
+      "regex": "^/labs/math/scaling/groups(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/scaling/groups(?:/)?$"
+    },
+    {
+      "page": "/labs/math/sensitivity",
+      "regex": "^/labs/math/sensitivity(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/sensitivity(?:/)?$"
+    },
+    {
+      "page": "/labs/math/series",
+      "regex": "^/labs/math/series(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/series(?:/)?$"
+    },
+    {
+      "page": "/labs/math/series/fourier",
+      "regex": "^/labs/math/series/fourier(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/series/fourier(?:/)?$"
+    },
+    {
+      "page": "/labs/math/series/taylor",
+      "regex": "^/labs/math/series/taylor(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/series/taylor(?:/)?$"
+    },
+    {
+      "page": "/labs/math/stability",
+      "regex": "^/labs/math/stability(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/stability(?:/)?$"
+    },
+    {
+      "page": "/labs/math/stability/regions",
+      "regex": "^/labs/math/stability/regions(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/stability/regions(?:/)?$"
+    },
+    {
+      "page": "/labs/math/stability/timestep",
+      "regex": "^/labs/math/stability/timestep(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/stability/timestep(?:/)?$"
+    },
+    {
+      "page": "/labs/math/symbolic",
+      "regex": "^/labs/math/symbolic(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/symbolic(?:/)?$"
+    },
+    {
+      "page": "/labs/math/units",
+      "regex": "^/labs/math/units(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/units(?:/)?$"
+    },
+    {
+      "page": "/labs/math/units/derived",
+      "regex": "^/labs/math/units/derived(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/units/derived(?:/)?$"
+    },
+    {
+      "page": "/labs/math/workbench",
+      "regex": "^/labs/math/workbench(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/math/workbench(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics",
+      "regex": "^/labs/mechanics(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/drag",
+      "regex": "^/labs/mechanics/drag(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/drag(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/drag/2d",
+      "regex": "^/labs/mechanics/drag/2d(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/drag/2d(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/drag/flow-3d",
+      "regex": "^/labs/mechanics/drag/flow\\-3d(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/drag/flow\\-3d(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/drag/flow-3d/guide",
+      "regex": "^/labs/mechanics/drag/flow\\-3d/guide(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/drag/flow\\-3d/guide(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/energy",
+      "regex": "^/labs/mechanics/energy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/energy(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/kinematics",
+      "regex": "^/labs/mechanics/kinematics(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/kinematics(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/orbits",
+      "regex": "^/labs/mechanics/orbits(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/orbits(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/orbits/basic",
+      "regex": "^/labs/mechanics/orbits/basic(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/orbits/basic(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/orbits/n-body",
+      "regex": "^/labs/mechanics/orbits/n\\-body(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/orbits/n\\-body(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/orbits/precession",
+      "regex": "^/labs/mechanics/orbits/precession(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/orbits/precession(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/oscillators",
+      "regex": "^/labs/mechanics/oscillators(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/oscillators(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/oscillators/coupled",
+      "regex": "^/labs/mechanics/oscillators/coupled(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/oscillators/coupled(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/oscillators/driven",
+      "regex": "^/labs/mechanics/oscillators/driven(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/oscillators/driven(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/oscillators/duffing",
+      "regex": "^/labs/mechanics/oscillators/duffing(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/oscillators/duffing(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/oscillators/shm",
+      "regex": "^/labs/mechanics/oscillators/shm(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/oscillators/shm(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/pendulum",
+      "regex": "^/labs/mechanics/pendulum(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/pendulum(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/pendulum/double",
+      "regex": "^/labs/mechanics/pendulum/double(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/pendulum/double(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/pendulum/driven",
+      "regex": "^/labs/mechanics/pendulum/driven(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/pendulum/driven(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/pendulum/single",
+      "regex": "^/labs/mechanics/pendulum/single(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/pendulum/single(?:/)?$"
+    },
+    {
+      "page": "/labs/mechanics/projectile",
+      "regex": "^/labs/mechanics/projectile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/mechanics/projectile(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde",
+      "regex": "^/labs/ode\\-pde(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde/heat",
+      "regex": "^/labs/ode\\-pde/heat(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde/heat(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde/heat/1d",
+      "regex": "^/labs/ode\\-pde/heat/1d(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde/heat/1d(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde/heat/2d",
+      "regex": "^/labs/ode\\-pde/heat/2d(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde/heat/2d(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde/pde-explorer",
+      "regex": "^/labs/ode\\-pde/pde\\-explorer(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde/pde\\-explorer(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde/phase",
+      "regex": "^/labs/ode\\-pde/phase(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde/phase(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde/phase/portrait",
+      "regex": "^/labs/ode\\-pde/phase/portrait(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde/phase/portrait(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde/phase/system",
+      "regex": "^/labs/ode\\-pde/phase/system(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde/phase/system(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde/reaction-diffusion",
+      "regex": "^/labs/ode\\-pde/reaction\\-diffusion(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde/reaction\\-diffusion(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde/solvers",
+      "regex": "^/labs/ode\\-pde/solvers(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde/solvers(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde/solvers/compare",
+      "regex": "^/labs/ode\\-pde/solvers/compare(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde/solvers/compare(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde/solvers/playground",
+      "regex": "^/labs/ode\\-pde/solvers/playground(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde/solvers/playground(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde/solvers/stability",
+      "regex": "^/labs/ode\\-pde/solvers/stability(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde/solvers/stability(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde/solvers/step",
+      "regex": "^/labs/ode\\-pde/solvers/step(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde/solvers/step(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde/wave",
+      "regex": "^/labs/ode\\-pde/wave(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde/wave(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde/wave/1d",
+      "regex": "^/labs/ode\\-pde/wave/1d(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde/wave/1d(?:/)?$"
+    },
+    {
+      "page": "/labs/ode-pde/wave/membrane",
+      "regex": "^/labs/ode\\-pde/wave/membrane(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/ode\\-pde/wave/membrane(?:/)?$"
+    },
+    {
+      "page": "/labs/quantum",
+      "regex": "^/labs/quantum(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/quantum(?:/)?$"
+    },
+    {
+      "page": "/labs/stat",
+      "regex": "^/labs/stat(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/stat(?:/)?$"
+    },
+    {
+      "page": "/labs/stat/boltzmann",
+      "regex": "^/labs/stat/boltzmann(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/stat/boltzmann(?:/)?$"
+    },
+    {
+      "page": "/labs/stat/boltzmann/maxwell",
+      "regex": "^/labs/stat/boltzmann/maxwell(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/stat/boltzmann/maxwell(?:/)?$"
+    },
+    {
+      "page": "/labs/stat/boltzmann/two-level",
+      "regex": "^/labs/stat/boltzmann/two\\-level(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/stat/boltzmann/two\\-level(?:/)?$"
+    },
+    {
+      "page": "/labs/stat/diffusion",
+      "regex": "^/labs/stat/diffusion(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/stat/diffusion(?:/)?$"
+    },
+    {
+      "page": "/labs/stat/monte-carlo",
+      "regex": "^/labs/stat/monte\\-carlo(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/stat/monte\\-carlo(?:/)?$"
+    },
+    {
+      "page": "/labs/stat/monte-carlo/pi",
+      "regex": "^/labs/stat/monte\\-carlo/pi(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/stat/monte\\-carlo/pi(?:/)?$"
+    },
+    {
+      "page": "/labs/stat/multiplicity",
+      "regex": "^/labs/stat/multiplicity(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/stat/multiplicity(?:/)?$"
+    },
+    {
+      "page": "/labs/stat/random-walk",
+      "regex": "^/labs/stat/random\\-walk(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/stat/random\\-walk(?:/)?$"
+    },
+    {
+      "page": "/labs/stat/random-walk/1d",
+      "regex": "^/labs/stat/random\\-walk/1d(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/stat/random\\-walk/1d(?:/)?$"
+    },
+    {
+      "page": "/labs/stat/random-walk/2d",
+      "regex": "^/labs/stat/random\\-walk/2d(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/stat/random\\-walk/2d(?:/)?$"
+    },
+    {
+      "page": "/labs/thermo",
+      "regex": "^/labs/thermo(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/thermo(?:/)?$"
+    },
+    {
+      "page": "/labs/thermo/entropy",
+      "regex": "^/labs/thermo/entropy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/thermo/entropy(?:/)?$"
+    },
+    {
+      "page": "/labs/thermo/heat-transfer",
+      "regex": "^/labs/thermo/heat\\-transfer(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/thermo/heat\\-transfer(?:/)?$"
+    },
+    {
+      "page": "/labs/thermo/heat-transfer/conduction",
+      "regex": "^/labs/thermo/heat\\-transfer/conduction(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/thermo/heat\\-transfer/conduction(?:/)?$"
+    },
+    {
+      "page": "/labs/thermo/heat-transfer/cooling",
+      "regex": "^/labs/thermo/heat\\-transfer/cooling(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/thermo/heat\\-transfer/cooling(?:/)?$"
+    },
+    {
+      "page": "/labs/thermo/heat-transfer/expansion",
+      "regex": "^/labs/thermo/heat\\-transfer/expansion(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/thermo/heat\\-transfer/expansion(?:/)?$"
+    },
+    {
+      "page": "/labs/thermo/heat-transfer/volume",
+      "regex": "^/labs/thermo/heat\\-transfer/volume(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/thermo/heat\\-transfer/volume(?:/)?$"
+    },
+    {
+      "page": "/labs/thermo/processes",
+      "regex": "^/labs/thermo/processes(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/thermo/processes(?:/)?$"
+    },
+    {
+      "page": "/labs/thermo/processes/cycle",
+      "regex": "^/labs/thermo/processes/cycle(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/thermo/processes/cycle(?:/)?$"
+    },
+    {
+      "page": "/labs/thermo/processes/pv",
+      "regex": "^/labs/thermo/processes/pv(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/thermo/processes/pv(?:/)?$"
+    },
+    {
+      "page": "/labs/thermo/stat-mech",
+      "regex": "^/labs/thermo/stat\\-mech(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/thermo/stat\\-mech(?:/)?$"
+    },
+    {
+      "page": "/labs/thermo/stat-mech/maxwell",
+      "regex": "^/labs/thermo/stat\\-mech/maxwell(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/thermo/stat\\-mech/maxwell(?:/)?$"
+    },
+    {
+      "page": "/labs/thermo/stat-mech/two-level",
+      "regex": "^/labs/thermo/stat\\-mech/two\\-level(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/thermo/stat\\-mech/two\\-level(?:/)?$"
+    },
+    {
+      "page": "/labs/thermo/state",
+      "regex": "^/labs/thermo/state(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/thermo/state(?:/)?$"
+    },
+    {
+      "page": "/labs/waves",
+      "regex": "^/labs/waves(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/waves(?:/)?$"
+    },
+    {
+      "page": "/labs/waves/advanced",
+      "regex": "^/labs/waves/advanced(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/waves/advanced(?:/)?$"
+    },
+    {
+      "page": "/labs/waves/beats",
+      "regex": "^/labs/waves/beats(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/waves/beats(?:/)?$"
+    },
+    {
+      "page": "/labs/waves/fourier",
+      "regex": "^/labs/waves/fourier(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/waves/fourier(?:/)?$"
+    },
+    {
+      "page": "/labs/waves/fourier/series",
+      "regex": "^/labs/waves/fourier/series(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/waves/fourier/series(?:/)?$"
+    },
+    {
+      "page": "/labs/waves/fourier/synth",
+      "regex": "^/labs/waves/fourier/synth(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/waves/fourier/synth(?:/)?$"
+    },
+    {
+      "page": "/labs/waves/harmonics",
+      "regex": "^/labs/waves/harmonics(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/waves/harmonics(?:/)?$"
+    },
+    {
+      "page": "/labs/waves/harmonics/string",
+      "regex": "^/labs/waves/harmonics/string(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/waves/harmonics/string(?:/)?$"
+    },
+    {
+      "page": "/labs/waves/interference",
+      "regex": "^/labs/waves/interference(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/waves/interference(?:/)?$"
+    },
+    {
+      "page": "/labs/waves/interference/two-source",
+      "regex": "^/labs/waves/interference/two\\-source(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/waves/interference/two\\-source(?:/)?$"
+    },
+    {
+      "page": "/labs/waves/superposition",
+      "regex": "^/labs/waves/superposition(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/waves/superposition(?:/)?$"
+    },
+    {
+      "page": "/labs/waves/superposition/basic",
+      "regex": "^/labs/waves/superposition/basic(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/labs/waves/superposition/basic(?:/)?$"
+    },
+    {
+      "page": "/login",
+      "regex": "^/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/platform",
+      "regex": "^/platform(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/platform(?:/)?$"
+    },
+    {
+      "page": "/profile",
+      "regex": "^/profile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/profile(?:/)?$"
+    },
+    {
+      "page": "/qa",
+      "regex": "^/qa(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/qa(?:/)?$"
+    },
+    {
+      "page": "/register",
+      "regex": "^/register(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/register(?:/)?$"
+    },
+    {
+      "page": "/registry",
+      "regex": "^/registry(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/registry(?:/)?$"
+    },
+    {
+      "page": "/registry/models",
+      "regex": "^/registry/models(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/registry/models(?:/)?$"
+    },
+    {
+      "page": "/research",
+      "regex": "^/research(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/research(?:/)?$"
+    },
+    {
+      "page": "/research/notebook",
+      "regex": "^/research/notebook(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/research/notebook(?:/)?$"
+    },
+    {
+      "page": "/research/workflows",
+      "regex": "^/research/workflows(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/research/workflows(?:/)?$"
+    },
+    {
+      "page": "/solvers",
+      "regex": "^/solvers(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/solvers(?:/)?$"
+    },
+    {
+      "page": "/testing",
+      "regex": "^/testing(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/testing(?:/)?$"
+    },
+    {
+      "page": "/ui",
+      "regex": "^/ui(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/ui(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

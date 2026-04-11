@@ -1,0 +1,10 @@
+/* Auto-generated surfaceFeatureExtractDict */
+model
+{
+    extractionMethod    extractFromSurface;
+    extractFromSurfaceCoeffs
+    {
+        includedAngle   150;
+    }
+    writeObj            yes;
+}

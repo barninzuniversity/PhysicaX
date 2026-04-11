@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/math/layout,_N_T_/labs/math/linearization/layout,_N_T_/labs/math/linearization/page,_N_T_/labs/math/linearization"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/math/linearization/__PAGE__",
+    "/labs/math/linearization",
+    "/labs/math",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

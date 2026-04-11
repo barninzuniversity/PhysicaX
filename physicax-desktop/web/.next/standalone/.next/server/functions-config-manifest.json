@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "functions": {
+    "/_middleware": {
+      "runtime": "nodejs",
+      "matchers": [
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/dashboard(?:\\/((?:[^\\/#\\?]+?)(?:\\/(?:[^\\/#\\?]+?))*))?(\\.json)?[\\/#\\?]?$",
+          "originalSource": "/dashboard/:path*"
+        }
+      ]
+    },
+    "/api/admin/users": {},
+    "/api/assets": {},
+    "/api/assignments": {},
+    "/api/assignments/[id]": {},
+    "/api/auth/[...nextauth]": {},
+    "/api/auth/register": {},
+    "/api/badges": {},
+    "/api/cfd": {},
+    "/api/challenge-progress": {},
+    "/api/challenge-sets": {},
+    "/api/challenges": {},
+    "/api/classrooms": {},
+    "/api/classrooms/join": {},
+    "/api/collections": {},
+    "/api/experiments": {},
+    "/api/folders": {},
+    "/api/gallery": {},
+    "/api/gallery/[id]": {},
+    "/api/gallery/[id]/boost": {},
+    "/api/gallery/[id]/comment": {},
+    "/api/gallery/[id]/feature": {},
+    "/api/gallery/[id]/fork": {},
+    "/api/gallery/[id]/like": {},
+    "/api/notebooks": {},
+    "/api/presets": {},
+    "/api/profile": {},
+    "/api/research": {},
+    "/api/search": {},
+    "/api/submissions": {},
+    "/api/tags": {}
+  }
+}

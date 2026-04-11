@@ -1,0 +1,608 @@
+<!DOCTYPE html><!--hEBjtYnGSIW4q_pOyZeba--><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" href="/_next/static/media/4cf2300e9c8272f7-s.p.woff2" as="font" crossorigin="" type="font/woff2"/><link rel="preload" href="/_next/static/media/93f479601ee12b01-s.p.woff2" as="font" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d2517bf4f1229e28.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/1532f3df2892245d.css" data-precedence="next"/><link rel="preload" as="script" fetchPriority="low" href="/_next/static/chunks/webpack-858a2b0e7a648180.js"/><script src="/_next/static/chunks/4bd1b696-e5d7c65570c947b7.js" async=""></script><script src="/_next/static/chunks/3794-337d1ca25ad99a89.js" async=""></script><script src="/_next/static/chunks/main-app-a6b5839ce72852d3.js" async=""></script><script src="/_next/static/chunks/8500-98e13bcce54aa7a0.js" async=""></script><script src="/_next/static/chunks/7882-1671d144bf460571.js" async=""></script><script src="/_next/static/chunks/424-55e310a32322b1b5.js" async=""></script><script src="/_next/static/chunks/app/layout-cd6a997ce3418208.js" async=""></script><script src="/_next/static/chunks/app/formulas/page-5b924f08b0c2dfe6.js" async=""></script><meta name="next-size-adjust" content=""/><title>PhysicaX - Physics Workspace</title><meta name="description" content="Local-first computational physics workspace with guided labs, desktop tooling, and CFD workflows."/><script src="/_next/static/chunks/polyfills-42372ed130431b0a.js" noModule=""></script></head><body class="__variable_188709 __variable_9a8899"><div hidden=""><!--$--><!--/$--></div><div class="bg-grid" aria-hidden="true"></div><button type="button" class="nav-fab is-visible" aria-expanded="false" aria-controls="site-nav" title="Menu (M)">Menu</button><button type="button" class="rail-fab is-visible" aria-expanded="false" aria-controls="lab-rail" title="Labs (L)">Labs</button><header class="site-header nav-collapsed is-hidden"><div class="header-top"><div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64" role="img" aria-label="PhysicaX logo"><rect x="4" y="4" width="56" height="56" rx="16" fill="#0a0a0a"></rect><path d="M20 44V20h10c6 0 10 3 10 8 0 5-4 8-10 8h-4v8h-6zm6-14h4c3 0 5-1 5-4 0-3-2-4-5-4h-4v8z" fill="#ffffff"></path><path d="M40 42l8-10-8-10h6l5 7 5-7h6l-8 10 8 10h-6l-5-7-5 7h-6z" fill="#8b5cf6"></path></svg></div><div class="brand-text"><div class="brand-title">PhysicaX</div><div class="brand-subtitle">Computational Physics Platform</div></div></div><div class="header-actions"><div class="header-pill">Geist UI - CFD ready - Formula-checked</div><div class="quick-actions"><button type="button" class="nav-toggle " aria-expanded="false">Quick Actions</button></div><div class="header-links"><a class="header-link" href="/">Overview</a><a class="header-link" href="/labs">Labs</a><a class="header-link" href="/dashboard">Dashboard</a><a class="header-link" href="/cfd">CFD</a></div><label class="field" style="min-width:120px"><span>Language</span><select><option value="en" selected="">EN</option><option value="fr">FR</option></select></label><div class="user-menu"><a class="tab" href="/login">Sign In</a><a class="tab" href="/register">Register</a></div><div class="theme-toggle-wrap"><span class="theme-label">Theme</span><button type="button" class="nav-toggle theme-toggle is-light">Light</button></div><div class="accent-picker"><span class="theme-label">Accent</span><input type="color" aria-label="Accent" value="#2563eb"/><div class="accent-presets"><button type="button" class="accent-swatch" style="background:#2563eb" aria-label="Accent #2563eb"></button><button type="button" class="accent-swatch" style="background:#10b981" aria-label="Accent #10b981"></button><button type="button" class="accent-swatch" style="background:#f97316" aria-label="Accent #f97316"></button><button type="button" class="accent-swatch" style="background:#ef4444" aria-label="Accent #ef4444"></button><button type="button" class="accent-swatch" style="background:#a855f7" aria-label="Accent #a855f7"></button></div><button type="button" class="control-chip">Reset</button></div><button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button><button type="button" class="nav-toggle" aria-expanded="false">Show labs</button></div></div><div class="nav-shell" id="site-nav"><nav class="site-nav"><div class="nav-grid"><div class="nav-section"><div class="nav-section-head"><span class="nav-section-title">Core</span><span class="nav-section-meta">Primary entry points</span></div><div class="nav-items"><a class="nav-item " href="/"><span>Overview</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/labs"><span>Labs</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/dashboard"><span>Dashboard</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/gallery"><span>Gallery</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/cfd"><span>CFD</span><span class="nav-item-dot" aria-hidden="true"></span></a></div></div><div class="nav-section"><div class="nav-section-head"><span class="nav-section-title">Blueprint</span><span class="nav-section-meta">Platform &amp; architecture</span></div><div class="nav-items"><a class="nav-item " href="/platform"><span>Platform</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/architecture"><span>Architecture</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item active" href="/formulas"><span>Formulas</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/formulas/glossary"><span>Glossary</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/solvers"><span>Solvers</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/registry"><span>Registry</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/ui"><span>UI</span><span class="nav-item-dot" aria-hidden="true"></span></a></div></div><div class="nav-section"><div class="nav-section-head"><span class="nav-section-title">Ops</span><span class="nav-section-meta">Research + governance</span></div><div class="nav-items"><a class="nav-item " href="/research"><span>Research</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/education"><span>Education</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/challenges"><span>Challenges</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/classrooms"><span>Classrooms</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/governance"><span>Governance</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/qa"><span>QA</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/testing"><span>Testing</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/build"><span>Build</span><span class="nav-item-dot" aria-hidden="true"></span></a><a class="nav-item " href="/appendix"><span>Appendix</span><span class="nav-item-dot" aria-hidden="true"></span></a></div></div><div class="nav-section nav-section-account"><div class="nav-section-head"><span class="nav-section-title">Account</span><span class="nav-section-meta">Access</span></div><div class="nav-items"><a class="nav-item " href="/login">Sign In</a><a class="nav-item " href="/register">Register</a></div></div></div></nav></div></header><div class="app-shell"><aside id="lab-rail" class="lab-rail collapsed" aria-label="Lab navigation" data-lab-rail="true"><div class="lab-rail-header"><div class="lab-rail-title">Labs</div><button type="button" class="rail-toggle" aria-expanded="false">Expand</button></div><nav class="lab-rail-links"><a class="lab-rail-link " href="/labs/thermo"><span class="lab-rail-dot">T</span><span class="lab-rail-label">ThermoLab</span></a><a class="lab-rail-link " href="/labs/mechanics"><span class="lab-rail-dot">M</span><span class="lab-rail-label">Mechanics Lab</span></a><a class="lab-rail-link " href="/labs/chaos"><span class="lab-rail-dot">C</span><span class="lab-rail-label">ChaosLab</span></a><a class="lab-rail-link " href="/labs/waves"><span class="lab-rail-dot">W</span><span class="lab-rail-label">WaveLab</span></a><a class="lab-rail-link " href="/labs/em"><span class="lab-rail-dot">E</span><span class="lab-rail-label">EMLab</span></a><a class="lab-rail-link " href="/labs/ode-pde"><span class="lab-rail-dot">O</span><span class="lab-rail-label">ODE/PDE Lab</span></a><a class="lab-rail-link " href="/labs/stat"><span class="lab-rail-dot">S</span><span class="lab-rail-label">Statistical Physics</span></a><a class="lab-rail-link " href="/labs/quantum"><span class="lab-rail-dot">Q</span><span class="lab-rail-label">Quantum Intuition</span></a><a class="lab-rail-link " href="/labs/math"><span class="lab-rail-dot">M</span><span class="lab-rail-label">Math Engine</span></a></nav><div class="lab-rail-footer"><span>Quick access to all labs.</span></div></aside><div class="app-main"><main class="page"><section class="section reveal"><h2>Formula Reference Pack</h2><p>This pack is the canonical source of truth for every physics model. It includes equations, assumptions, domains, and validation notes. All formulas are in SI units and use the sign convention W = work done by the system.</p><div class="callout">Do not duplicate formulas across files. Use this registry everywhere.</div></section><section class="section reveal"><h2>Formula Governance</h2><div class="columns"><div class="column"><h3>Rules</h3><ul><li>One canonical formula per model.</li><li>Store assumptions and domain constraints.</li><li>Keep formulas in backend, not UI.</li></ul></div><div class="column"><h3>Validation</h3><ul><li>At least 3 validation cases per model.</li><li>Reference cases, limiting cases, invalid cases.</li><li>Energy and entropy constraints where applicable.</li></ul></div></div><div class="diagram" aria-hidden="true"><svg viewBox="0 0 900 200"><rect x="20" y="30" width="200" height="60" rx="12" fill="#e8f4f2"></rect><text x="120" y="65" text-anchor="middle" font-size="13" fill="#101820">Formula Registry</text><rect x="240" y="30" width="200" height="60" rx="12" fill="#fbeee6"></rect><text x="340" y="65" text-anchor="middle" font-size="13" fill="#101820">Validators</text><rect x="460" y="30" width="200" height="60" rx="12" fill="#e8f4f2"></rect><text x="560" y="65" text-anchor="middle" font-size="13" fill="#101820">Tests</text><rect x="680" y="30" width="200" height="60" rx="12" fill="#fbeee6"></rect><text x="780" y="65" text-anchor="middle" font-size="13" fill="#101820">UI + API</text><line x1="220" y1="60" x2="240" y2="60" stroke="#101820" stroke-width="2"></line><line x1="440" y1="60" x2="460" y2="60" stroke="#101820" stroke-width="2"></line><line x1="660" y1="60" x2="680" y2="60" stroke="#101820" stroke-width="2"></line></svg></div></section><section class="section reveal"><h2>Glossary + Context</h2><div class="card-grid"><div class="card"><h3>Scientific Glossary</h3><p><a href="/formulas/glossary">Open glossary</a></p></div><div class="card"><h3>Contextual Notes</h3><p>Every formula card includes assumptions and validation cases.</p></div></div></section><section class="section reveal"><h2>Full Corrected Formula Pack</h2><div class="demo-panel"><div class="demo-title">Formula Finder</div><input class="search-input" type="text" placeholder="Filter formulas (e.g. entropy, RK4, r &lt;= 1/2)" value=""/><div class="search-meta">Showing<!-- --> <!-- -->120<!-- --> <!-- -->of<!-- --> <!-- -->489<!-- --> <!-- -->lines.</div><div class="code-block"><pre><code># PhysicaX Formula Reference Pack (Corrected)
+
+This is a cleaned, corrected formula reference based on the guide. All formulas are stated in SI units unless noted.
+
+## 0) Global Rules
+- Keep one canonical source of truth per model.
+- Store assumptions, valid domains, units, and singularities for every formula.
+- Convert inputs to SI, compute in SI, convert outputs only for display.
+- Use explicit sign conventions for work and heat. This pack uses: W = work done by the system.
+
+## 1) Physical Constants (SI)
+- R = 8.314462618 J/(mol*K)
+- kB = 1.380649e-23 J/K
+- g0 = 9.80665 m/s^2
+- G = 6.67430e-11 m^3/(kg*s^2)
+- epsilon0 = 8.8541878128e-12 F/m
+- 1 atm = 101325 Pa
+- 1 bar = 1e5 Pa
+- 1 L = 1e-3 m^3
+
+## 2) ThermoLab
+### 2.1 Ideal Gas Law
+Formula:
+PV = n R T
+Assumptions: ideal gas, equilibrium, macroscopic state.
+Domain: P&gt;0, V&gt;0, T&gt;0, n&gt;0.
+
+### 2.2 Internal Energy (Ideal Gas)
+Formula:
+U = n Cv T
+DeltaU = n Cv (T2 - T1)
+Monatomic ideal gas: Cv = (3/2) R, so U = (3/2) n R T.
+
+### 2.3 Enthalpy (Ideal Gas)
+Formula:
+H = U + P V = n Cp T
+DeltaH = n Cp (T2 - T1)
+
+### 2.4 First Law of Thermodynamics
+Convention: W = work done by the system, Q = heat added to the system.
+Formula:
+DeltaU = Q - W
+Q = DeltaU + W
+
+### 2.5 Isothermal Process (Ideal Gas, Reversible)
+T = const, PV = const
+Work:
+W = n R T ln(V2/V1) = n R T ln(P1/P2)
+DeltaU = 0, so Q = W.
+
+### 2.6 Isochoric Process
+V = const
+W = 0
+Q = DeltaU = n Cv (T2 - T1)
+
+### 2.7 Isobaric Process
+P = const
+W = P (V2 - V1) = n R (T2 - T1)
+Q = n Cp (T2 - T1)
+DeltaU = n Cv (T2 - T1)
+
+### 2.8 Reversible Adiabatic (Ideal Gas)
+Q = 0
+Relations:
+P V^gamma = const
+T V^(gamma-1) = const
+T^gamma P^(1-gamma) = const
+Work:
+W = (P1 V1 - P2 V2) / (gamma - 1) = n Cv (T1 - T2)
+
+### 2.9 Polytropic Process
+P V^m = const
+Work (m != 1):
+W = (P2 V2 - P1 V1) / (1 - m)
+Special case m -&gt; 1 (isothermal):
+W = n R T ln(V2/V1)
+
+### 2.10 Entropy Change (Ideal Gas)
+DeltaS = n Cv ln(T2/T1) + n R ln(V2/V1)
+Equivalent form:
+DeltaS = n Cp ln(T2/T1) - n R ln(P2/P1)
+Reversible adiabatic: DeltaS = 0.
+
+### 2.11 Carnot Engine
+Efficiency:
+eta = 1 - Tc/Th
+Temperatures in Kelvin.
+
+### 2.12 Otto Cycle (Air-Standard)
+Compression ratio: r = V1/V2
+Efficiency:
+eta = 1 - 1 / r^(gamma-1)
+
+### 2.13 Diesel Cycle (Air-Standard)
+Compression ratio: r = V1/V2
+Cutoff ratio: rho = V3/V2
+Efficiency:
+eta = 1 - (1 / r^(gamma-1)) * ((rho^gamma - 1) / (gamma * (rho - 1)))
+
+### 2.14 Brayton Cycle (Ideal)
+Pressure ratio: rp = P2/P1
+Efficiency:
+eta = 1 - 1 / rp^((gamma-1)/gamma)
+
+### 2.15 Maxwell-Boltzmann Speed Distribution
+Distribution:
+ f(v) = 4 pi (m/(2 pi kB T))^(3/2) v^2 exp(-m v^2/(2 kB T))
+Characteristic speeds:
+ v_mp = sqrt(2 kB T / m)
+ v_mean = sqrt(8 kB T / (pi m))
+ v_rms = sqrt(3 kB T / m)
+
+### 2.16 Boltzmann Factor
+Probability:
+ p_i = exp(-E_i/(kB T)) / Z
+Partition function:
+ Z = sum_i exp(-E_i/(kB T))
+
+### 2.17 Two-Level System (E0 = 0, E1 = E)
+Z = 1 + exp(-E/(kB T))</code></pre></div></div><details class="details-block" open=""><summary>Open formula registry text</summary><pre class="ocr"># PhysicaX Formula Reference Pack (Corrected)
+
+This is a cleaned, corrected formula reference based on the guide. All formulas are stated in SI units unless noted.
+
+## 0) Global Rules
+- Keep one canonical source of truth per model.
+- Store assumptions, valid domains, units, and singularities for every formula.
+- Convert inputs to SI, compute in SI, convert outputs only for display.
+- Use explicit sign conventions for work and heat. This pack uses: W = work done by the system.
+
+## 1) Physical Constants (SI)
+- R = 8.314462618 J/(mol*K)
+- kB = 1.380649e-23 J/K
+- g0 = 9.80665 m/s^2
+- G = 6.67430e-11 m^3/(kg*s^2)
+- epsilon0 = 8.8541878128e-12 F/m
+- 1 atm = 101325 Pa
+- 1 bar = 1e5 Pa
+- 1 L = 1e-3 m^3
+
+## 2) ThermoLab
+### 2.1 Ideal Gas Law
+Formula:
+PV = n R T
+Assumptions: ideal gas, equilibrium, macroscopic state.
+Domain: P&gt;0, V&gt;0, T&gt;0, n&gt;0.
+
+### 2.2 Internal Energy (Ideal Gas)
+Formula:
+U = n Cv T
+DeltaU = n Cv (T2 - T1)
+Monatomic ideal gas: Cv = (3/2) R, so U = (3/2) n R T.
+
+### 2.3 Enthalpy (Ideal Gas)
+Formula:
+H = U + P V = n Cp T
+DeltaH = n Cp (T2 - T1)
+
+### 2.4 First Law of Thermodynamics
+Convention: W = work done by the system, Q = heat added to the system.
+Formula:
+DeltaU = Q - W
+Q = DeltaU + W
+
+### 2.5 Isothermal Process (Ideal Gas, Reversible)
+T = const, PV = const
+Work:
+W = n R T ln(V2/V1) = n R T ln(P1/P2)
+DeltaU = 0, so Q = W.
+
+### 2.6 Isochoric Process
+V = const
+W = 0
+Q = DeltaU = n Cv (T2 - T1)
+
+### 2.7 Isobaric Process
+P = const
+W = P (V2 - V1) = n R (T2 - T1)
+Q = n Cp (T2 - T1)
+DeltaU = n Cv (T2 - T1)
+
+### 2.8 Reversible Adiabatic (Ideal Gas)
+Q = 0
+Relations:
+P V^gamma = const
+T V^(gamma-1) = const
+T^gamma P^(1-gamma) = const
+Work:
+W = (P1 V1 - P2 V2) / (gamma - 1) = n Cv (T1 - T2)
+
+### 2.9 Polytropic Process
+P V^m = const
+Work (m != 1):
+W = (P2 V2 - P1 V1) / (1 - m)
+Special case m -&gt; 1 (isothermal):
+W = n R T ln(V2/V1)
+
+### 2.10 Entropy Change (Ideal Gas)
+DeltaS = n Cv ln(T2/T1) + n R ln(V2/V1)
+Equivalent form:
+DeltaS = n Cp ln(T2/T1) - n R ln(P2/P1)
+Reversible adiabatic: DeltaS = 0.
+
+### 2.11 Carnot Engine
+Efficiency:
+eta = 1 - Tc/Th
+Temperatures in Kelvin.
+
+### 2.12 Otto Cycle (Air-Standard)
+Compression ratio: r = V1/V2
+Efficiency:
+eta = 1 - 1 / r^(gamma-1)
+
+### 2.13 Diesel Cycle (Air-Standard)
+Compression ratio: r = V1/V2
+Cutoff ratio: rho = V3/V2
+Efficiency:
+eta = 1 - (1 / r^(gamma-1)) * ((rho^gamma - 1) / (gamma * (rho - 1)))
+
+### 2.14 Brayton Cycle (Ideal)
+Pressure ratio: rp = P2/P1
+Efficiency:
+eta = 1 - 1 / rp^((gamma-1)/gamma)
+
+### 2.15 Maxwell-Boltzmann Speed Distribution
+Distribution:
+ f(v) = 4 pi (m/(2 pi kB T))^(3/2) v^2 exp(-m v^2/(2 kB T))
+Characteristic speeds:
+ v_mp = sqrt(2 kB T / m)
+ v_mean = sqrt(8 kB T / (pi m))
+ v_rms = sqrt(3 kB T / m)
+
+### 2.16 Boltzmann Factor
+Probability:
+ p_i = exp(-E_i/(kB T)) / Z
+Partition function:
+ Z = sum_i exp(-E_i/(kB T))
+
+### 2.17 Two-Level System (E0 = 0, E1 = E)
+Z = 1 + exp(-E/(kB T))
+p0 = 1/Z
+p1 = exp(-E/(kB T)) / Z
+Mean energy:
+&lt;E&gt; = E * p1
+
+### 2.18 Newton&#x27;s Law of Cooling
+dT/dt = -k (T - T_env)
+Solution:
+T(t) = T_env + (T0 - T_env) exp(-k t)
+Assumption: lumped system, constant ambient temperature, k&gt;0.
+
+## 3) MechanicsLab
+### 3.1 Constant Acceleration Kinematics
+x = x0 + v0 t + (1/2) a t^2
+v = v0 + a t
+v^2 = v0^2 + 2 a (x - x0)
+
+### 3.2 Projectile Motion (No Drag)
+x(t) = x0 + v0 cos(theta) t
+y(t) = y0 + v0 sin(theta) t - (1/2) g t^2
+Time of flight (same height): tf = 2 v0 sin(theta) / g
+Range: R = v0^2 sin(2 theta) / g
+Max height: y_max - y0 = v0^2 sin^2(theta) / (2 g)
+
+### 3.3 Linear Drag
+Drag force: Fd = -b v
+Equation of motion: m dv/dt = sumF - b v
+Example vertical motion with gravity:
+ v(t) = (v0 + (m g / b)) exp(-(b/m) t) - (m g / b)
+Terminal speed magnitude: v_t = m g / b
+
+### 3.4 Quadratic Drag
+Drag force: Fd = -(1/2) rho Cd A |v| v
+Use numerical integration (RK4 or adaptive).
+
+### 3.5 Newton&#x27;s Second Law
+sumF = m a
+
+### 3.6 Work
+Constant force: W = F dot Delta x
+Variable force: W = integral(F dot dx)
+
+### 3.7 Kinetic Energy
+K = (1/2) m v^2
+
+### 3.8 Gravitational Potential (Near Earth)
+U = m g h
+
+### 3.9 Spring Potential Energy
+U = (1/2) k x^2
+
+### 3.10 Hooke&#x27;s Law
+F = -k x
+
+### 3.11 Simple Harmonic Motion (Mass-Spring)
+Equation: x&#x27;&#x27; + (k/m) x = 0
+omega = sqrt(k/m)
+Solution: x(t) = A cos(omega t + phi)
+Period: T = 2 pi / omega
+Energy: E = (1/2) k A^2
+
+### 3.12 Damped Harmonic Oscillator
+Equation: x&#x27;&#x27; + 2 gamma x&#x27; + omega0^2 x = 0
+gamma = c/(2m), omega0 = sqrt(k/m)
+Underdamped: gamma &lt; omega0
+Critical: gamma = omega0
+Overdamped: gamma &gt; omega0
+
+### 3.13 Driven Damped Oscillator
+Equation: x&#x27;&#x27; + 2 gamma x&#x27; + omega0^2 x = (F0/m) cos(omega t)
+Steady-state amplitude:
+A = (F0/m) / sqrt((omega0^2 - omega^2)^2 + (2 gamma omega)^2)
+Phase lag:
+ tan(delta) = (2 gamma omega) / (omega0^2 - omega^2)
+
+### 3.14 Simple Pendulum (Exact)
+Equation: theta&#x27;&#x27; + (g/L) sin(theta) = 0
+
+### 3.15 Small-Angle Pendulum
+If |theta| &lt;&lt; 1 rad, sin(theta) approx theta:
+theta&#x27;&#x27; + (g/L) theta = 0
+Period: T = 2 pi sqrt(L/g)
+
+### 3.16 Large-Amplitude Pendulum Period
+T = 4 sqrt(L/g) K(k)
+k = sin(theta0/2)
+K is the complete elliptic integral of the first kind.
+
+### 3.17 Double Pendulum (Standard Model)
+Use one canonical implementation derived from the Lagrangian.
+Common form with delta = theta1 - theta2:
+
+theta1&#x27;&#x27; = ( -g(2 m1 + m2) sin(theta1) - m2 g sin(theta1 - 2 theta2)
+            - 2 sin(delta) m2 (theta2&#x27;^2 L2 + theta1&#x27;^2 L1 cos(delta)) )
+          / ( L1 (2 m1 + m2 - m2 cos(2 delta)) )
+
+theta2&#x27;&#x27; = ( 2 sin(delta) ( theta1&#x27;^2 L1 (m1 + m2)
+            + g (m1 + m2) cos(theta1) + theta2&#x27;^2 L2 m2 cos(delta) ) )
+          / ( L2 (2 m1 + m2 - m2 cos(2 delta)) )
+
+Test energy conservation when damping = 0.
+
+### 3.18 Universal Gravitation
+Magnitude: F = G m1 m2 / r^2
+Vector: F12 = -G m1 m2 / r^3 * r_vec
+
+### 3.19 Circular Orbit
+v = sqrt(G M / r)
+Period: T = 2 pi sqrt(r^3 / (G M))
+
+### 3.20 Escape Velocity
+v_esc = sqrt(2 G M / r)
+
+### 3.21 Orbital Energy (Specific)
+epsilon = v^2/2 - G M / r
+For bound ellipse: epsilon = -G M / (2 a)
+
+## 4) ChaosLab
+### 4.1 Logistic Map
+x_{n+1} = r x_n (1 - x_n)
+Typical domain: 0 &lt;= x_n &lt;= 1, 0 &lt;= r &lt;= 4
+Fixed points: x* = 0, x* = 1 - 1/r (r&gt;1)
+Stability: |f&#x27;(x*)| &lt; 1
+
+### 4.2 Lyapunov Exponent (1D Map)
+lambda = lim_{N-&gt;inf} (1/N) sum_{n=0}^{N-1} ln |f&#x27;(x_n)|
+For logistic map: f&#x27;(x) = r (1 - 2 x)
+
+### 4.3 Tent Map
+x_{n+1} = r x_n, for x_n &lt; 1/2
+x_{n+1} = r (1 - x_n), for x_n &gt;= 1/2
+Typical r in [0, 2].
+
+### 4.4 Lorenz System
+x&#x27; = sigma (y - x)
+y&#x27; = x (rho - z) - y
+z&#x27; = x y - beta z
+Classic parameters: sigma = 10, rho = 28, beta = 8/3
+
+### 4.5 Rossler System
+x&#x27; = -y - z
+y&#x27; = x + a y
+z&#x27; = b + z (x - c)
+Typical parameters: a = 0.2, b = 0.2, c = 5.7
+
+### 4.6 Duffing Oscillator
+x&#x27;&#x27; + delta x&#x27; + alpha x + beta x^3 = gamma cos(omega t)
+
+## 5) WaveLab
+### 5.1 Traveling Wave
+y(x,t) = A sin(k x - omega t + phi)
+Wave speed: v = omega / k
+k = 2 pi / lambda, omega = 2 pi f
+
+### 5.2 Standing Wave
+y(x,t) = 2 A sin(k x) cos(omega t)
+
+### 5.3 Beats
+A cos(omega1 t) + A cos(omega2 t) =
+2 A cos((omega1 - omega2) t / 2) cos((omega1 + omega2) t / 2)
+Beat frequency: f_beat = |f1 - f2|
+
+### 5.4 String Wave Speed
+v = sqrt(T / mu)
+T = tension, mu = linear mass density
+
+### 5.5 Harmonics on String (Both Ends Fixed)
+f_n = n v / (2 L), n = 1,2,3...
+
+### 5.6 Air Columns
+Open-open or closed-closed:
+ f_n = n v / (2 L)
+Open-closed:
+ f_n = (2 n - 1) v / (4 L), n = 1,2,3...
+
+### 5.7 Fourier Series (Period 2L)
+f(x) = a0/2 + sum_{n=1}^inf [a_n cos(n pi x / L) + b_n sin(n pi x / L)]
+Coefficients:
+ a_n = (1/L) * integral_{-L}^{L} f(x) cos(n pi x / L) dx
+ b_n = (1/L) * integral_{-L}^{L} f(x) sin(n pi x / L) dx
+
+## 6) EMLab
+### 6.1 Coulomb&#x27;s Law
+F = (1/(4 pi epsilon0)) * (q1 q2 / r^2) r_hat
+k = 1/(4 pi epsilon0)
+
+### 6.2 Electric Field of a Point Charge
+E = k q / r^2 r_hat
+
+### 6.3 Electric Potential of a Point Charge
+V = k q / r
+
+### 6.4 Potential Energy of Two Charges
+U = k q1 q2 / r
+
+### 6.5 Parallel-Plate Capacitor
+C = epsilon0 A / d (vacuum)
+Energy:
+U = (1/2) C V^2 = Q^2/(2 C) = (1/2) Q V
+
+### 6.6 RC Circuit
+Charging:
+ q(t) = C V (1 - exp(-t/(R C)))
+ i(t) = (V/R) exp(-t/(R C))
+Discharging:
+ q(t) = Q0 exp(-t/(R C))
+ i(t) = -(Q0/(R C)) exp(-t/(R C))
+Time constant: tau = R C
+
+### 6.7 RL Circuit
+Growth:
+ i(t) = (V/R) (1 - exp(-t/(L/R)))
+Decay:
+ i(t) = I0 exp(-t/(L/R))
+Time constant: tau = L/R
+
+### 6.8 RLC Circuit (Series)
+Charge equation:
+ L q&#x27;&#x27; + R q&#x27; + (1/C) q = V(t)
+Natural frequency (ideal):
+ omega0 = 1 / sqrt(L C)
+
+## 7) ODE Lab (Numerical Methods)
+### 7.1 First-Order ODE
+ dy/dt = f(t, y)
+
+### 7.2 Euler Method
+ y_{n+1} = y_n + h f(t_n, y_n)
+Global error O(h), local truncation O(h^2)
+
+### 7.3 Heun (Improved Euler)
+ Predictor: y* = y_n + h f(t_n, y_n)
+ Corrector: y_{n+1} = y_n + (h/2) [f(t_n, y_n) + f(t_{n+1}, y*)]
+Global error O(h^2)
+
+### 7.4 RK4
+ k1 = f(t_n, y_n)
+ k2 = f(t_n + h/2, y_n + h k1/2)
+ k3 = f(t_n + h/2, y_n + h k2/2)
+ k4 = f(t_n + h, y_n + h k3)
+ y_{n+1} = y_n + (h/6)(k1 + 2 k2 + 2 k3 + k4)
+Global error O(h^4)
+
+### 7.5 Convert Second-Order ODE to First-Order System
+If x&#x27;&#x27; = f(t, x, x&#x27;)
+Let y1 = x, y2 = x&#x27;
+Then y1&#x27; = y2, y2&#x27; = f(t, y1, y2)
+
+### 7.6 Euler Stability Warning
+Explicit Euler can add energy to oscillatory systems even if the true solution is bounded.
+Warn users for SHO, pendulum, orbital systems when h is large.
+
+## 8) PDE Lab
+### 8.1 1D Heat Equation
+ u_t = alpha u_xx
+
+### 8.2 Explicit Finite Difference (Heat)
+ u_i^{n+1} = u_i^n + r (u_{i+1}^n - 2 u_i^n + u_{i-1}^n)
+ r = alpha * dt / dx^2
+Stability (1D): r &lt;= 1/2
+
+### 8.3 1D Wave Equation
+ u_tt = c^2 u_xx
+
+### 8.4 Finite Difference (Wave)
+ u_i^{n+1} = 2 u_i^n - u_i^{n-1} + s^2 (u_{i+1}^n - 2 u_i^n + u_{i-1}^n)
+ s = c * dt / dx
+Stability (1D): s &lt;= 1
+
+### 8.5 1D Diffusion Equation
+ u_t = D u_xx
+Same numerical form as heat equation with alpha replaced by D.
+
+## 9) Statistical Physics / Monte Carlo
+### 9.1 1D Random Walk
+Step length: a, each step +-a
+After N steps:
+ &lt;x&gt; = 0
+ &lt;x^2&gt; = N a^2
+RMS displacement: x_rms = a sqrt(N)
+
+### 9.2 Diffusion Connection
+1D: &lt;x^2&gt; = 2 D t
+2D: &lt;r^2&gt; = 4 D t
+3D: &lt;r^2&gt; = 6 D t
+
+## 10) Unit and Dimension Safety
+- Always compute in SI units.
+- Convert temperatures to Kelvin before use: T(K) = T(C) + 273.15
+- Convert degrees to radians: rad = deg * pi / 180
+- Convert pressures: 1 atm = 101325 Pa, 1 bar = 1e5 Pa
+- Convert volume: 1 L = 1e-3 m^3
+
+## 11) Validation and Sanity Rules (Summary)
+- Energy conservation tests for conservative systems (SHO, pendulum, orbital motion, double pendulum).
+- Entropy should not decrease for irreversible processes.
+- Reject negative Kelvin temperatures, negative absolute pressure, and non-positive arguments in logs.
+- Warn on unstable timesteps for explicit methods.
+
+## 12) Recommended Canonical Model Set (First Wave)
+- Thermo: ideal gas law, isothermal, isochoric, isobaric, reversible adiabatic, polytropic, entropy change, Carnot, Otto, Diesel, Newton cooling, Maxwell-Boltzmann.
+- Mechanics: projectile (no drag, linear drag, quadratic drag), SHM, damped and driven oscillator, simple pendulum (exact and small-angle), double pendulum, circular orbit, escape velocity.
+- Chaos: logistic map, tent map, Lorenz, Duffing.
+- Waves: traveling wave, standing wave, beats, harmonics, Fourier series.
+- EM: point charge E-field and potential, RC, RL, RLC.
+- ODE/PDE: Euler, Heun, RK4, 1D heat equation, 1D wave equation.
+
+## 13) EM Advanced
+### 13.1 Series RLC Impedance
+Z = R + i(omega L - 1/(omega C))
+Magnitude: |Z| = sqrt(R^2 + (omega L - 1/(omega C))^2)
+Phase: phi = atan((omega L - 1/(omega C)) / R)
+Current amplitude: I = V0 / |Z|
+
+### 13.2 Induction (Faraday/Lenz)
+emf = - dPhi_B / dt
+Magnetic flux: Phi_B = integral(B dot dA)
+
+### 13.3 Lorentz Force
+F = q(E + v x B)
+
+## 14) Waves and Interference
+### 14.1 Standing Wave (string)
+y(x,t) = A sin(k x) cos(omega t)
+Nodes at x = n pi / k
+
+### 14.2 Two-source interference (intensity)
+I = I0 (1 + cos(delta_phi)) = 2 I0 cos^2(delta_phi/2)
+Path difference: delta = r2 - r1
+Phase: delta_phi = 2 pi delta / lambda
+
+### 14.3 Beats
+y(t) = 2A cos((delta_omega/2) t) sin(omega_avg t)
+
+## 15) Chaos and Nonlinear Systems
+### 15.1 Logistic Map Lyapunov
+lambda = lim (1/N) sum_{n=1..N} ln |r (1 - 2 x_n)|
+If lambda &gt; 0, chaos is present.
+
+### 15.2 Lorenz System
+dx/dt = sigma (y - x)
+dy/dt = x (rho - z) - y
+dz/dt = x y - beta z
+
+## 16) Quantum Intuition
+### 16.1 Particle in a Box (1D)
+Energy levels: En = n^2 pi^2 hbar^2 / (2 m L^2)
+Wavefunction: psi_n(x) = sqrt(2/L) sin(n pi x / L)
+
+### 16.2 Tunneling (rectangular barrier)
+Transmission (qualitative): T ~ exp(-2 kappa a)
+kappa = sqrt(2 m (V0 - E)) / hbar
+
+## 17) Nonlinear Oscillators and Chaos
+### 17.1 Duffing Oscillator
+x&#x27;&#x27; + delta x&#x27; + alpha x + beta x^3 = gamma cos(omega t)
+
+### 17.2 Driven Pendulum
+theta&#x27;&#x27; + q theta&#x27; + sin(theta) = A cos(omega t)
+
+## 18) Linear Systems
+### 18.1 2D Linear System
+ x&#x27; = a x + b y
+ y&#x27; = c x + d y
+Eigenvalues:
+ lambda = (tr(A) +- sqrt(tr(A)^2 - 4 det(A))) / 2
+
+
+</pre></details></section><!--$--><!--/$--></main><footer class="site-footer"><div class="footer-block"><div class="footer-title">PhysicaX</div><div class="footer-meta">Geist UI, verified formulas, modular labs.</div></div><div class="footer-block"><div class="footer-title">Labs</div><div class="footer-meta">Thermo • Mechanics • Chaos • Waves • EM • ODE/PDE</div></div><div class="footer-block"><div class="footer-title">Infrastructure</div><div class="footer-meta">CFD backend + experiment sharing + formula registry.</div></div></footer></div></div><script src="/_next/static/chunks/webpack-858a2b0e7a648180.js" id="_R_" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:\"$Sreact.fragment\"\n2:I[73592,[\"8500\",\"static/chunks/8500-98e13bcce54aa7a0.js\",\"7882\",\"static/chunks/7882-1671d144bf460571.js\",\"424\",\"static/chunks/424-55e310a32322b1b5.js\",\"7177\",\"static/chunks/app/layout-cd6a997ce3418208.js\"],\"Providers\"]\n3:I[19926,[\"8500\",\"static/chunks/8500-98e13bcce54aa7a0.js\",\"7882\",\"static/chunks/7882-1671d144bf460571.js\",\"424\",\"static/chunks/424-55e310a32322b1b5.js\",\"7177\",\"static/chunks/app/layout-cd6a997ce3418208.js\"],\"SiteHeader\"]\n4:I[64330,[\"8500\",\"static/chunks/8500-98e13bcce54aa7a0.js\",\"7882\",\"static/chunks/7882-1671d144bf460571.js\",\"424\",\"static/chunks/424-55e310a32322b1b5.js\",\"7177\",\"static/chunks/app/layout-cd6a997ce3418208.js\"],\"LabRail\"]\n5:I[57121,[],\"\"]\n6:I[74581,[],\"\"]\n7:I[8390,[\"8500\",\"static/chunks/8500-98e13bcce54aa7a0.js\",\"7882\",\"static/chunks/7882-1671d144bf460571.js\",\"424\",\"static/chunks/424-55e310a32322b1b5.js\",\"7177\",\"static/chunks/app/layout-cd6a997ce3418208.js\"],\"RevealOnScroll\"]\n8:I[73454,[\"424\",\"static/chunks/424-55e310a32322b1b5.js\",\"3424\",\"static/chunks/app/formulas/page-5b924f08b0c2dfe6.js\"],\"LocaleText\"]\n10:I[27123,[],\"\"]\n:HL[\"/_next/static/media/4cf2300e9c8272f7-s.p.woff2\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/woff2\"}]\n:HL[\"/_next/static/media/93f479601ee12b01-s.p.woff2\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/woff2\"}]\n:HL[\"/_next/static/css/d2517bf4f1229e28.css\",\"style\"]\n:HL[\"/_next/static/css/1532f3df2892245d.css\",\"style\"]\n"])</script><script>self.__next_f.push([1,"0:{\"P\":null,\"b\":\"hEBjtYnGSIW4q-pOyZeba\",\"c\":[\"\",\"formulas\"],\"q\":\"\",\"i\":false,\"f\":[[[\"\",{\"children\":[\"formulas\",{\"children\":[\"__PAGE__\",{}]}]},\"$undefined\",\"$undefined\",true],[[\"$\",\"$1\",\"c\",{\"children\":[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d2517bf4f1229e28.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/1532f3df2892245d.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"}]],[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__variable_188709 __variable_9a8899\",\"children\":[\"$\",\"$L2\",null,{\"children\":[[\"$\",\"div\",null,{\"className\":\"bg-grid\",\"aria-hidden\":\"true\"}],[\"$\",\"$L3\",null,{}],[\"$\",\"div\",null,{\"className\":\"app-shell\",\"children\":[[\"$\",\"$L4\",null,{}],[\"$\",\"div\",null,{\"className\":\"app-main\",\"children\":[[\"$\",\"main\",null,{\"className\":\"page\",\"children\":[\"$\",\"$L5\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L6\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":404}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],[]],\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}]}],[\"$\",\"footer\",null,{\"className\":\"site-footer\",\"children\":[[\"$\",\"div\",null,{\"className\":\"footer-block\",\"children\":[[\"$\",\"div\",null,{\"className\":\"footer-title\",\"children\":\"PhysicaX\"}],[\"$\",\"div\",null,{\"className\":\"footer-meta\",\"children\":\"Geist UI, verified formulas, modular labs.\"}]]}],[\"$\",\"div\",null,{\"className\":\"footer-block\",\"children\":[[\"$\",\"div\",null,{\"className\":\"footer-title\",\"children\":\"Labs\"}],[\"$\",\"div\",null,{\"className\":\"footer-meta\",\"children\":\"Thermo • Mechanics • Chaos • Waves • EM • ODE/PDE\"}]]}],[\"$\",\"div\",null,{\"className\":\"footer-block\",\"children\":[[\"$\",\"div\",null,{\"className\":\"footer-title\",\"children\":\"Infrastructure\"}],[\"$\",\"div\",null,{\"className\":\"footer-meta\",\"children\":\"CFD backend + experiment sharing + formula registry.\"}]]}]]}]]}]]}],[\"$\",\"$L7\",null,{}]]}]}]}]]}],{\"children\":[[\"$\",\"$1\",\"c\",{\"children\":[null,[\"$\",\"$L5\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L6\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}]]}],{\"children\":[[\"$\",\"$1\",\"c\",{\"children\":[[[\"$\",\"section\",null,{\"className\":\"section reveal\",\"children\":[[\"$\",\"h2\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaPackTitle\",\"fallback\":\"Formula Reference Pack\"}]}],[\"$\",\"p\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaPackIntro\",\"fallback\":\"This pack is the canonical source of truth for every physics model. It includes equations, assumptions, domains, and validation notes. All formulas are in SI units and use the sign convention W = work done by the system.\"}]}],[\"$\",\"div\",null,{\"className\":\"callout\",\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaPackCallout\",\"fallback\":\"Do not duplicate formulas across files. Use this registry everywhere.\"}]}]]}],[\"$\",\"section\",null,{\"className\":\"section reveal\",\"children\":[[\"$\",\"h2\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaGovernanceTitle\",\"fallback\":\"Formula Governance\"}]}],[\"$\",\"div\",null,{\"className\":\"columns\",\"children\":[[\"$\",\"div\",null,{\"className\":\"column\",\"children\":[[\"$\",\"h3\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaGovernanceRules\",\"fallback\":\"Rules\"}]}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaGovernanceRule1\",\"fallback\":\"One canonical formula per model.\"}]}],[\"$\",\"li\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaGovernanceRule2\",\"fallback\":\"Store assumptions and domain constraints.\"}]}],[\"$\",\"li\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaGovernanceRule3\",\"fallback\":\"Keep formulas in backend, not UI.\"}]}]]}]]}],[\"$\",\"div\",null,{\"className\":\"column\",\"children\":[\"$L9\",\"$La\"]}]]}],\"$Lb\"]}],\"$Lc\",\"$Ld\"],null,\"$Le\"]}],{},null,false,false]},null,false,false]},null,false,false],\"$Lf\",false]],\"m\":\"$undefined\",\"G\":[\"$10\",[]],\"S\":true}\n"])</script><script>self.__next_f.push([1,"11:I[25764,[\"424\",\"static/chunks/424-55e310a32322b1b5.js\",\"3424\",\"static/chunks/app/formulas/page-5b924f08b0c2dfe6.js\"],\"FormulaPackFilter\"]\n14:I[90484,[],\"OutletBoundary\"]\n15:\"$Sreact.suspense\"\n17:I[90484,[],\"ViewportBoundary\"]\n19:I[90484,[],\"MetadataBoundary\"]\n9:[\"$\",\"h3\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaGovernanceValidation\",\"fallback\":\"Validation\"}]}]\na:[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaGovernanceVal1\",\"fallback\":\"At least 3 validation cases per model.\"}]}],[\"$\",\"li\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaGovernanceVal2\",\"fallback\":\"Reference cases, limiting cases, invalid cases.\"}]}],[\"$\",\"li\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaGovernanceVal3\",\"fallback\":\"Energy and entropy constraints where applicable.\"}]}]]}]\nb:[\"$\",\"div\",null,{\"className\":\"diagram\",\"aria-hidden\":\"true\",\"children\":[\"$\",\"svg\",null,{\"viewBox\":\"0 0 900 200\",\"children\":[[\"$\",\"rect\",null,{\"x\":\"20\",\"y\":\"30\",\"width\":\"200\",\"height\":\"60\",\"rx\":\"12\",\"fill\":\"#e8f4f2\"}],[\"$\",\"text\",null,{\"x\":\"120\",\"y\":\"65\",\"textAnchor\":\"middle\",\"fontSize\":\"13\",\"fill\":\"#101820\",\"children\":\"Formula Registry\"}],[\"$\",\"rect\",null,{\"x\":\"240\",\"y\":\"30\",\"width\":\"200\",\"height\":\"60\",\"rx\":\"12\",\"fill\":\"#fbeee6\"}],[\"$\",\"text\",null,{\"x\":\"340\",\"y\":\"65\",\"textAnchor\":\"middle\",\"fontSize\":\"13\",\"fill\":\"#101820\",\"children\":\"Validators\"}],[\"$\",\"rect\",null,{\"x\":\"460\",\"y\":\"30\",\"width\":\"200\",\"height\":\"60\",\"rx\":\"12\",\"fill\":\"#e8f4f2\"}],[\"$\",\"text\",null,{\"x\":\"560\",\"y\":\"65\",\"textAnchor\":\"middle\",\"fontSize\":\"13\",\"fill\":\"#101820\",\"children\":\"Tests\"}],[\"$\",\"rect\",null,{\"x\":\"680\",\"y\":\"30\",\"width\":\"200\",\"height\":\"60\",\"rx\":\"12\",\"fill\":\"#fbeee6\"}],[\"$\",\"text\",null,{\"x\":\"780\",\"y\":\"65\",\"textAnchor\":\"middle\",\"fontSize\":\"13\",\"fill\":\"#101820\",\"children\":\"UI + API\"}],[\"$\",\"line\",null,{\"x1\":\"220\",\"y1\":\"60\",\"x2\":\"240\",\"y2\":\"60\",\"stroke\":\"#101820\",\"strokeWidth\":\"2\"}],[\"$\",\"line\",null,{\"x1\":\"440\",\"y1\":\"60\",\"x2\":\"460\",\"y2\":\"60\",\"stroke\":\"#101820\",\"strokeWidth\":\"2\"}],[\"$\",\"line\",null,{\"x1\":\"660\",\"y1\":\"60\",\"x2\":\"680\",\"y2\":\"60\",\"stroke\":\"#101820\",\"strokeWidth\":\"2\"}]]}]}]\nc:[\"$\",\"section\",null,{\"className\":\"section reveal\",\"children\":[[\"$\",\"h2\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaGlossaryTitle\",\"fallback\":\"Glossary + Context\"}]}],[\"$\",\"div\",null,{\"className\":\"card-grid\",\"children\":[[\"$\",\"div\",null,{\"className\":\"card\",\"children\":[[\"$\",\"h3\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaGlossaryCardTitle\",\"fallback\":\"Scientific Glossary\"}]}],[\"$\",\"p\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/formulas/glossary\",\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaGlossaryCardLink\",\"fallback\":\"Open glossary\"}]}]}]]}],[\"$\",\"div\",null,{\"className\":\"card\",\"children\":[[\"$\",\"h3\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaContextTitle\",\"fallback\":\"Contextual Notes\"}]}],[\"$\",\"p\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaContextBody\",\"fallback\":\"Every formula card includes assumptions and validation cases.\"}]}]]}]]}]]}]\n12:T323a,"])</script><script>self.__next_f.push([1,"﻿# PhysicaX Formula Reference Pack (Corrected)\n\nThis is a cleaned, corrected formula reference based on the guide. All formulas are stated in SI units unless noted.\n\n## 0) Global Rules\n- Keep one canonical source of truth per model.\n- Store assumptions, valid domains, units, and singularities for every formula.\n- Convert inputs to SI, compute in SI, convert outputs only for display.\n- Use explicit sign conventions for work and heat. This pack uses: W = work done by the system.\n\n## 1) Physical Constants (SI)\n- R = 8.314462618 J/(mol*K)\n- kB = 1.380649e-23 J/K\n- g0 = 9.80665 m/s^2\n- G = 6.67430e-11 m^3/(kg*s^2)\n- epsilon0 = 8.8541878128e-12 F/m\n- 1 atm = 101325 Pa\n- 1 bar = 1e5 Pa\n- 1 L = 1e-3 m^3\n\n## 2) ThermoLab\n### 2.1 Ideal Gas Law\nFormula:\nPV = n R T\nAssumptions: ideal gas, equilibrium, macroscopic state.\nDomain: P\u003e0, V\u003e0, T\u003e0, n\u003e0.\n\n### 2.2 Internal Energy (Ideal Gas)\nFormula:\nU = n Cv T\nDeltaU = n Cv (T2 - T1)\nMonatomic ideal gas: Cv = (3/2) R, so U = (3/2) n R T.\n\n### 2.3 Enthalpy (Ideal Gas)\nFormula:\nH = U + P V = n Cp T\nDeltaH = n Cp (T2 - T1)\n\n### 2.4 First Law of Thermodynamics\nConvention: W = work done by the system, Q = heat added to the system.\nFormula:\nDeltaU = Q - W\nQ = DeltaU + W\n\n### 2.5 Isothermal Process (Ideal Gas, Reversible)\nT = const, PV = const\nWork:\nW = n R T ln(V2/V1) = n R T ln(P1/P2)\nDeltaU = 0, so Q = W.\n\n### 2.6 Isochoric Process\nV = const\nW = 0\nQ = DeltaU = n Cv (T2 - T1)\n\n### 2.7 Isobaric Process\nP = const\nW = P (V2 - V1) = n R (T2 - T1)\nQ = n Cp (T2 - T1)\nDeltaU = n Cv (T2 - T1)\n\n### 2.8 Reversible Adiabatic (Ideal Gas)\nQ = 0\nRelations:\nP V^gamma = const\nT V^(gamma-1) = const\nT^gamma P^(1-gamma) = const\nWork:\nW = (P1 V1 - P2 V2) / (gamma - 1) = n Cv (T1 - T2)\n\n### 2.9 Polytropic Process\nP V^m = const\nWork (m != 1):\nW = (P2 V2 - P1 V1) / (1 - m)\nSpecial case m -\u003e 1 (isothermal):\nW = n R T ln(V2/V1)\n\n### 2.10 Entropy Change (Ideal Gas)\nDeltaS = n Cv ln(T2/T1) + n R ln(V2/V1)\nEquivalent form:\nDeltaS = n Cp ln(T2/T1) - n R ln(P2/P1)\nReversible adiabatic: DeltaS = 0.\n\n### 2.11 Carnot Engine\nEfficiency:\neta = 1 - Tc/Th\nTemperatures in Kelvin.\n\n### 2.12 Otto Cycle (Air-Standard)\nCompression ratio: r = V1/V2\nEfficiency:\neta = 1 - 1 / r^(gamma-1)\n\n### 2.13 Diesel Cycle (Air-Standard)\nCompression ratio: r = V1/V2\nCutoff ratio: rho = V3/V2\nEfficiency:\neta = 1 - (1 / r^(gamma-1)) * ((rho^gamma - 1) / (gamma * (rho - 1)))\n\n### 2.14 Brayton Cycle (Ideal)\nPressure ratio: rp = P2/P1\nEfficiency:\neta = 1 - 1 / rp^((gamma-1)/gamma)\n\n### 2.15 Maxwell-Boltzmann Speed Distribution\nDistribution:\n f(v) = 4 pi (m/(2 pi kB T))^(3/2) v^2 exp(-m v^2/(2 kB T))\nCharacteristic speeds:\n v_mp = sqrt(2 kB T / m)\n v_mean = sqrt(8 kB T / (pi m))\n v_rms = sqrt(3 kB T / m)\n\n### 2.16 Boltzmann Factor\nProbability:\n p_i = exp(-E_i/(kB T)) / Z\nPartition function:\n Z = sum_i exp(-E_i/(kB T))\n\n### 2.17 Two-Level System (E0 = 0, E1 = E)\nZ = 1 + exp(-E/(kB T))\np0 = 1/Z\np1 = exp(-E/(kB T)) / Z\nMean energy:\n\u003cE\u003e = E * p1\n\n### 2.18 Newton's Law of Cooling\ndT/dt = -k (T - T_env)\nSolution:\nT(t) = T_env + (T0 - T_env) exp(-k t)\nAssumption: lumped system, constant ambient temperature, k\u003e0.\n\n## 3) MechanicsLab\n### 3.1 Constant Acceleration Kinematics\nx = x0 + v0 t + (1/2) a t^2\nv = v0 + a t\nv^2 = v0^2 + 2 a (x - x0)\n\n### 3.2 Projectile Motion (No Drag)\nx(t) = x0 + v0 cos(theta) t\ny(t) = y0 + v0 sin(theta) t - (1/2) g t^2\nTime of flight (same height): tf = 2 v0 sin(theta) / g\nRange: R = v0^2 sin(2 theta) / g\nMax height: y_max - y0 = v0^2 sin^2(theta) / (2 g)\n\n### 3.3 Linear Drag\nDrag force: Fd = -b v\nEquation of motion: m dv/dt = sumF - b v\nExample vertical motion with gravity:\n v(t) = (v0 + (m g / b)) exp(-(b/m) t) - (m g / b)\nTerminal speed magnitude: v_t = m g / b\n\n### 3.4 Quadratic Drag\nDrag force: Fd = -(1/2) rho Cd A |v| v\nUse numerical integration (RK4 or adaptive).\n\n### 3.5 Newton's Second Law\nsumF = m a\n\n### 3.6 Work\nConstant force: W = F dot Delta x\nVariable force: W = integral(F dot dx)\n\n### 3.7 Kinetic Energy\nK = (1/2) m v^2\n\n### 3.8 Gravitational Potential (Near Earth)\nU = m g h\n\n### 3.9 Spring Potential Energy\nU = (1/2) k x^2\n\n### 3.10 Hooke's Law\nF = -k x\n\n### 3.11 Simple Harmonic Motion (Mass-Spring)\nEquation: x'' + (k/m) x = 0\nomega = sqrt(k/m)\nSolution: x(t) = A cos(omega t + phi)\nPeriod: T = 2 pi / omega\nEnergy: E = (1/2) k A^2\n\n### 3.12 Damped Harmonic Oscillator\nEquation: x'' + 2 gamma x' + omega0^2 x = 0\ngamma = c/(2m), omega0 = sqrt(k/m)\nUnderdamped: gamma \u003c omega0\nCritical: gamma = omega0\nOverdamped: gamma \u003e omega0\n\n### 3.13 Driven Damped Oscillator\nEquation: x'' + 2 gamma x' + omega0^2 x = (F0/m) cos(omega t)\nSteady-state amplitude:\nA = (F0/m) / sqrt((omega0^2 - omega^2)^2 + (2 gamma omega)^2)\nPhase lag:\n tan(delta) = (2 gamma omega) / (omega0^2 - omega^2)\n\n### 3.14 Simple Pendulum (Exact)\nEquation: theta'' + (g/L) sin(theta) = 0\n\n### 3.15 Small-Angle Pendulum\nIf |theta| \u003c\u003c 1 rad, sin(theta) approx theta:\ntheta'' + (g/L) theta = 0\nPeriod: T = 2 pi sqrt(L/g)\n\n### 3.16 Large-Amplitude Pendulum Period\nT = 4 sqrt(L/g) K(k)\nk = sin(theta0/2)\nK is the complete elliptic integral of the first kind.\n\n### 3.17 Double Pendulum (Standard Model)\nUse one canonical implementation derived from the Lagrangian.\nCommon form with delta = theta1 - theta2:\n\ntheta1'' = ( -g(2 m1 + m2) sin(theta1) - m2 g sin(theta1 - 2 theta2)\n            - 2 sin(delta) m2 (theta2'^2 L2 + theta1'^2 L1 cos(delta)) )\n          / ( L1 (2 m1 + m2 - m2 cos(2 delta)) )\n\ntheta2'' = ( 2 sin(delta) ( theta1'^2 L1 (m1 + m2)\n            + g (m1 + m2) cos(theta1) + theta2'^2 L2 m2 cos(delta) ) )\n          / ( L2 (2 m1 + m2 - m2 cos(2 delta)) )\n\nTest energy conservation when damping = 0.\n\n### 3.18 Universal Gravitation\nMagnitude: F = G m1 m2 / r^2\nVector: F12 = -G m1 m2 / r^3 * r_vec\n\n### 3.19 Circular Orbit\nv = sqrt(G M / r)\nPeriod: T = 2 pi sqrt(r^3 / (G M))\n\n### 3.20 Escape Velocity\nv_esc = sqrt(2 G M / r)\n\n### 3.21 Orbital Energy (Specific)\nepsilon = v^2/2 - G M / r\nFor bound ellipse: epsilon = -G M / (2 a)\n\n## 4) ChaosLab\n### 4.1 Logistic Map\nx_{n+1} = r x_n (1 - x_n)\nTypical domain: 0 \u003c= x_n \u003c= 1, 0 \u003c= r \u003c= 4\nFixed points: x* = 0, x* = 1 - 1/r (r\u003e1)\nStability: |f'(x*)| \u003c 1\n\n### 4.2 Lyapunov Exponent (1D Map)\nlambda = lim_{N-\u003einf} (1/N) sum_{n=0}^{N-1} ln |f'(x_n)|\nFor logistic map: f'(x) = r (1 - 2 x)\n\n### 4.3 Tent Map\nx_{n+1} = r x_n, for x_n \u003c 1/2\nx_{n+1} = r (1 - x_n), for x_n \u003e= 1/2\nTypical r in [0, 2].\n\n### 4.4 Lorenz System\nx' = sigma (y - x)\ny' = x (rho - z) - y\nz' = x y - beta z\nClassic parameters: sigma = 10, rho = 28, beta = 8/3\n\n### 4.5 Rossler System\nx' = -y - z\ny' = x + a y\nz' = b + z (x - c)\nTypical parameters: a = 0.2, b = 0.2, c = 5.7\n\n### 4.6 Duffing Oscillator\nx'' + delta x' + alpha x + beta x^3 = gamma cos(omega t)\n\n## 5) WaveLab\n### 5.1 Traveling Wave\ny(x,t) = A sin(k x - omega t + phi)\nWave speed: v = omega / k\nk = 2 pi / lambda, omega = 2 pi f\n\n### 5.2 Standing Wave\ny(x,t) = 2 A sin(k x) cos(omega t)\n\n### 5.3 Beats\nA cos(omega1 t) + A cos(omega2 t) =\n2 A cos((omega1 - omega2) t / 2) cos((omega1 + omega2) t / 2)\nBeat frequency: f_beat = |f1 - f2|\n\n### 5.4 String Wave Speed\nv = sqrt(T / mu)\nT = tension, mu = linear mass density\n\n### 5.5 Harmonics on String (Both Ends Fixed)\nf_n = n v / (2 L), n = 1,2,3...\n\n### 5.6 Air Columns\nOpen-open or closed-closed:\n f_n = n v / (2 L)\nOpen-closed:\n f_n = (2 n - 1) v / (4 L), n = 1,2,3...\n\n### 5.7 Fourier Series (Period 2L)\nf(x) = a0/2 + sum_{n=1}^inf [a_n cos(n pi x / L) + b_n sin(n pi x / L)]\nCoefficients:\n a_n = (1/L) * integral_{-L}^{L} f(x) cos(n pi x / L) dx\n b_n = (1/L) * integral_{-L}^{L} f(x) sin(n pi x / L) dx\n\n## 6) EMLab\n### 6.1 Coulomb's Law\nF = (1/(4 pi epsilon0)) * (q1 q2 / r^2) r_hat\nk = 1/(4 pi epsilon0)\n\n### 6.2 Electric Field of a Point Charge\nE = k q / r^2 r_hat\n\n### 6.3 Electric Potential of a Point Charge\nV = k q / r\n\n### 6.4 Potential Energy of Two Charges\nU = k q1 q2 / r\n\n### 6.5 Parallel-Plate Capacitor\nC = epsilon0 A / d (vacuum)\nEnergy:\nU = (1/2) C V^2 = Q^2/(2 C) = (1/2) Q V\n\n### 6.6 RC Circuit\nCharging:\n q(t) = C V (1 - exp(-t/(R C)))\n i(t) = (V/R) exp(-t/(R C))\nDischarging:\n q(t) = Q0 exp(-t/(R C))\n i(t) = -(Q0/(R C)) exp(-t/(R C))\nTime constant: tau = R C\n\n### 6.7 RL Circuit\nGrowth:\n i(t) = (V/R) (1 - exp(-t/(L/R)))\nDecay:\n i(t) = I0 exp(-t/(L/R))\nTime constant: tau = L/R\n\n### 6.8 RLC Circuit (Series)\nCharge equation:\n L q'' + R q' + (1/C) q = V(t)\nNatural frequency (ideal):\n omega0 = 1 / sqrt(L C)\n\n## 7) ODE Lab (Numerical Methods)\n### 7.1 First-Order ODE\n dy/dt = f(t, y)\n\n### 7.2 Euler Method\n y_{n+1} = y_n + h f(t_n, y_n)\nGlobal error O(h), local truncation O(h^2)\n\n### 7.3 Heun (Improved Euler)\n Predictor: y* = y_n + h f(t_n, y_n)\n Corrector: y_{n+1} = y_n + (h/2) [f(t_n, y_n) + f(t_{n+1}, y*)]\nGlobal error O(h^2)\n\n### 7.4 RK4\n k1 = f(t_n, y_n)\n k2 = f(t_n + h/2, y_n + h k1/2)\n k3 = f(t_n + h/2, y_n + h k2/2)\n k4 = f(t_n + h, y_n + h k3)\n y_{n+1} = y_n + (h/6)(k1 + 2 k2 + 2 k3 + k4)\nGlobal error O(h^4)\n\n### 7.5 Convert Second-Order ODE to First-Order System\nIf x'' = f(t, x, x')\nLet y1 = x, y2 = x'\nThen y1' = y2, y2' = f(t, y1, y2)\n\n### 7.6 Euler Stability Warning\nExplicit Euler can add energy to oscillatory systems even if the true solution is bounded.\nWarn users for SHO, pendulum, orbital systems when h is large.\n\n## 8) PDE Lab\n### 8.1 1D Heat Equation\n u_t = alpha u_xx\n\n### 8.2 Explicit Finite Difference (Heat)\n u_i^{n+1} = u_i^n + r (u_{i+1}^n - 2 u_i^n + u_{i-1}^n)\n r = alpha * dt / dx^2\nStability (1D): r \u003c= 1/2\n\n### 8.3 1D Wave Equation\n u_tt = c^2 u_xx\n\n### 8.4 Finite Difference (Wave)\n u_i^{n+1} = 2 u_i^n - u_i^{n-1} + s^2 (u_{i+1}^n - 2 u_i^n + u_{i-1}^n)\n s = c * dt / dx\nStability (1D): s \u003c= 1\n\n### 8.5 1D Diffusion Equation\n u_t = D u_xx\nSame numerical form as heat equation with alpha replaced by D.\n\n## 9) Statistical Physics / Monte Carlo\n### 9.1 1D Random Walk\nStep length: a, each step +-a\nAfter N steps:\n \u003cx\u003e = 0\n \u003cx^2\u003e = N a^2\nRMS displacement: x_rms = a sqrt(N)\n\n### 9.2 Diffusion Connection\n1D: \u003cx^2\u003e = 2 D t\n2D: \u003cr^2\u003e = 4 D t\n3D: \u003cr^2\u003e = 6 D t\n\n## 10) Unit and Dimension Safety\n- Always compute in SI units.\n- Convert temperatures to Kelvin before use: T(K) = T(C) + 273.15\n- Convert degrees to radians: rad = deg * pi / 180\n- Convert pressures: 1 atm = 101325 Pa, 1 bar = 1e5 Pa\n- Convert volume: 1 L = 1e-3 m^3\n\n## 11) Validation and Sanity Rules (Summary)\n- Energy conservation tests for conservative systems (SHO, pendulum, orbital motion, double pendulum).\n- Entropy should not decrease for irreversible processes.\n- Reject negative Kelvin temperatures, negative absolute pressure, and non-positive arguments in logs.\n- Warn on unstable timesteps for explicit methods.\n\n## 12) Recommended Canonical Model Set (First Wave)\n- Thermo: ideal gas law, isothermal, isochoric, isobaric, reversible adiabatic, polytropic, entropy change, Carnot, Otto, Diesel, Newton cooling, Maxwell-Boltzmann.\n- Mechanics: projectile (no drag, linear drag, quadratic drag), SHM, damped and driven oscillator, simple pendulum (exact and small-angle), double pendulum, circular orbit, escape velocity.\n- Chaos: logistic map, tent map, Lorenz, Duffing.\n- Waves: traveling wave, standing wave, beats, harmonics, Fourier series.\n- EM: point charge E-field and potential, RC, RL, RLC.\n- ODE/PDE: Euler, Heun, RK4, 1D heat equation, 1D wave equation.\n\n## 13) EM Advanced\n### 13.1 Series RLC Impedance\nZ = R + i(omega L - 1/(omega C))\nMagnitude: |Z| = sqrt(R^2 + (omega L - 1/(omega C))^2)\nPhase: phi = atan((omega L - 1/(omega C)) / R)\nCurrent amplitude: I = V0 / |Z|\n\n### 13.2 Induction (Faraday/Lenz)\nemf = - dPhi_B / dt\nMagnetic flux: Phi_B = integral(B dot dA)\n\n### 13.3 Lorentz Force\nF = q(E + v x B)\n\n## 14) Waves and Interference\n### 14.1 Standing Wave (string)\ny(x,t) = A sin(k x) cos(omega t)\nNodes at x = n pi / k\n\n### 14.2 Two-source interference (intensity)\nI = I0 (1 + cos(delta_phi)) = 2 I0 cos^2(delta_phi/2)\nPath difference: delta = r2 - r1\nPhase: delta_phi = 2 pi delta / lambda\n\n### 14.3 Beats\ny(t) = 2A cos((delta_omega/2) t) sin(omega_avg t)\n\n## 15) Chaos and Nonlinear Systems\n### 15.1 Logistic Map Lyapunov\nlambda = lim (1/N) sum_{n=1..N} ln |r (1 - 2 x_n)|\nIf lambda \u003e 0, chaos is present.\n\n### 15.2 Lorenz System\ndx/dt = sigma (y - x)\ndy/dt = x (rho - z) - y\ndz/dt = x y - beta z\n\n## 16) Quantum Intuition\n### 16.1 Particle in a Box (1D)\nEnergy levels: En = n^2 pi^2 hbar^2 / (2 m L^2)\nWavefunction: psi_n(x) = sqrt(2/L) sin(n pi x / L)\n\n### 16.2 Tunneling (rectangular barrier)\nTransmission (qualitative): T ~ exp(-2 kappa a)\nkappa = sqrt(2 m (V0 - E)) / hbar\n\n## 17) Nonlinear Oscillators and Chaos\n### 17.1 Duffing Oscillator\nx'' + delta x' + alpha x + beta x^3 = gamma cos(omega t)\n\n### 17.2 Driven Pendulum\ntheta'' + q theta' + sin(theta) = A cos(omega t)\n\n## 18) Linear Systems\n### 18.1 2D Linear System\n x' = a x + b y\n y' = c x + d y\nEigenvalues:\n lambda = (tr(A) +- sqrt(tr(A)^2 - 4 det(A))) / 2\n\r\n\r\n"])</script><script>self.__next_f.push([1,"d:[\"$\",\"section\",null,{\"className\":\"section reveal\",\"children\":[[\"$\",\"h2\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaPackFullTitle\",\"fallback\":\"Full Corrected Formula Pack\"}]}],[\"$\",\"$L11\",null,{\"text\":\"$12\"}],\"$L13\"]}]\ne:[\"$\",\"$L14\",null,{\"children\":[\"$\",\"$15\",null,{\"name\":\"Next.MetadataOutlet\",\"children\":\"$@16\"}]}]\nf:[\"$\",\"$1\",\"h\",{\"children\":[null,[\"$\",\"$L17\",null,{\"children\":\"$L18\"}],[\"$\",\"div\",null,{\"hidden\":true,\"children\":[\"$\",\"$L19\",null,{\"children\":[\"$\",\"$15\",null,{\"name\":\"Next.Metadata\",\"children\":\"$L1a\"}]}]}],[\"$\",\"meta\",null,{\"name\":\"next-size-adjust\",\"content\":\"\"}]]}]\n"])</script><script>self.__next_f.push([1,"1b:T323a,"])</script><script>self.__next_f.push([1,"﻿# PhysicaX Formula Reference Pack (Corrected)\n\nThis is a cleaned, corrected formula reference based on the guide. All formulas are stated in SI units unless noted.\n\n## 0) Global Rules\n- Keep one canonical source of truth per model.\n- Store assumptions, valid domains, units, and singularities for every formula.\n- Convert inputs to SI, compute in SI, convert outputs only for display.\n- Use explicit sign conventions for work and heat. This pack uses: W = work done by the system.\n\n## 1) Physical Constants (SI)\n- R = 8.314462618 J/(mol*K)\n- kB = 1.380649e-23 J/K\n- g0 = 9.80665 m/s^2\n- G = 6.67430e-11 m^3/(kg*s^2)\n- epsilon0 = 8.8541878128e-12 F/m\n- 1 atm = 101325 Pa\n- 1 bar = 1e5 Pa\n- 1 L = 1e-3 m^3\n\n## 2) ThermoLab\n### 2.1 Ideal Gas Law\nFormula:\nPV = n R T\nAssumptions: ideal gas, equilibrium, macroscopic state.\nDomain: P\u003e0, V\u003e0, T\u003e0, n\u003e0.\n\n### 2.2 Internal Energy (Ideal Gas)\nFormula:\nU = n Cv T\nDeltaU = n Cv (T2 - T1)\nMonatomic ideal gas: Cv = (3/2) R, so U = (3/2) n R T.\n\n### 2.3 Enthalpy (Ideal Gas)\nFormula:\nH = U + P V = n Cp T\nDeltaH = n Cp (T2 - T1)\n\n### 2.4 First Law of Thermodynamics\nConvention: W = work done by the system, Q = heat added to the system.\nFormula:\nDeltaU = Q - W\nQ = DeltaU + W\n\n### 2.5 Isothermal Process (Ideal Gas, Reversible)\nT = const, PV = const\nWork:\nW = n R T ln(V2/V1) = n R T ln(P1/P2)\nDeltaU = 0, so Q = W.\n\n### 2.6 Isochoric Process\nV = const\nW = 0\nQ = DeltaU = n Cv (T2 - T1)\n\n### 2.7 Isobaric Process\nP = const\nW = P (V2 - V1) = n R (T2 - T1)\nQ = n Cp (T2 - T1)\nDeltaU = n Cv (T2 - T1)\n\n### 2.8 Reversible Adiabatic (Ideal Gas)\nQ = 0\nRelations:\nP V^gamma = const\nT V^(gamma-1) = const\nT^gamma P^(1-gamma) = const\nWork:\nW = (P1 V1 - P2 V2) / (gamma - 1) = n Cv (T1 - T2)\n\n### 2.9 Polytropic Process\nP V^m = const\nWork (m != 1):\nW = (P2 V2 - P1 V1) / (1 - m)\nSpecial case m -\u003e 1 (isothermal):\nW = n R T ln(V2/V1)\n\n### 2.10 Entropy Change (Ideal Gas)\nDeltaS = n Cv ln(T2/T1) + n R ln(V2/V1)\nEquivalent form:\nDeltaS = n Cp ln(T2/T1) - n R ln(P2/P1)\nReversible adiabatic: DeltaS = 0.\n\n### 2.11 Carnot Engine\nEfficiency:\neta = 1 - Tc/Th\nTemperatures in Kelvin.\n\n### 2.12 Otto Cycle (Air-Standard)\nCompression ratio: r = V1/V2\nEfficiency:\neta = 1 - 1 / r^(gamma-1)\n\n### 2.13 Diesel Cycle (Air-Standard)\nCompression ratio: r = V1/V2\nCutoff ratio: rho = V3/V2\nEfficiency:\neta = 1 - (1 / r^(gamma-1)) * ((rho^gamma - 1) / (gamma * (rho - 1)))\n\n### 2.14 Brayton Cycle (Ideal)\nPressure ratio: rp = P2/P1\nEfficiency:\neta = 1 - 1 / rp^((gamma-1)/gamma)\n\n### 2.15 Maxwell-Boltzmann Speed Distribution\nDistribution:\n f(v) = 4 pi (m/(2 pi kB T))^(3/2) v^2 exp(-m v^2/(2 kB T))\nCharacteristic speeds:\n v_mp = sqrt(2 kB T / m)\n v_mean = sqrt(8 kB T / (pi m))\n v_rms = sqrt(3 kB T / m)\n\n### 2.16 Boltzmann Factor\nProbability:\n p_i = exp(-E_i/(kB T)) / Z\nPartition function:\n Z = sum_i exp(-E_i/(kB T))\n\n### 2.17 Two-Level System (E0 = 0, E1 = E)\nZ = 1 + exp(-E/(kB T))\np0 = 1/Z\np1 = exp(-E/(kB T)) / Z\nMean energy:\n\u003cE\u003e = E * p1\n\n### 2.18 Newton's Law of Cooling\ndT/dt = -k (T - T_env)\nSolution:\nT(t) = T_env + (T0 - T_env) exp(-k t)\nAssumption: lumped system, constant ambient temperature, k\u003e0.\n\n## 3) MechanicsLab\n### 3.1 Constant Acceleration Kinematics\nx = x0 + v0 t + (1/2) a t^2\nv = v0 + a t\nv^2 = v0^2 + 2 a (x - x0)\n\n### 3.2 Projectile Motion (No Drag)\nx(t) = x0 + v0 cos(theta) t\ny(t) = y0 + v0 sin(theta) t - (1/2) g t^2\nTime of flight (same height): tf = 2 v0 sin(theta) / g\nRange: R = v0^2 sin(2 theta) / g\nMax height: y_max - y0 = v0^2 sin^2(theta) / (2 g)\n\n### 3.3 Linear Drag\nDrag force: Fd = -b v\nEquation of motion: m dv/dt = sumF - b v\nExample vertical motion with gravity:\n v(t) = (v0 + (m g / b)) exp(-(b/m) t) - (m g / b)\nTerminal speed magnitude: v_t = m g / b\n\n### 3.4 Quadratic Drag\nDrag force: Fd = -(1/2) rho Cd A |v| v\nUse numerical integration (RK4 or adaptive).\n\n### 3.5 Newton's Second Law\nsumF = m a\n\n### 3.6 Work\nConstant force: W = F dot Delta x\nVariable force: W = integral(F dot dx)\n\n### 3.7 Kinetic Energy\nK = (1/2) m v^2\n\n### 3.8 Gravitational Potential (Near Earth)\nU = m g h\n\n### 3.9 Spring Potential Energy\nU = (1/2) k x^2\n\n### 3.10 Hooke's Law\nF = -k x\n\n### 3.11 Simple Harmonic Motion (Mass-Spring)\nEquation: x'' + (k/m) x = 0\nomega = sqrt(k/m)\nSolution: x(t) = A cos(omega t + phi)\nPeriod: T = 2 pi / omega\nEnergy: E = (1/2) k A^2\n\n### 3.12 Damped Harmonic Oscillator\nEquation: x'' + 2 gamma x' + omega0^2 x = 0\ngamma = c/(2m), omega0 = sqrt(k/m)\nUnderdamped: gamma \u003c omega0\nCritical: gamma = omega0\nOverdamped: gamma \u003e omega0\n\n### 3.13 Driven Damped Oscillator\nEquation: x'' + 2 gamma x' + omega0^2 x = (F0/m) cos(omega t)\nSteady-state amplitude:\nA = (F0/m) / sqrt((omega0^2 - omega^2)^2 + (2 gamma omega)^2)\nPhase lag:\n tan(delta) = (2 gamma omega) / (omega0^2 - omega^2)\n\n### 3.14 Simple Pendulum (Exact)\nEquation: theta'' + (g/L) sin(theta) = 0\n\n### 3.15 Small-Angle Pendulum\nIf |theta| \u003c\u003c 1 rad, sin(theta) approx theta:\ntheta'' + (g/L) theta = 0\nPeriod: T = 2 pi sqrt(L/g)\n\n### 3.16 Large-Amplitude Pendulum Period\nT = 4 sqrt(L/g) K(k)\nk = sin(theta0/2)\nK is the complete elliptic integral of the first kind.\n\n### 3.17 Double Pendulum (Standard Model)\nUse one canonical implementation derived from the Lagrangian.\nCommon form with delta = theta1 - theta2:\n\ntheta1'' = ( -g(2 m1 + m2) sin(theta1) - m2 g sin(theta1 - 2 theta2)\n            - 2 sin(delta) m2 (theta2'^2 L2 + theta1'^2 L1 cos(delta)) )\n          / ( L1 (2 m1 + m2 - m2 cos(2 delta)) )\n\ntheta2'' = ( 2 sin(delta) ( theta1'^2 L1 (m1 + m2)\n            + g (m1 + m2) cos(theta1) + theta2'^2 L2 m2 cos(delta) ) )\n          / ( L2 (2 m1 + m2 - m2 cos(2 delta)) )\n\nTest energy conservation when damping = 0.\n\n### 3.18 Universal Gravitation\nMagnitude: F = G m1 m2 / r^2\nVector: F12 = -G m1 m2 / r^3 * r_vec\n\n### 3.19 Circular Orbit\nv = sqrt(G M / r)\nPeriod: T = 2 pi sqrt(r^3 / (G M))\n\n### 3.20 Escape Velocity\nv_esc = sqrt(2 G M / r)\n\n### 3.21 Orbital Energy (Specific)\nepsilon = v^2/2 - G M / r\nFor bound ellipse: epsilon = -G M / (2 a)\n\n## 4) ChaosLab\n### 4.1 Logistic Map\nx_{n+1} = r x_n (1 - x_n)\nTypical domain: 0 \u003c= x_n \u003c= 1, 0 \u003c= r \u003c= 4\nFixed points: x* = 0, x* = 1 - 1/r (r\u003e1)\nStability: |f'(x*)| \u003c 1\n\n### 4.2 Lyapunov Exponent (1D Map)\nlambda = lim_{N-\u003einf} (1/N) sum_{n=0}^{N-1} ln |f'(x_n)|\nFor logistic map: f'(x) = r (1 - 2 x)\n\n### 4.3 Tent Map\nx_{n+1} = r x_n, for x_n \u003c 1/2\nx_{n+1} = r (1 - x_n), for x_n \u003e= 1/2\nTypical r in [0, 2].\n\n### 4.4 Lorenz System\nx' = sigma (y - x)\ny' = x (rho - z) - y\nz' = x y - beta z\nClassic parameters: sigma = 10, rho = 28, beta = 8/3\n\n### 4.5 Rossler System\nx' = -y - z\ny' = x + a y\nz' = b + z (x - c)\nTypical parameters: a = 0.2, b = 0.2, c = 5.7\n\n### 4.6 Duffing Oscillator\nx'' + delta x' + alpha x + beta x^3 = gamma cos(omega t)\n\n## 5) WaveLab\n### 5.1 Traveling Wave\ny(x,t) = A sin(k x - omega t + phi)\nWave speed: v = omega / k\nk = 2 pi / lambda, omega = 2 pi f\n\n### 5.2 Standing Wave\ny(x,t) = 2 A sin(k x) cos(omega t)\n\n### 5.3 Beats\nA cos(omega1 t) + A cos(omega2 t) =\n2 A cos((omega1 - omega2) t / 2) cos((omega1 + omega2) t / 2)\nBeat frequency: f_beat = |f1 - f2|\n\n### 5.4 String Wave Speed\nv = sqrt(T / mu)\nT = tension, mu = linear mass density\n\n### 5.5 Harmonics on String (Both Ends Fixed)\nf_n = n v / (2 L), n = 1,2,3...\n\n### 5.6 Air Columns\nOpen-open or closed-closed:\n f_n = n v / (2 L)\nOpen-closed:\n f_n = (2 n - 1) v / (4 L), n = 1,2,3...\n\n### 5.7 Fourier Series (Period 2L)\nf(x) = a0/2 + sum_{n=1}^inf [a_n cos(n pi x / L) + b_n sin(n pi x / L)]\nCoefficients:\n a_n = (1/L) * integral_{-L}^{L} f(x) cos(n pi x / L) dx\n b_n = (1/L) * integral_{-L}^{L} f(x) sin(n pi x / L) dx\n\n## 6) EMLab\n### 6.1 Coulomb's Law\nF = (1/(4 pi epsilon0)) * (q1 q2 / r^2) r_hat\nk = 1/(4 pi epsilon0)\n\n### 6.2 Electric Field of a Point Charge\nE = k q / r^2 r_hat\n\n### 6.3 Electric Potential of a Point Charge\nV = k q / r\n\n### 6.4 Potential Energy of Two Charges\nU = k q1 q2 / r\n\n### 6.5 Parallel-Plate Capacitor\nC = epsilon0 A / d (vacuum)\nEnergy:\nU = (1/2) C V^2 = Q^2/(2 C) = (1/2) Q V\n\n### 6.6 RC Circuit\nCharging:\n q(t) = C V (1 - exp(-t/(R C)))\n i(t) = (V/R) exp(-t/(R C))\nDischarging:\n q(t) = Q0 exp(-t/(R C))\n i(t) = -(Q0/(R C)) exp(-t/(R C))\nTime constant: tau = R C\n\n### 6.7 RL Circuit\nGrowth:\n i(t) = (V/R) (1 - exp(-t/(L/R)))\nDecay:\n i(t) = I0 exp(-t/(L/R))\nTime constant: tau = L/R\n\n### 6.8 RLC Circuit (Series)\nCharge equation:\n L q'' + R q' + (1/C) q = V(t)\nNatural frequency (ideal):\n omega0 = 1 / sqrt(L C)\n\n## 7) ODE Lab (Numerical Methods)\n### 7.1 First-Order ODE\n dy/dt = f(t, y)\n\n### 7.2 Euler Method\n y_{n+1} = y_n + h f(t_n, y_n)\nGlobal error O(h), local truncation O(h^2)\n\n### 7.3 Heun (Improved Euler)\n Predictor: y* = y_n + h f(t_n, y_n)\n Corrector: y_{n+1} = y_n + (h/2) [f(t_n, y_n) + f(t_{n+1}, y*)]\nGlobal error O(h^2)\n\n### 7.4 RK4\n k1 = f(t_n, y_n)\n k2 = f(t_n + h/2, y_n + h k1/2)\n k3 = f(t_n + h/2, y_n + h k2/2)\n k4 = f(t_n + h, y_n + h k3)\n y_{n+1} = y_n + (h/6)(k1 + 2 k2 + 2 k3 + k4)\nGlobal error O(h^4)\n\n### 7.5 Convert Second-Order ODE to First-Order System\nIf x'' = f(t, x, x')\nLet y1 = x, y2 = x'\nThen y1' = y2, y2' = f(t, y1, y2)\n\n### 7.6 Euler Stability Warning\nExplicit Euler can add energy to oscillatory systems even if the true solution is bounded.\nWarn users for SHO, pendulum, orbital systems when h is large.\n\n## 8) PDE Lab\n### 8.1 1D Heat Equation\n u_t = alpha u_xx\n\n### 8.2 Explicit Finite Difference (Heat)\n u_i^{n+1} = u_i^n + r (u_{i+1}^n - 2 u_i^n + u_{i-1}^n)\n r = alpha * dt / dx^2\nStability (1D): r \u003c= 1/2\n\n### 8.3 1D Wave Equation\n u_tt = c^2 u_xx\n\n### 8.4 Finite Difference (Wave)\n u_i^{n+1} = 2 u_i^n - u_i^{n-1} + s^2 (u_{i+1}^n - 2 u_i^n + u_{i-1}^n)\n s = c * dt / dx\nStability (1D): s \u003c= 1\n\n### 8.5 1D Diffusion Equation\n u_t = D u_xx\nSame numerical form as heat equation with alpha replaced by D.\n\n## 9) Statistical Physics / Monte Carlo\n### 9.1 1D Random Walk\nStep length: a, each step +-a\nAfter N steps:\n \u003cx\u003e = 0\n \u003cx^2\u003e = N a^2\nRMS displacement: x_rms = a sqrt(N)\n\n### 9.2 Diffusion Connection\n1D: \u003cx^2\u003e = 2 D t\n2D: \u003cr^2\u003e = 4 D t\n3D: \u003cr^2\u003e = 6 D t\n\n## 10) Unit and Dimension Safety\n- Always compute in SI units.\n- Convert temperatures to Kelvin before use: T(K) = T(C) + 273.15\n- Convert degrees to radians: rad = deg * pi / 180\n- Convert pressures: 1 atm = 101325 Pa, 1 bar = 1e5 Pa\n- Convert volume: 1 L = 1e-3 m^3\n\n## 11) Validation and Sanity Rules (Summary)\n- Energy conservation tests for conservative systems (SHO, pendulum, orbital motion, double pendulum).\n- Entropy should not decrease for irreversible processes.\n- Reject negative Kelvin temperatures, negative absolute pressure, and non-positive arguments in logs.\n- Warn on unstable timesteps for explicit methods.\n\n## 12) Recommended Canonical Model Set (First Wave)\n- Thermo: ideal gas law, isothermal, isochoric, isobaric, reversible adiabatic, polytropic, entropy change, Carnot, Otto, Diesel, Newton cooling, Maxwell-Boltzmann.\n- Mechanics: projectile (no drag, linear drag, quadratic drag), SHM, damped and driven oscillator, simple pendulum (exact and small-angle), double pendulum, circular orbit, escape velocity.\n- Chaos: logistic map, tent map, Lorenz, Duffing.\n- Waves: traveling wave, standing wave, beats, harmonics, Fourier series.\n- EM: point charge E-field and potential, RC, RL, RLC.\n- ODE/PDE: Euler, Heun, RK4, 1D heat equation, 1D wave equation.\n\n## 13) EM Advanced\n### 13.1 Series RLC Impedance\nZ = R + i(omega L - 1/(omega C))\nMagnitude: |Z| = sqrt(R^2 + (omega L - 1/(omega C))^2)\nPhase: phi = atan((omega L - 1/(omega C)) / R)\nCurrent amplitude: I = V0 / |Z|\n\n### 13.2 Induction (Faraday/Lenz)\nemf = - dPhi_B / dt\nMagnetic flux: Phi_B = integral(B dot dA)\n\n### 13.3 Lorentz Force\nF = q(E + v x B)\n\n## 14) Waves and Interference\n### 14.1 Standing Wave (string)\ny(x,t) = A sin(k x) cos(omega t)\nNodes at x = n pi / k\n\n### 14.2 Two-source interference (intensity)\nI = I0 (1 + cos(delta_phi)) = 2 I0 cos^2(delta_phi/2)\nPath difference: delta = r2 - r1\nPhase: delta_phi = 2 pi delta / lambda\n\n### 14.3 Beats\ny(t) = 2A cos((delta_omega/2) t) sin(omega_avg t)\n\n## 15) Chaos and Nonlinear Systems\n### 15.1 Logistic Map Lyapunov\nlambda = lim (1/N) sum_{n=1..N} ln |r (1 - 2 x_n)|\nIf lambda \u003e 0, chaos is present.\n\n### 15.2 Lorenz System\ndx/dt = sigma (y - x)\ndy/dt = x (rho - z) - y\ndz/dt = x y - beta z\n\n## 16) Quantum Intuition\n### 16.1 Particle in a Box (1D)\nEnergy levels: En = n^2 pi^2 hbar^2 / (2 m L^2)\nWavefunction: psi_n(x) = sqrt(2/L) sin(n pi x / L)\n\n### 16.2 Tunneling (rectangular barrier)\nTransmission (qualitative): T ~ exp(-2 kappa a)\nkappa = sqrt(2 m (V0 - E)) / hbar\n\n## 17) Nonlinear Oscillators and Chaos\n### 17.1 Duffing Oscillator\nx'' + delta x' + alpha x + beta x^3 = gamma cos(omega t)\n\n### 17.2 Driven Pendulum\ntheta'' + q theta' + sin(theta) = A cos(omega t)\n\n## 18) Linear Systems\n### 18.1 2D Linear System\n x' = a x + b y\n y' = c x + d y\nEigenvalues:\n lambda = (tr(A) +- sqrt(tr(A)^2 - 4 det(A))) / 2\n\r\n\r\n"])</script><script>self.__next_f.push([1,"13:[\"$\",\"details\",null,{\"className\":\"details-block\",\"open\":true,\"children\":[[\"$\",\"summary\",null,{\"children\":[\"$\",\"$L8\",null,{\"id\":\"formulaRegistrySummary\",\"fallback\":\"Open formula registry text\"}]}],[\"$\",\"pre\",null,{\"className\":\"ocr\",\"children\":\"$1b\"}]]}]\n"])</script><script>self.__next_f.push([1,"18:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"meta\",\"1\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}]]\n"])</script><script>self.__next_f.push([1,"16:null\n1a:[[\"$\",\"title\",\"0\",{\"children\":\"PhysicaX - Physics Workspace\"}],[\"$\",\"meta\",\"1\",{\"name\":\"description\",\"content\":\"Local-first computational physics workspace with guided labs, desktop tooling, and CFD workflows.\"}]]\n"])</script></body></html>

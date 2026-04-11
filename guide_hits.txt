@@ -1,0 +1,183 @@
+0048 ThermoLab: ThermoLab
+0049 MechanicsLab: MechanicsLab
+0050 ChaosLab: ChaosLab
+0051 WaveLab: WaveLab
+0052 EMLab: EMLab
+0053 ODE/PDE: ODE/PDE Lab
+0054 Statistical: Statistical Physics Lab
+0056 Quantum: Quantum Intuition Lab (optional later)
+0258 Heat Transfer: B6. Heat Transfer Lab
+0270 Statistical: B7. Statistical Physics Mini-Lab
+0272 Boltzmann: Maxwell–Boltzmann speed distribution
+0275 Boltzmann: Boltzmann factor explorer
+0283 Monte Carlo: Monte Carlo equilibrium toy systems
+0290 Projectile: Projectile with drag
+0291 Projectile: Projectile with quadratic drag
+0292 Projectile: Projectile with wind
+0321 Pendulum: C4. Pendulum Suite
+0398 Wave: E1. Basic Wave Models
+0421 Fourier: E4. Fourier & Signal Decomposition
+0422 Fourier: Fourier series explorer
+0429 Circuits: F. EMLAB (Electricity, Magnetism, Circuits) — FULL VERSION
+0440 Circuits: F2. Circuits
+0457 ODE/PDE: G. ODE/PDE LAB — FULL VERSION
+0486 Wave: Wave equation
+0516 Monte Carlo: H2. Monte Carlo Lab
+0519 Boltzmann: Boltzmann-weighted sampling
+0708 Pendulum: Pendulum
+0737 ODE/PDE: numerical ODE/PDE
+0915 Monte Carlo: Monte Carlo
+1083 ThermoLab: PHASE 2 — ThermoLab v1
+1092 Boltzmann: Maxwell-Boltzmann basic
+1094 MechanicsLab: PHASE 3 — MechanicsLab v1
+1104 ChaosLab: PHASE 4 — ChaosLab v1
+1164 WaveLab: PHASE 10 — WaveLab
+1170 Fourier: Fourier series explorer
+1171 PDE Lab: PHASE 11 — PDE Lab
+1189 EMLab: PHASE 13 — EMLab / Advanced Modules
+1272 ThermoLab: ThermoLab
+1275 ChaosLab: ChaosLab + ODE Compare
+1288 ThermoLab: ThermoLab core
+1289 Pendulum: SHM + Pendulum + Logistic map
+1293 MechanicsLab: MechanicsLab
+1294 ChaosLab: ChaosLab
+1304 WaveLab: WaveLab
+1305 PDE Lab: PDE Lab
+1368 ODE/PDE: ODE/PDE numerics
+1401 ODE/PDE: 2.Domain Layer (Thermo, Mechanics, Chaos, Waves, EM, ODE/PDE)
+1471 ODE/PDE: ODE/PDE support
+1520 Monte Carlo: Monte Carlo jobs
+2123 Statistical: 5. Statistical Physics Mini-Lab
+2125 Boltzmann: Maxwell-Boltzmann speed distribution
+2127 Boltzmann: Boltzmann factor
+2133 Monte Carlo: Monte Carlo toy equilibrium
+2136 Heat Transfer: 6. Heat Transfer
+2173 Pendulum: 4. Pendulum Suite
+2181 Orbits: 5. Central Force / Orbits
+2228 Fourier: Fourier series builder
+2249 ODE/PDE: F) ODE/PDE LAB (FULL)
+2299 Pendulum: "mechanics.double_pendulum": DoublePendulumModel,
+2543 Monte Carlo: Monte Carlo batch runs
+2639 ThermoLab: 1.ThermoLab
+2645 MechanicsLab: 2.MechanicsLab
+2650 ChaosLab: 3.ChaosLab
+2673 Boltzmann: Maxwell-Boltzmann module
+2680 Wave: WavesLab
+2681 EMLab: EMLab
+2682 PDE Lab: PDE Lab (1D heat + wave)
+2845 Boltzmann: 8.Maxwell-Boltzmann / stat mech mini-lab
+2867 Wave: PDE / Waves / EM
+2898 Wave: 15.Waves / EM
+3010 ThermoLab: ThermoLab
+3011 MechanicsLab: MechanicsLab
+3012 ChaosLab: ChaosLab
+3013 ODE/PDE: ODE/PDE core
+3078 ODE/PDE: │  ├─ numerics-core/                # ODE/PDE solvers
+3138 ODE/PDE: It includes simulation labs (thermodynamics, mechanics, chaos, ODE/PDE,
+3267 ThermoLab: - ThermoLab v1
+3268 MechanicsLab: - MechanicsLab v1
+3269 ChaosLab: - ChaosLab v1
+3277 Statistical: - Statistical physics mini-lab
+3296 Monte Carlo: - Monte Carlo equilibrium models
+3312 ThermoLab: “Build ThermoLab fully + backend + frontend + exports + tests + public
+3438 ThermoLab: Prompt 3 — ThermoLab v1
+3439 ThermoLab: Task: Build ThermoLab v1 end-to-end
+3441 ThermoLab: Implement the first flagship scientific module: ThermoLab v1. Users should be
+3447 ThermoLab: - frontend ThermoLab route and controls
+3449 ThermoLab: - saved experiment support for ThermoLab configs
+3496 MechanicsLab: Task: Build MechanicsLab v1 end-to-end
+3502 Projectile: - Projectile motion (no drag)
+3503 Projectile: - Projectile motion with drag
+3539 ChaosLab: Task: Build ChaosLab v1 end-to-end
+3703 ThermoLab: Before ThermoLab implementation:
+3788 Projectile: Projectile no drag: exact range matches analytical formula
+3865 Statistical: 26.Statistical physics mini-lab
+3880 Monte Carlo: 38.Monte Carlo toy systems
+3887 ThermoLab: 1.ThermoLab v1
+3888 ChaosLab: 2.ChaosLab v1
+3889 MechanicsLab: 3.MechanicsLab v1
+3892 Statistical: 6.Statistical physics mini-lab
+3893 ODE/PDE: 7.ODE/PDE visualizer
+3961 ThermoLab: B. ThermoLab
+3980 Boltzmann: Boltzmann factor
+3987 MechanicsLab: C. MechanicsLab
+4008 ChaosLab: D. ChaosLab
+4025 ODE/PDE: E. ODE/PDE Lab
+4100 ODE/PDE: dynamics, and classical mechanics; implemented ODE/PDE solvers, scientific
+4146 ThermoLab: 5.Build ThermoLab v1
+4147 ChaosLab: 6.Build ChaosLab v1
+4149 MechanicsLab: 8.Build MechanicsLab v1
+4515 ThermoLab: - Thermodynamics (ThermoLab)
+4516 MechanicsLab: - Classical Mechanics (MechanicsLab)
+4517 ChaosLab: - Nonlinear Dynamics & Chaos (ChaosLab)
+4518 ODE/PDE: - Numerical Methods (ODE/PDE Lab)
+4519 Statistical: - Statistical Physics mini-labs
+4543 ThermoLab: ### ThermoLab
+4549 MechanicsLab: ### MechanicsLab
+4555 ChaosLab: ### ChaosLab
+4561 ODE/PDE: ### ODE/PDE Lab
+4599 ThermoLab: 5.ThermoLab v1
+4600 ChaosLab: 6.ChaosLab v1
+4602 MechanicsLab: 8.MechanicsLab v1
+4629 ODE/PDE: It includes simulation labs (thermodynamics, mechanics, chaos, ODE/PDE,
+4757 ThermoLab: - ThermoLab v1
+4761 ChaosLab: - ChaosLab v1
+4772 MechanicsLab: - MechanicsLab v1
+4791 Statistical: - Statistical physics mini-labs
+4792 Boltzmann: - Maxwell-Boltzmann
+4793 Boltzmann: - Boltzmann factor
+4799 PDE Lab: - PDE Lab v1
+4840 Monte Carlo: - Monte Carlo equilibrium toy systems
+5488 ThermoLab: export default function ThermoLabPage() {
+5491 ThermoLab: <h1>ThermoLab</h1>
+5497 ChaosLab: export default function ChaosLabPage() {
+5500 ChaosLab: <h1>ChaosLab</h1>
+5506 MechanicsLab: export default function MechanicsLabPage() {
+5509 MechanicsLab: <h1>MechanicsLab</h1>
+5520 ODE/PDE: <p>ODE/PDE solver comparison workspace coming soon.</p>
+5656 ThermoLab: Task 9 — ThermoLab Frontend v1
+5809 ThermoLab: ThermoLab
+5813 ChaosLab: ChaosLab
+5855 MechanicsLab: 6.Then do ChaosLab before MechanicsLab
+5857 ChaosLab: Because for you, ChaosLab is more distinctive:
+6365 Statistical: Task 16 — Statistical Physics / Distribution Engine
+6367 ThermoLab: Make ThermoLab truly elite.
+6369 Boltzmann: Maxwell–Boltzmann speed distribution
+6373 Boltzmann: Boltzmann factor
+6389 Heat Transfer: Task 17 — Heat Transfer Module
+6402 Fourier: Fourier number reporting
+6405 MechanicsLab: Task 18 — MechanicsLab Core
+6421 Pendulum: Task 19 — Oscillation & Pendulum Suite
+6461 ChaosLab: Task 21 — ChaosLab Core
+6498 WaveLab: Task 23 — WaveLab + Fourier
+6507 Fourier: Fourier series explorer
+6508 Fourier: Fourier decomposition of user signal
+6515 EMLab: Task 24 — EMLab + Circuit Dynamics
+6535 PDE Lab: Task 25 — PDE Lab Advanced
+6557 Monte Carlo: Monte Carlo sweeps
+6743 ODE/PDE: calls shared ODE/PDE engine
+6771 Pendulum: Example — Pendulum
+6807 Pendulum: 3.Then 19 + 21 + 22 (Pendulum + Chaos = your signature)
+7110 Boltzmann: 2.15 Maxwell–Boltzmann Speed Distribution
+7132 Boltzmann: 2.16 Boltzmann Factor
+7167 Projectile: 3.2 Projectile Motion (No Drag)
+7187 Projectile: 3.3 Projectile with Linear Drag (Simplified)
+7203 Projectile: 3.4 Projectile with Quadratic Drag (Numerical Only)
+7272 Pendulum: 3.14 Simple Pendulum (Exact Nonlinear)
+7276 Pendulum: 3.15 Small-Angle Pendulum Approximation
+7290 Pendulum: 3.16 Pendulum Period (Large Amplitude)
+7298 Pendulum: 3.17 Double Pendulum (Standard Model)
+7411 Wave: 5.1 Traveling Wave
+7416 Wave: Wave speed:
+7419 Wave: 5.2 Standing Wave
+7432 Wave: 5.4 String Wave Speed
+7452 Fourier: 5.7 Fourier Series (Basic Periodic Signal)
+7598 Wave: 8.3 1D Wave Equation
+7602 Wave: 8.4 Finite Difference for 1D Wave Equation
+7657 Boltzmann: Boltzmann factor
+7836 Pendulum: 15.3 Pendulum equation
+7893 Boltzmann: Maxwell-Boltzmann
+7912 Wave: Waves
+7917 Fourier: Fourier series basic
+7924 ODE/PDE: ODE/PDE
+7965 Boltzmann: oMaxwell-Boltzmann

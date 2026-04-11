@@ -1,0 +1,7 @@
+1:"$Sreact.fragment"
+2:I[73454,["4168","static/chunks/4168-ee31cb491b9065e5.js","9249","static/chunks/9249-0c462ab69a78851e.js","424","static/chunks/424-55e310a32322b1b5.js","6909","static/chunks/6909-c4cb362ee7abb4c2.js","1520","static/chunks/app/labs/math/workbench/page-df7d3c7e25eeceb4.js"],"LocaleText"]
+3:I[23970,["4168","static/chunks/4168-ee31cb491b9065e5.js","9249","static/chunks/9249-0c462ab69a78851e.js","424","static/chunks/424-55e310a32322b1b5.js","6909","static/chunks/6909-c4cb362ee7abb4c2.js","1520","static/chunks/app/labs/math/workbench/page-df7d3c7e25eeceb4.js"],"EquationWorkbench"]
+4:I[90484,[],"OutletBoundary"]
+5:"$Sreact.suspense"
+0:{"buildId":"hEBjtYnGSIW4q-pOyZeba","rsc":["$","$1","c",{"children":[[["$","section",null,{"className":"section reveal","children":[["$","h2",null,{"children":["$","$L2",null,{"id":"mathWorkbenchPageTitle","fallback":"Equation Workbench"}]}],["$","p",null,{"children":["$","$L2",null,{"id":"mathWorkbenchPageIntro","fallback":"Build and solve custom first- or second-order ODEs with live diagnostics."}]}]]}],["$","$L3",null,{"title":["$","$L2",null,{"id":"mathWorkbenchPanelTitle","fallback":"Custom Dynamics Workbench"}],"equation":"-k*y - c*v","paramDefaults":{"k":1,"c":0.1},"mode":"second","yLabel":"y(t)"}]],null,["$","$L4",null,{"children":["$","$5",null,{"name":"Next.MetadataOutlet","children":"$@6"}]}]]}],"loading":null,"isPartial":false}
+6:null

@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/mechanics/layout,_N_T_/labs/mechanics/pendulum/layout,_N_T_/labs/mechanics/pendulum/driven/layout,_N_T_/labs/mechanics/pendulum/driven/page,_N_T_/labs/mechanics/pendulum/driven"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/mechanics/pendulum/driven/__PAGE__",
+    "/labs/mechanics/pendulum/driven",
+    "/labs/mechanics/pendulum",
+    "/labs/mechanics",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

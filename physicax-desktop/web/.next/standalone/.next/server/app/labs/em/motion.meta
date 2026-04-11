@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/em/layout,_N_T_/labs/em/motion/layout,_N_T_/labs/em/motion/page,_N_T_/labs/em/motion"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/em/motion/__PAGE__",
+    "/labs/em/motion",
+    "/labs/em",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

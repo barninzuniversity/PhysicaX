@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[98500,["8500","static/chunks/8500-98e13bcce54aa7a0.js","6357","static/chunks/app/labs/mechanics/orbits/page-7fe9259f57dd2aca.js"],""]
+3:I[90484,[],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"buildId":"hEBjtYnGSIW4q-pOyZeba","rsc":["$","$1","c",{"children":[[["$","section",null,{"className":"section reveal","children":[["$","h2",null,{"children":"Orbit Mechanics"}],["$","p",null,{"children":"Central-force orbital simulations."}]]}],["$","section",null,{"className":"section reveal","children":["$","div",null,{"className":"card-grid","children":[["$","div",null,{"className":"card","children":[["$","h3",null,{"children":"Basic Orbit"}],["$","p",null,{"children":["$","$L2",null,{"href":"/labs/mechanics/orbits/basic","children":"Open orbit simulator"}]}]]}],["$","div",null,{"className":"card","children":[["$","h3",null,{"children":"N-Body Gravity"}],["$","p",null,{"children":["$","$L2",null,{"href":"/labs/mechanics/orbits/n-body","children":"Open N-body mini-sim"}]}]]}],["$","div",null,{"className":"card","children":[["$","h3",null,{"children":"Orbit Precession"}],["$","p",null,{"children":["$","$L2",null,{"href":"/labs/mechanics/orbits/precession","children":"Open precession model"}]}]]}]]}]}]],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"loading":null,"isPartial":false}
+5:null

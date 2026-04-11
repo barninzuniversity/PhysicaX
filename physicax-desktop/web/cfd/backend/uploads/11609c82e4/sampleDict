@@ -1,0 +1,32 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      sampleDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+/* Auto-generated sampleDict for PhysicaX */
+sample
+{
+    type            sets;
+    libs            ("libsampling.so");
+    interpolationScheme cellPoint;
+    setFormat       csv;
+
+    fields          (U p);
+
+    sets
+    (
+        uniformGrid
+        {
+            type        uniform;
+            axis        xyz;
+            start       (-3986.0215 -3983.9661 -3987.7076);
+            end         (3987.1625 3989.2180 3985.4765);
+            nPoints     (30 36 20);
+        }
+    );
+}

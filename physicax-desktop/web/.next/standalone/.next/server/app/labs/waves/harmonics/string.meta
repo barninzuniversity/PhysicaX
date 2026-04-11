@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/waves/layout,_N_T_/labs/waves/harmonics/layout,_N_T_/labs/waves/harmonics/string/layout,_N_T_/labs/waves/harmonics/string/page,_N_T_/labs/waves/harmonics/string"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/waves/harmonics/string/__PAGE__",
+    "/labs/waves/harmonics/string",
+    "/labs/waves/harmonics",
+    "/labs/waves",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

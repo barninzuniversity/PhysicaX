@@ -1,0 +1,36 @@
+/* Auto-generated omega */
+dimensions      [0 0 -1 0 0 0 0];
+internalField   uniform 9.615379e-04;
+boundaryField
+{
+    inlet
+    {
+        type fixedValue;
+        value uniform 9.615379e-04;
+    }
+    outlet
+    {
+        type zeroGradient;
+    }
+    bottom
+    {
+        type symmetryPlane;
+    }
+    top
+    {
+        type symmetryPlane;
+    }
+    front
+    {
+        type symmetryPlane;
+    }
+    back
+    {
+        type symmetryPlane;
+    }
+    model
+    {
+        type omegaWallFunction;
+        value uniform 9.615379e-04;
+    }
+}

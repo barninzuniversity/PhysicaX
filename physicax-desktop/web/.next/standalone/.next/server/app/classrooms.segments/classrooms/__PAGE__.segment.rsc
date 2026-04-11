@@ -1,0 +1,11 @@
+1:"$Sreact.fragment"
+2:I[73454,["424","static/chunks/424-55e310a32322b1b5.js","3066","static/chunks/3066-b2f838780b3bd7c8.js","5631","static/chunks/app/classrooms/page-78b43bb9863ceb06.js"],"LocaleText"]
+3:I[44786,["424","static/chunks/424-55e310a32322b1b5.js","3066","static/chunks/3066-b2f838780b3bd7c8.js","5631","static/chunks/app/classrooms/page-78b43bb9863ceb06.js"],"ClassroomDashboard"]
+4:I[97779,["424","static/chunks/424-55e310a32322b1b5.js","3066","static/chunks/3066-b2f838780b3bd7c8.js","5631","static/chunks/app/classrooms/page-78b43bb9863ceb06.js"],"ClassroomRoster"]
+5:I[93916,["424","static/chunks/424-55e310a32322b1b5.js","3066","static/chunks/3066-b2f838780b3bd7c8.js","5631","static/chunks/app/classrooms/page-78b43bb9863ceb06.js"],"AssignmentSubmissionPanel"]
+6:I[1815,["424","static/chunks/424-55e310a32322b1b5.js","3066","static/chunks/3066-b2f838780b3bd7c8.js","5631","static/chunks/app/classrooms/page-78b43bb9863ceb06.js"],"SubmissionBoard"]
+7:I[20126,["424","static/chunks/424-55e310a32322b1b5.js","3066","static/chunks/3066-b2f838780b3bd7c8.js","5631","static/chunks/app/classrooms/page-78b43bb9863ceb06.js"],"ClassroomAnalytics"]
+8:I[90484,[],"OutletBoundary"]
+9:"$Sreact.suspense"
+0:{"buildId":"hEBjtYnGSIW4q-pOyZeba","rsc":["$","$1","c",{"children":[[["$","section",null,{"className":"section reveal","children":[["$","h2",null,{"children":["$","$L2",null,{"id":"classroomHub","fallback":"Classroom Hub"}]}],["$","p",null,{"children":["$","$L2",null,{"id":"classroomIntro","fallback":"Manage classrooms, assignments, and submissions. Instructors can build classes and track submissions; students can join and submit work."}]}]]}],["$","section",null,{"className":"section reveal","children":["$","$L3",null,{}]}],["$","section",null,{"className":"section reveal","children":["$","$L4",null,{}]}],["$","section",null,{"className":"section reveal","children":["$","$L5",null,{}]}],["$","section",null,{"className":"section reveal","children":["$","$L6",null,{}]}],["$","section",null,{"className":"section reveal","children":["$","$L7",null,{}]}]],null,["$","$L8",null,{"children":["$","$9",null,{"name":"Next.MetadataOutlet","children":"$@a"}]}]]}],"loading":null,"isPartial":false}
+a:null

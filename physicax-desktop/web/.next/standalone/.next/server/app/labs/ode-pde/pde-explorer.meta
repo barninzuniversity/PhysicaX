@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/ode-pde/layout,_N_T_/labs/ode-pde/pde-explorer/layout,_N_T_/labs/ode-pde/pde-explorer/page,_N_T_/labs/ode-pde/pde-explorer"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/ode-pde/pde-explorer/__PAGE__",
+    "/labs/ode-pde/pde-explorer",
+    "/labs/ode-pde",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

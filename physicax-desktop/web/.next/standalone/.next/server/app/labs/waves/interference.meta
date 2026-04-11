@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/waves/layout,_N_T_/labs/waves/interference/layout,_N_T_/labs/waves/interference/page,_N_T_/labs/waves/interference"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/waves/interference/__PAGE__",
+    "/labs/waves/interference",
+    "/labs/waves",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

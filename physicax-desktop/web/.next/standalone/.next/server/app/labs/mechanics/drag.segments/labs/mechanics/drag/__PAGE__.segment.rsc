@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[90484,[],"OutletBoundary"]
+3:"$Sreact.suspense"
+0:{"buildId":"hEBjtYnGSIW4q-pOyZeba","rsc":["$","$1","c",{"children":[[["$","section",null,{"className":"section reveal","children":[["$","h2",null,{"children":"Drag + Airflow"}],["$","p",null,{"children":"Choose the drag visualization you want to explore."}]]}],["$","section",null,{"className":"section reveal","children":["$","div",null,{"className":"card-grid","children":[["$","div",null,{"className":"card","children":[["$","h3",null,{"children":"Projectile Drag (2D)"}],["$","p",null,{"children":["$","a",null,{"href":"/labs/mechanics/drag/2d","children":"Open 2D drag"}]}]]}],["$","div",null,{"className":"card","children":[["$","h3",null,{"children":"3D Airflow + Moving Body"}],["$","p",null,{"children":["$","a",null,{"href":"/labs/mechanics/drag/flow-3d","children":"Open 3D airflow"}]}]]}]]}]}]],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"loading":null,"isPartial":false}
+4:null

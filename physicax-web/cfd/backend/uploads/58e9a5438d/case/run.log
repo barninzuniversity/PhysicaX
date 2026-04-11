@@ -1,0 +1,79 @@
+
+Usage: snappyHexMesh [OPTIONS]
+options:
+  -case <dir>       specify alternate case directory, default is the cwd
+  -checkGeometry    check all surface geometry for quality
+  -dict <file>      read control dictionary from specified location
+  -fileHandler <handler>
+                    override the fileHandler
+  -hostRoots <((host1 dir1) .. (hostN dirN))>
+                    slave root directories (per host) for distributed running
+  -libs '("lib1.so" ... "libN.so")'
+                    pre-load libraries
+  -noFunctionObjects
+                    do not execute functionObjects
+  -outFile <file>   name of the file to save the simplified surface to
+  -overwrite        overwrite existing mesh/results files
+  -parallel         run in p
+
+--> FOAM FATAL ERROR: 
+Invalid option: -overwrite
+
+
+FOAM exiting
+
+/mnt/c/Users/ibzao/Downloads/Project/physicax-web/cfd/backend/uploads/58e9a5438d/case/run_openfoam.sh: line 7: $'simpleFoam\r': command not found
+
+
+--> FOAM FATAL IO ERROR: 
+problem while reading header for object controlDict
+
+file: /mnt/c/Users/ibzao/Downloads/Project/physicax-web/cfd/backend/uploads/58e9a5438d/case/system/controlDict at line 2.
+
+    From function virtual Foam::autoPtr<Foam::ISstream> Foam::fileOperations::uncollatedFileOperation::readStream(Foam::regIOobject&, const Foam::fileName&, const Foam::word&, bool) const
+    in file global/fileOperations/uncollatedFileOperation/uncollatedFileOperation.C at line 560.
+
+FOAM exiting
+
+
+
+--> FOAM FATAL IO ERROR: 
+problem while reading header for object controlDict
+
+file: /mnt/c/Users/ibzao/Downloads/Project/physicax-web/cfd/backend/uploads/58e9a5438d/case/system/controlDict at line 2.
+
+    From function virtual Foam::autoPtr<Foam::ISstream> Foam::fileOperations::uncollatedFileOperation::readStream(Foam::regIOobject&, const Foam::fileName&, const Foam::word&, bool) const
+    in file global/fileOperations/uncollatedFileOperation/uncollatedFileOperation.C at line 560.
+
+FOAM exiting
+
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  10
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 10-c4cf895ad8fa
+Exec   : postProcess -func streamlines
+Date   : Mar 19 2026
+Time   : 08:41:00
+Host   : "Cyborg15A13VE"
+PID    : 831
+I/O    : uncollated
+Case   : /mnt/c/Users/ibzao/Downloads/Project/physicax-web/cfd/backend/uploads/58e9a5438d/case
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+

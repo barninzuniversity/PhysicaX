@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/chaos/layout,_N_T_/labs/chaos/discrete/layout,_N_T_/labs/chaos/discrete/bifurcation/layout,_N_T_/labs/chaos/discrete/bifurcation/page,_N_T_/labs/chaos/discrete/bifurcation"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/chaos/discrete/bifurcation/__PAGE__",
+    "/labs/chaos/discrete/bifurcation",
+    "/labs/chaos/discrete",
+    "/labs/chaos",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

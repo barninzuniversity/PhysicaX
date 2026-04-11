@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/stat/layout,_N_T_/labs/stat/random-walk/layout,_N_T_/labs/stat/random-walk/2d/layout,_N_T_/labs/stat/random-walk/2d/page,_N_T_/labs/stat/random-walk/2d"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/stat/random-walk/2d/__PAGE__",
+    "/labs/stat/random-walk/2d",
+    "/labs/stat/random-walk",
+    "/labs/stat",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

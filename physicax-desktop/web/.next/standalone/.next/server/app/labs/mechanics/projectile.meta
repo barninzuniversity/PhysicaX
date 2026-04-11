@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/mechanics/layout,_N_T_/labs/mechanics/projectile/layout,_N_T_/labs/mechanics/projectile/page,_N_T_/labs/mechanics/projectile"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/mechanics/projectile/__PAGE__",
+    "/labs/mechanics/projectile",
+    "/labs/mechanics",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

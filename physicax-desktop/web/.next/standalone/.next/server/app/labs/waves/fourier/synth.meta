@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/waves/layout,_N_T_/labs/waves/fourier/layout,_N_T_/labs/waves/fourier/synth/layout,_N_T_/labs/waves/fourier/synth/page,_N_T_/labs/waves/fourier/synth"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/waves/fourier/synth/__PAGE__",
+    "/labs/waves/fourier/synth",
+    "/labs/waves/fourier",
+    "/labs/waves",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

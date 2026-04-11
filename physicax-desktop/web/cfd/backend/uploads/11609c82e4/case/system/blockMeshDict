@@ -1,0 +1,67 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+/* Auto-generated blockMeshDict */
+convertToMeters 1;
+
+vertices
+(
+    (-3994.9372 -3983.9661 -3980.1832)
+    (3978.2469 -3983.9661 -3980.1832)
+    (3978.2469 3989.2180 -3980.1832)
+    (-3994.9372 3989.2180 -3980.1832)
+    (-3994.9372 -3983.9661 3993.0009)
+    (3978.2469 -3983.9661 3993.0009)
+    (3978.2469 3989.2180 3993.0009)
+    (-3994.9372 3989.2180 3993.0009)
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) (29 35 19) simpleGrading (1 1 1)
+);
+
+edges ();
+
+boundary
+(
+    inlet
+    {
+        type patch;
+        faces ((0 3 7 4));
+    }
+    outlet
+    {
+        type patch;
+        faces ((1 5 6 2));
+    }
+    bottom
+    {
+        type symmetryPlane;
+        faces ((0 1 5 4));
+    }
+    top
+    {
+        type symmetryPlane;
+        faces ((3 2 6 7));
+    }
+    front
+    {
+        type symmetryPlane;
+        faces ((0 1 2 3));
+    }
+    back
+    {
+        type symmetryPlane;
+        faces ((4 5 6 7));
+    }
+);
+
+mergePatchPairs ();

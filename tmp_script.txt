@@ -1,0 +1,4 @@
+﻿function Foo($asyncOp) {
+  [System.WindowsRuntimeSystemExtensions] | Out-Null
+  return $asyncOp
+}

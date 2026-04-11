@@ -1,0 +1,22 @@
+/* Auto-generated sampleDict for PhysicaX */
+sample
+{
+    type            sets;
+    libs            ("libsampling.so");
+    interpolationScheme cellPoint;
+    setFormat       csv;
+
+    fields          (U p);
+
+    sets
+    (
+        uniformGrid
+        {
+            type        uniform;
+            axis        xyz;
+            start       (-3985.4510 -3981.3401 -3988.8231);
+            end         (3987.7330 3991.8440 3984.3610);
+            nPoints     (30 36 20);
+        }
+    );
+}

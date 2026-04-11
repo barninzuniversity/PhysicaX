@@ -1,0 +1,117 @@
+<x> = 0
+1D: <x^2> = 2 D t
+2D: <r^2> = 4 D t
+3D: <r^2> = 6 D t
+A = (F0/m) / sqrt((omega0^2 - omega^2)^2 + (2 gamma omega)^2)
+A cos(omega1 t) + A cos(omega2 t) =
+a_n = (1/L) * integral_{-L}^{L} f(x) cos(n pi x / L) dx
+b_n = (1/L) * integral_{-L}^{L} f(x) sin(n pi x / L) dx
+Beat frequency: f_beat = |f1 - f2|
+C = epsilon0 A / d (vacuum)
+Classic parameters: sigma = 10, rho = 28, beta = 8/3
+Common form with delta = theta1 - theta2:
+Compression ratio: r = V1/V2
+Constant force: W = F dot Delta x
+Convention: W = work done by the system, Q = heat added to the system.
+Convert degrees to radians: rad = deg * pi / 180
+Convert pressures: 1 atm = 101325 Pa, 1 bar = 1e5 Pa
+Convert temperatures to Kelvin before use: T(K) = T(C) + 273.15
+Convert volume: 1 L = 1e-3 m^3
+Corrector: y_{n+1} = y_n + (h/2) [f(t_n, y_n) + f(t_{n+1}, y*)]
+Critical: gamma = omega0
+Cutoff ratio: rho = V3/V2
+DeltaS = n Cp ln(T2/T1) - n R ln(P2/P1)
+DeltaU = 0, so Q = W.
+Drag force: Fd = -(1/2) rho Cd A |v| v
+Drag force: Fd = -b v
+Energy: E = (1/2) k A^2
+epsilon0 = 8.8541878128e-12 F/m
+Equation of motion: m dv/dt = sumF - b v
+Equation: x'' + (k/m) x = 0
+Equation: x'' + 2 gamma x' + omega0^2 x = (F0/m) cos(omega t)
+Equation: x'' + 2 gamma x' + omega0^2 x = 0
+eta = 1 - (1 / r^(gamma-1)) * ((rho^gamma - 1) / (gamma * (rho - 1)))
+F = (1/(4 pi epsilon0)) * (q1 q2 / r^2) r_hat
+f(x) = a0/2 + sum_{n=1}^inf [a_n cos(n pi x / L) + b_n sin(n pi x / L)]
+f_n = (2 n - 1) v / (4 L), n = 1,2,3...
+f_n = n v / (2 L), n = 1,2,3...
+Fixed points: x* = 0, x* = 1 - 1/r (r>1)
+For bound ellipse: epsilon = -G M / (2 a)
+For logistic map: f'(x) = r (1 - 2 x)
+G = 6.67430e-11 m^3/(kg*s^2)
+g0 = 9.80665 m/s^2
+gamma = c/(2m), omega0 = sqrt(k/m)
+H = U + P V = n Cp T
+i(t) = -(Q0/(R C)) exp(-t/(R C))
+i(t) = (V/R) exp(-t/(R C))
+i(t) = I0 exp(-t/(L/R))
+If x'' = f(t, x, x')
+K = (1/2) m v^2
+k = 1/(4 pi epsilon0)
+k = 2 pi / lambda, omega = 2 pi f
+k1 = f(t_n, y_n)
+k2 = f(t_n + h/2, y_n + h k1/2)
+k3 = f(t_n + h/2, y_n + h k2/2)
+k4 = f(t_n + h, y_n + h k3)
+kB = 1.380649e-23 J/K
+lambda = lim_{N->inf} (1/N) sum_{n=0}^{N-1} ln |f'(x_n)|
+Let y1 = x, y2 = x'
+Magnitude: F = G m1 m2 / r^2
+Max height: y_max - y0 = v0^2 sin^2(theta) / (2 g)
+Monatomic ideal gas: Cv = (3/2) R, so U = (3/2) n R T.
+p0 = 1/Z
+p1 = exp(-E/(kB T)) / Z
+Period: T = 2 pi / omega
+Period: T = 2 pi sqrt(L/g)
+Period: T = 2 pi sqrt(r^3 / (G M))
+Predictor: y* = y_n + h f(t_n, y_n)
+Pressure ratio: rp = P2/P1
+Q = DeltaU + W
+Q = DeltaU = n Cv (T2 - T1)
+q(t) = Q0 exp(-t/(R C))
+R = 8.314462618 J/(mol*K)
+r = alpha * dt / dx^2
+Range: R = v0^2 sin(2 theta) / g
+Reversible adiabatic: DeltaS = 0.
+s = c * dt / dx
+Solution: x(t) = A cos(omega t + phi)
+Stability (1D): r <= 1/2
+Stability (1D): s <= 1
+T = const, PV = const
+T = tension, mu = linear mass density
+T V^(gamma-1) = const
+T(t) = T_env + (T0 - T_env) exp(-k t)
+T^gamma P^(1-gamma) = const
+tan(delta) = (2 gamma omega) / (omega0^2 - omega^2)
+Terminal speed magnitude: v_t = m g / b
+Test energy conservation when damping = 0.
+Then y1' = y2, y2' = f(t, y1, y2)
+theta1'' = ( -g(2 m1 + m2) sin(theta1) - m2 g sin(theta1 - 2 theta2)
+theta2'' = ( 2 sin(delta) ( theta1'^2 L1 (m1 + m2)
+Time constant: tau = L/R
+Time constant: tau = R C
+Time of flight (same height): tf = 2 v0 sin(theta) / g
+Typical domain: 0 <= x_n <= 1, 0 <= r <= 4
+Typical parameters: a = 0.2, b = 0.2, c = 5.7
+U = (1/2) C V^2 = Q^2/(2 C) = (1/2) Q V
+U = (1/2) k x^2
+u_i^{n+1} = 2 u_i^n - u_i^{n-1} + s^2 (u_{i+1}^n - 2 u_i^n + u_{i-1}^n)
+u_i^{n+1} = u_i^n + r (u_{i+1}^n - 2 u_i^n + u_{i-1}^n)
+Use explicit sign conventions for work and heat. This pack uses: W = work done by the system.
+v = v0 + a t
+v(t) = (v0 + (m g / b)) exp(-(b/m) t) - (m g / b)
+v_mean = sqrt(8 kB T / (pi m))
+v_mp = sqrt(2 kB T / m)
+Variable force: W = integral(F dot dx)
+Vector: F12 = -G m1 m2 / r^3 * r_vec
+W = (P1 V1 - P2 V2) / (gamma - 1) = n Cv (T1 - T2)
+W = n R T ln(V2/V1) = n R T ln(P1/P2)
+W = P (V2 - V1) = n R (T2 - T1)
+Wave speed: v = omega / k
+Work (m != 1):
+x = x0 + v0 t + (1/2) a t^2
+x_{n+1} = r (1 - x_n), for x_n >= 1/2
+x_{n+1} = r x_n, for x_n < 1/2
+y(t) = y0 + v0 sin(theta) t - (1/2) g t^2
+y_{n+1} = y_n + (h/6)(k1 + 2 k2 + 2 k3 + k4)
+Z = sum_i exp(-E_i/(kB T))

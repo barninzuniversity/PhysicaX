@@ -1,0 +1,24 @@
+/* Auto-generated fvSchemes (adjust as needed) */
+ddtSchemes
+{
+    default         steadyState;
+}
+divSchemes
+{
+    div(phi,U)       bounded Gauss upwind;
+    div(phi,k)       bounded Gauss upwind;
+    div(phi,epsilon) bounded Gauss upwind;
+    div(phi,omega)   bounded Gauss upwind;
+}
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+interpolationSchemes
+{
+    default         linear;
+}
+snGradSchemes
+{
+    default         corrected;
+}

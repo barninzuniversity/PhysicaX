@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/math/layout,_N_T_/labs/math/series/layout,_N_T_/labs/math/series/page,_N_T_/labs/math/series"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/math/series/__PAGE__",
+    "/labs/math/series",
+    "/labs/math",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

@@ -1,0 +1,11 @@
+1:"$Sreact.fragment"
+2:I[73454,["424","static/chunks/424-55e310a32322b1b5.js","6348","static/chunks/6348-5a9b385f62958009.js","421","static/chunks/app/challenges/page-1822e904ab123fb5.js"],"LocaleText"]
+3:I[89158,["424","static/chunks/424-55e310a32322b1b5.js","6348","static/chunks/6348-5a9b385f62958009.js","421","static/chunks/app/challenges/page-1822e904ab123fb5.js"],"ChallengeRunner"]
+4:I[27194,["424","static/chunks/424-55e310a32322b1b5.js","6348","static/chunks/6348-5a9b385f62958009.js","421","static/chunks/app/challenges/page-1822e904ab123fb5.js"],"ChallengeSetPanel"]
+5:I[17487,["424","static/chunks/424-55e310a32322b1b5.js","6348","static/chunks/6348-5a9b385f62958009.js","421","static/chunks/app/challenges/page-1822e904ab123fb5.js"],"ChallengeProgressBoard"]
+6:I[85538,["424","static/chunks/424-55e310a32322b1b5.js","6348","static/chunks/6348-5a9b385f62958009.js","421","static/chunks/app/challenges/page-1822e904ab123fb5.js"],"BadgeShelf"]
+7:I[50229,["424","static/chunks/424-55e310a32322b1b5.js","6348","static/chunks/6348-5a9b385f62958009.js","421","static/chunks/app/challenges/page-1822e904ab123fb5.js"],"ChallengeBuilder"]
+8:I[90484,[],"OutletBoundary"]
+9:"$Sreact.suspense"
+0:{"buildId":"hEBjtYnGSIW4q-pOyZeba","rsc":["$","$1","c",{"children":[[["$","section",null,{"className":"section reveal","children":[["$","h2",null,{"children":["$","$L2",null,{"id":"challengeLibrary","fallback":"Challenge Library"}]}],["$","p",null,{"children":["$","$L2",null,{"id":"challengeIntro","fallback":"Build guided physics challenges, then run them in assessment mode. Use the challenge runner to test numeric tolerances and conceptual prompts."}]}]]}],["$","section",null,{"className":"section reveal","children":["$","$L3",null,{}]}],["$","section",null,{"className":"section reveal","children":["$","$L4",null,{}]}],["$","section",null,{"className":"section reveal","children":["$","$L5",null,{}]}],["$","section",null,{"className":"section reveal","children":["$","$L6",null,{}]}],["$","section",null,{"className":"section reveal","children":["$","$L7",null,{}]}]],null,["$","$L8",null,{"children":["$","$9",null,{"name":"Next.MetadataOutlet","children":"$@a"}]}]]}],"loading":null,"isPartial":false}
+a:null

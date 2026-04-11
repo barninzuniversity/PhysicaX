@@ -1,0 +1,57 @@
+/* Auto-generated blockMeshDict */
+convertToMeters 1;
+
+vertices
+(
+    (-3985.4510 -3981.3401 -3988.8231)
+    (3987.7330 -3981.3401 -3988.8231)
+    (3987.7330 3991.8440 -3988.8231)
+    (-3985.4510 3991.8440 -3988.8231)
+    (-3985.4510 -3981.3401 3984.3610)
+    (3987.7330 -3981.3401 3984.3610)
+    (3987.7330 3991.8440 3984.3610)
+    (-3985.4510 3991.8440 3984.3610)
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) (29 35 19) simpleGrading (1 1 1)
+);
+
+edges ();
+
+boundary
+(
+    inlet
+    {
+        type patch;
+        faces ((0 3 7 4));
+    }
+    outlet
+    {
+        type patch;
+        faces ((1 5 6 2));
+    }
+    bottom
+    {
+        type symmetryPlane;
+        faces ((0 1 5 4));
+    }
+    top
+    {
+        type symmetryPlane;
+        faces ((3 2 6 7));
+    }
+    front
+    {
+        type symmetryPlane;
+        faces ((0 1 2 3));
+    }
+    back
+    {
+        type symmetryPlane;
+        faces ((4 5 6 7));
+    }
+);
+
+mergePatchPairs ();

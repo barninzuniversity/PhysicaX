@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/chaos/layout,_N_T_/labs/chaos/continuous/layout,_N_T_/labs/chaos/continuous/lorenz/layout,_N_T_/labs/chaos/continuous/lorenz/page,_N_T_/labs/chaos/continuous/lorenz"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/chaos/continuous/lorenz/__PAGE__",
+    "/labs/chaos/continuous/lorenz",
+    "/labs/chaos/continuous",
+    "/labs/chaos",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

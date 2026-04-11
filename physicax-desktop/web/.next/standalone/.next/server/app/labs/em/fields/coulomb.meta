@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/em/layout,_N_T_/labs/em/fields/layout,_N_T_/labs/em/fields/coulomb/layout,_N_T_/labs/em/fields/coulomb/page,_N_T_/labs/em/fields/coulomb"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/em/fields/coulomb/__PAGE__",
+    "/labs/em/fields/coulomb",
+    "/labs/em/fields",
+    "/labs/em",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

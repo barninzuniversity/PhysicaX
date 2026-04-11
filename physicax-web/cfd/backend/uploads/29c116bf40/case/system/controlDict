@@ -1,0 +1,42 @@
+/* Auto-generated controlDict (adjust as needed) */
+application     simpleFoam;
+startFrom       startTime;
+startTime       0;
+stopAt          endTime;
+endTime         600;
+deltaT          1;
+writeControl    timeStep;
+writeInterval   100;
+purgeWrite      0;
+writeFormat     ascii;
+writePrecision  6;
+writeCompression off;
+timeFormat      general;
+timePrecision   6;
+runTimeModifiable yes;
+functions
+{
+    streamLine1
+    {
+        type            streamLine;
+        libs            ("libfieldFunctionObjects.so");
+        writeControl    timeStep;
+        writeInterval   100;
+        setFormat       vtk;
+        U               U;
+        fields          (U p);
+        cloud           streamLineCloud;
+        direction       bidirectional;
+        lifeTime        10000;
+        trackLength     39.8659;
+        nSubCycle       2;
+        seedSampleSet
+        {
+            type        uniform;
+            axis        xyz;
+            start       (-3985.4510 -3981.3401 -3988.8231);
+            end         (-3985.4510 3991.8440 3984.3610);
+            nPoints     (1 36 20);
+        }
+    }
+}

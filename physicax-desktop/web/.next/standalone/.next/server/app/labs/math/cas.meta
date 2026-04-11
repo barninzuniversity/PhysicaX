@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/math/layout,_N_T_/labs/math/cas/layout,_N_T_/labs/math/cas/page,_N_T_/labs/math/cas"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/math/cas/__PAGE__",
+    "/labs/math/cas",
+    "/labs/math",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

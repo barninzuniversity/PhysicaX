@@ -1,0 +1,35 @@
+/* Auto-generated snappyHexMeshDict (adjust as needed) */
+castellatedMesh true;
+snap            true;
+addLayers       false;
+
+geometry
+{
+    model
+    {
+        type triSurfaceMesh;
+        file "model.stl";
+    }
+}
+
+castellatedMeshControls
+{
+    maxLocalCells 1000000;
+    maxGlobalCells 2000000;
+    minRefinementCells 0;
+    nCellsBetweenLevels 3;
+    features ();
+    refinementSurfaces
+    {
+        model { level (3 4); }
+    }
+    locationInMesh (0 0 0);
+}
+
+snapControls
+{
+    nSmoothPatch 3;
+    tolerance 2.0;
+    nSolveIter 30;
+    nRelaxIter 5;
+}

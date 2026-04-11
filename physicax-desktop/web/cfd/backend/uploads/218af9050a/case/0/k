@@ -1,0 +1,36 @@
+/* Auto-generated k */
+dimensions      [0 2 -2 0 0 0 0];
+internalField   uniform 5.400000e-03;
+boundaryField
+{
+    inlet
+    {
+        type fixedValue;
+        value uniform 5.400000e-03;
+    }
+    outlet
+    {
+        type zeroGradient;
+    }
+    bottom
+    {
+        type symmetryPlane;
+    }
+    top
+    {
+        type symmetryPlane;
+    }
+    front
+    {
+        type symmetryPlane;
+    }
+    back
+    {
+        type symmetryPlane;
+    }
+    model
+    {
+        type kqRWallFunction;
+        value uniform 5.400000e-03;
+    }
+}

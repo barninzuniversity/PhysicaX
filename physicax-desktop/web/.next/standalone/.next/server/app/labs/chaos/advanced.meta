@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/chaos/layout,_N_T_/labs/chaos/advanced/layout,_N_T_/labs/chaos/advanced/page,_N_T_/labs/chaos/advanced"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/chaos/advanced/__PAGE__",
+    "/labs/chaos/advanced",
+    "/labs/chaos",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

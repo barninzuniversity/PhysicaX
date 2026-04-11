@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/ode-pde/layout,_N_T_/labs/ode-pde/solvers/layout,_N_T_/labs/ode-pde/solvers/playground/layout,_N_T_/labs/ode-pde/solvers/playground/page,_N_T_/labs/ode-pde/solvers/playground"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/ode-pde/solvers/playground/__PAGE__",
+    "/labs/ode-pde/solvers/playground",
+    "/labs/ode-pde/solvers",
+    "/labs/ode-pde",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

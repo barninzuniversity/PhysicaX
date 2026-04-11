@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/mechanics/layout,_N_T_/labs/mechanics/oscillators/layout,_N_T_/labs/mechanics/oscillators/coupled/layout,_N_T_/labs/mechanics/oscillators/coupled/page,_N_T_/labs/mechanics/oscillators/coupled"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/mechanics/oscillators/coupled/__PAGE__",
+    "/labs/mechanics/oscillators/coupled",
+    "/labs/mechanics/oscillators",
+    "/labs/mechanics",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

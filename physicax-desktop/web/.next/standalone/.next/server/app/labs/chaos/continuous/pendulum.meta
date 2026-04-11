@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/chaos/layout,_N_T_/labs/chaos/continuous/layout,_N_T_/labs/chaos/continuous/pendulum/layout,_N_T_/labs/chaos/continuous/pendulum/page,_N_T_/labs/chaos/continuous/pendulum"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/chaos/continuous/pendulum/__PAGE__",
+    "/labs/chaos/continuous/pendulum",
+    "/labs/chaos/continuous",
+    "/labs/chaos",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

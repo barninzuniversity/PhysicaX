@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/math/layout,_N_T_/labs/math/optimization/layout,_N_T_/labs/math/optimization/page,_N_T_/labs/math/optimization"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/math/optimization/__PAGE__",
+    "/labs/math/optimization",
+    "/labs/math",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

@@ -1,0 +1,23 @@
+0 <= eta <= 1.
+DeltaU = m g (h2 - h1).
+Double pendulum energy conserved when damping = 0.
+Isothermal: DeltaU = 0 and Q = W.
+K >= 0.
+Logistic map fixed-point behavior at r=2.9.
+Logistic map r=2.9 converges to fixed point.
+n=1, T=273.15 K, P=101325 Pa -> V=0.022414 m^3.
+r=2.9 converges to fixed point.
+SHO energy constant when damping = 0.
+Static case sumF = 0.
+T = 2 pi sqrt(m/k).
+Validation: DeltaU = 0 and Q = W.
+Validation: energy conservation when damping = 0.
+Validation: fixed point for r=2.9.
+Validation: n = 1,2,3...
+Validation: n=1, T=273.15 K, P=101325 Pa -> V=0.022414 m^3.
+Validation: r=2.9 converges to fixed point.
+Validation: stability requires r=alpha dt/dx^2
+Validation: W = n R (T2 - T1).
+W = n R (T2 - T1).
+x_{n+1} = r (1 - x_n) if x_n >= 1/2
+x_{n+1} = r x_n if x_n

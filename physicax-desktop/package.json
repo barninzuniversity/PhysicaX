@@ -1,0 +1,84 @@
+{
+  "name": "physicax-desktop",
+  "version": "0.1.0",
+  "description": "PhysicaX desktop app",
+  "homepage": "https://physicax.local",
+  "keywords": [
+    "physics",
+    "simulation",
+    "cfd",
+    "openfoam",
+    "education"
+  ],
+  "author": {
+    "name": "PhysicaX",
+    "email": "support@physicax.local"
+  },
+  "private": true,
+  "main": "dist/main.js",
+  "scripts": {
+    "desktop:build-main": "tsc -p tsconfig.json",
+    "desktop:prep-web": "node scripts/prepare-web.mjs",
+    "desktop:generate-icons": "powershell -ExecutionPolicy Bypass -File scripts/generate-linux-icons.ps1",
+    "desktop:dev": "npm run desktop:build-main && electron .",
+    "desktop:build": "npm run desktop:prep-web && npm run desktop:build-main && electron-builder && node scripts/postbuild.mjs",
+    "desktop:package:linux": "npm run desktop:prep-web && npm run desktop:build-main && npm run desktop:build-backend:linux && npx electron-builder --linux AppImage deb && node scripts/prepare-linux-release.mjs",
+    "desktop:build-backend:win": "powershell -ExecutionPolicy Bypass -File backend/build-backend.ps1",
+    "desktop:build-backend:linux": "bash backend/build-backend.sh",
+    "desktop:smoke-test": "bash scripts/smoke-test.sh"
+  },
+  "devDependencies": {
+    "@types/electron": "^1.6.12",
+    "@types/node": "^20.12.12",
+    "electron": "^31.6.0",
+    "electron-builder": "^24.13.3",
+    "typescript": "^5.9.3"
+  },
+  "build": {
+    "appId": "com.physicax.desktop",
+    "productName": "PhysicaX",
+    "copyright": "Copyright © 2026 PhysicaX",
+    "asar": true,
+    "compression": "maximum",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "dist/main.js",
+      "dist/preload.js",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "web",
+        "to": "web"
+      },
+      {
+        "from": "backend/dist",
+        "to": "backend"
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "linux": {
+      "maintainer": "PhysicaX <support@physicax.local>",
+      "icon": "build/icons",
+      "category": "Education",
+      "synopsis": "Interactive physics labs and CFD workspace",
+      "description": "Desktop workspace for interactive physics labs, numerical experiments, and CFD workflows with bundled local services.",
+      "desktop": {
+        "Comment": "Interactive physics labs and CFD workspace",
+        "Keywords": "physics;simulation;CFD;OpenFOAM;education;science;",
+        "StartupWMClass": "physicax-desktop"
+      },
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
+  }
+}

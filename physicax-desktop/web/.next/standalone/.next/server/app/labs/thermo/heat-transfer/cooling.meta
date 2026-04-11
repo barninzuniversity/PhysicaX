@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/thermo/layout,_N_T_/labs/thermo/heat-transfer/layout,_N_T_/labs/thermo/heat-transfer/cooling/layout,_N_T_/labs/thermo/heat-transfer/cooling/page,_N_T_/labs/thermo/heat-transfer/cooling"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/thermo/heat-transfer/cooling/__PAGE__",
+    "/labs/thermo/heat-transfer/cooling",
+    "/labs/thermo/heat-transfer",
+    "/labs/thermo",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

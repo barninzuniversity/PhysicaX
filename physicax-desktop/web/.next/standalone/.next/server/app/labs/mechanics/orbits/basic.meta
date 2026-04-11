@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/mechanics/layout,_N_T_/labs/mechanics/orbits/layout,_N_T_/labs/mechanics/orbits/basic/layout,_N_T_/labs/mechanics/orbits/basic/page,_N_T_/labs/mechanics/orbits/basic"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/mechanics/orbits/basic/__PAGE__",
+    "/labs/mechanics/orbits/basic",
+    "/labs/mechanics/orbits",
+    "/labs/mechanics",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}

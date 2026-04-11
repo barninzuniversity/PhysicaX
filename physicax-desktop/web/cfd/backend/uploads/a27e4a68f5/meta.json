@@ -1,0 +1,47 @@
+{
+  "bounds": {
+    "min": [
+      -526.885986328125,
+      -994.0220336914062,
+      -278.6250305175781
+    ],
+    "max": [
+      528.0269775390625,
+      999.2739868164062,
+      276.3939514160156
+    ]
+  },
+  "size": [
+    1054.9129638671875,
+    1993.2960205078125,
+    555.0189819335938
+  ],
+  "center": [
+    1.1409912109375,
+    5.251953125,
+    -2.2310791015625
+  ],
+  "maxDimension": 1993.2960205078125,
+  "suggestedGrid": {
+    "start": [
+      -3985.4510498046875,
+      -3981.340087890625,
+      -3988.8231201171875
+    ],
+    "end": [
+      3987.7330322265625,
+      3991.843994140625,
+      3984.3609619140625
+    ],
+    "nPoints": [
+      30,
+      36,
+      20
+    ]
+  },
+  "sampleDict": "/* Auto-generated sampleDict for PhysicaX */\nsample\n{\n    type            sets;\n    libs            (\"libsampling.so\");\n    interpolationScheme cellPoint;\n    setFormat       csv;\n\n    fields          (U p);\n\n    sets\n    (\n        uniformGrid\n        {\n            type        uniform;\n            axis        xyz;\n            start       (-3985.4510 -3981.3401 -3988.8231);\n            end         (3987.7330 3991.8440 3984.3610);\n            nPoints     (30 36 20);\n        }\n    );\n}\n",
+  "meshId": "a27e4a68f5",
+  "filename": "f22 stl.stl",
+  "path": "C:\\Users\\ibzao\\Downloads\\Project\\physicax-web\\cfd\\backend\\uploads\\a27e4a68f5\\model.stl",
+  "sampleDictPath": "C:\\Users\\ibzao\\Downloads\\Project\\physicax-web\\cfd\\backend\\uploads\\a27e4a68f5\\sampleDict"
+}

@@ -1,0 +1,155 @@
+<E> = E * p1.
+<x^2> = 2 D t
+<x^2> = N a^2
+<x> = 0, <x^2> = N a^2
+0 <= eta <= 1.
+1D: <x^2> = 2 D t
+2D gives <r^2> = 4 D t.
+2D: <r^2> = 4 D t
+Adiabatic reversible: DeltaS = 0.
+Beat frequency f_beat = |f1 - f2|.
+Beat frequency: f_beat = |f1 - f2|.
+Bound ellipse epsilon = -G M/(2 a).
+C = epsilon0 A / d
+Constant force gives W = F dot Delta x.
+DeltaS = 0 only for reversible adiabatic. Not true for irreversible.
+DeltaS = 0.
+DeltaS = n Cv ln(T2/T1) + n R ln(V2/V1)
+DeltaU = m g (h2 - h1).
+DeltaU = Q - W
+Double pendulum energy conserved when damping = 0.
+dT/dt = -k (T - T_env)
+dy/dt = f(t, y)
+E = k q / r^2 r_hat
+Energy conservation when damping = 0.
+epsilon = v^2/2 - G M / r
+Equation: PV = n R T
+Equation: q(t) = C V (1 - exp(-t/(R C)))
+Equation: theta'' + (g/L) sin(theta) = 0
+Equation: u_t = alpha u_xx
+Equation: x_{n+1} = r x_n (1 - x_n)
+eta = 1 - (1/r^(gamma-1)) * ((rho^gamma - 1)/(gamma * (rho - 1)))
+eta = 1 - 1 / rp^((gamma-1)/gamma)
+eta = 1 - 1/r^(gamma-1)
+eta = 1 - Tc/Th
+F = (1/(4 pi epsilon0)) * (q1 q2 / r^2) r_hat
+F = G m1 m2 / r^2
+F = -k x.
+f(v) = 4 pi (m/(2 pi kB T))^(3/2) v^2 exp(-m v^2/(2 kB T))
+f(x) = a0/2 + sum_{n=1}^inf [a_n cos(n pi x / L) + b_n sin(n pi x / L)]
+f_n = n v / (2 L)
+Fd = -(1/2) rho Cd A |v| v
+Fd = -b v, m dv/dt = sumF - b v
+H = n Cp T, DeltaH = n Cp (T2 - T1)
+H = U + P V.
+i(t) = (V/R) (1 - exp(-t/(L/R)))
+Isothermal: DeltaU = 0 and Q = W.
+K = (1/2) m v^2
+k = sin(theta0/2).
+K >= 0.
+L q'' + R q' + (1/C) q = V(t)
+lambda = lim_{N->inf} (1/N) sum_{n=0}^{N-1} ln |f'(x_n)|
+Logistic map fixed-point behavior at r=2.9.
+Logistic map r=2.9 converges to fixed point.
+m dv/dt = sumF - b v
+Monatomic ideal gas: Cv = (3/2) R, so U = (3/2) n R T.
+n = 1,2,3...
+n=1, T=273.15 K, P=101325 Pa -> V=0.022414 m^3.
+omega0 = 1 / sqrt(L C).
+omega0 = 1/sqrt(L C).
+Open-closed: f_n = (2n-1) v / (4 L)
+Open-open: f_n = n v / (2 L)
+P = const, W = P (V2 - V1)
+P V^gamma = const, Q = 0
+P V^m = const, W = (P2 V2 - P1 V1)/(1 - m)
+p_i = exp(-E_i/(kB T)) / Z
+Pressure: 1 atm = 101325 Pa, 1 bar = 1e5 Pa
+PV = const, W = n R T ln(V2/V1)
+PV = const.
+PV = n R T
+q(t) = C V (1 - exp(-t/(R C)))
+r = alpha * dt / dx^2
+r = alpha * dt / dx^2, require r <= 1/2.
+r=2.9 converges to fixed point.
+Range R = v0^2 sin(2 theta)/g.
+Reversible adiabatic gives DeltaS = 0.
+RLC resonance near omega0 = 1/sqrt(L C).
+RMS displacement: x_rms = a sqrt(N).
+s = c * dt / dx
+s = c * dt / dx, require s <= 1.
+SHO energy constant when damping = 0.
+Static case sumF = 0.
+sumF = m a
+T = 2 pi sqrt(L/g).
+T = 2 pi sqrt(m/k).
+T = 2 pi sqrt(r^3/(G M)).
+T = 4 sqrt(L/g) K(k)
+tau = L/R.
+tau = R C.
+Temperature: T(K) = T(C) + 273.15
+theta'' + (g/L) sin(theta) = 0
+theta'' + (g/L) theta = 0
+U = (1/2) C V^2.
+U = (1/2) k x^2
+U = k q1 q2 / r
+U = m g h
+U = n Cv T, DeltaU = n Cv (T2 - T1)
+u_t = alpha u_xx
+u_t = D u_xx
+u_tt = c^2 u_xx
+V = const, W = 0, Q = n Cv (T2 - T1)
+V = k q / r
+v = omega/k.
+v = sqrt(G M / r)
+v = sqrt(T/mu)
+v^2 = v0^2 + 2 a (x - x0).
+v_esc = sqrt(2 G M / r)
+v_rms = sqrt(3 kB T / m).
+v_t = m g / b.
+Validation: DeltaS = 0.
+Validation: DeltaU = 0 and Q = W.
+Validation: energy conservation when damping = 0.
+Validation: fixed point for r=2.9.
+Validation: n = 1,2,3...
+Validation: n=1, T=273.15 K, P=101325 Pa -> V=0.022414 m^3.
+Validation: period T = 2 pi / omega.
+Validation: period T = 2 pi sqrt(r^3/(G M)).
+Validation: r=2.9 converges to fixed point.
+Validation: range R = v0^2 sin(2 theta)/g.
+Validation: small-angle period T = 2 pi sqrt(L/g).
+Validation: stability requires r=alpha dt/dx^2
+Validation: terminal speed v_t = m g / b.
+Validation: W = 0 for all states.
+Validation: W = n R (T2 - T1).
+Volume: 1 L = 1e-3 m^3
+W = 0, Q = n Cv (T2 - T1)
+W = integral(F dot dx)
+W = n R (T2 - T1).
+W = n R T ln(V2/V1)
+W = P (V2 - V1), Q = n Cp (T2 - T1)
+Wave speed v = omega / k.
+x'' + (k/m) x = 0
+x'' + (k/m) x = 0, omega = sqrt(k/m)
+x'' + 2 gamma x' + omega0^2 x = (F0/m) cos(omega t)
+x'' + 2 gamma x' + omega0^2 x = 0
+x'' + delta x' + alpha x + beta x^3 = gamma cos(omega t)
+x' = sigma (y - x)
+x' = sigma (y - x), y' = x (rho - z) - y, z' = x y - beta z
+x = x0 + v0 t + (1/2) a t^2
+x' = -y - z
+x' = -y - z, y' = x + a y, z' = b + z (x - c)
+x(t) = x0 + v0 cos(theta) t
+x_{n+1} = r (1 - x_n) if x_n >= 1/2
+x_{n+1} = r x_n (1 - x_n)
+x_{n+1} = r x_n if x_n
+x_rms = a sqrt(N).
+y' = x (rho - z) - y
+y' = x + a y
+y(t) = y0 + v0 sin(theta) t - (1/2) g t^2
+y(x,t) = 2 A sin(k x) cos(omega t)
+y(x,t) = A sin(k x - omega t + phi)
+y_{n+1} = y_n + h f(t_n, y_n)
+Z = 1 + exp(-E/(kB T))
+z' = b + z (x - c)
+Z = sum_i exp(-E_i/(kB T)).
+z' = x y - beta z

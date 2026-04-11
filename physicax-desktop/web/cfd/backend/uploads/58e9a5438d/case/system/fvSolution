@@ -1,0 +1,43 @@
+/* Auto-generated fvSolution (adjust as needed) */
+solvers
+{
+    p
+    {
+        solver          GAMG;
+        tolerance       1e-6;
+        relTol          0.1;
+        smoother        GaussSeidel;
+    }
+    U
+    {
+        solver          smoothSolver;
+        tolerance       1e-6;
+        relTol          0.1;
+        smoother        GaussSeidel;
+    }
+    k
+    {
+        solver          smoothSolver;
+        tolerance       1e-6;
+        relTol          0.1;
+        smoother        GaussSeidel;
+    }
+    epsilon
+    {
+        solver          smoothSolver;
+        tolerance       1e-6;
+        relTol          0.1;
+        smoother        GaussSeidel;
+    }
+    omega
+    {
+        solver          smoothSolver;
+        tolerance       1e-6;
+        relTol          0.1;
+        smoother        GaussSeidel;
+    }
+}
+SIMPLE
+{
+    nNonOrthogonalCorrectors 0;
+}

@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/labs/layout,_N_T_/labs/math/layout,_N_T_/labs/math/stability/layout,_N_T_/labs/math/stability/timestep/layout,_N_T_/labs/math/stability/timestep/page,_N_T_/labs/math/stability/timestep"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/labs/math/stability/timestep/__PAGE__",
+    "/labs/math/stability/timestep",
+    "/labs/math/stability",
+    "/labs/math",
+    "/labs",
+    "/_index",
+    "/_head"
+  ]
+}
