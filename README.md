@@ -136,8 +136,28 @@ This is the best path when you want repeatable local execution, controlled runti
 - `physicax-desktop/preload.ts`: desktop bridge exposed to the web UI.
 - `physicax-desktop/scripts`: web preparation, smoke tests, and Linux release helpers.
 - `physicax-desktop/backend`: packaged CFD backend build scripts and artifacts.
+- `requirements.txt`: top-level Python dependencies for the CFD backend on Linux.
 
 ## Getting started
+
+### Linux quick start from source
+
+From the repository root:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+cd physicax-web
+npm install
+
+cd ../physicax-desktop
+npm install
+npm run desktop:run:linux
+```
+
+This is the fastest way to launch the desktop app yourself on Linux from a downloaded or cloned source checkout.
 
 ### Web app
 
@@ -157,12 +177,13 @@ From `physicax-desktop`:
 
 ```bash
 npm install
-npm run desktop:build-main
-npm run desktop:prep-web
-npm run desktop:smoke-test
+npm run desktop:prepare-runtime:linux
+npm run desktop:run:linux
 ```
 
-The smoke test checks that:
+`desktop:prepare-runtime:linux` builds the web app, mirrors it into the desktop runtime, and packages the Linux CFD backend before Electron launches.
+
+The smoke test still checks that:
 
 - the bundled CFD backend responds
 - the local standalone UI responds
@@ -183,8 +204,33 @@ This produces a Linux release bundle under `physicax-desktop/dist/linux-release`
 
 - an AppImage
 - a `.deb` package
+- `run-PhysicaX-linux.sh` for native Linux launching
 - `run-PhysicaX-wsl.sh` for WSL-friendly launching
+- `install-PhysicaX-deb.sh` for Debian/Ubuntu installation
 - a generated `README.txt` for local release handoff
+
+### Run after downloading a Linux release
+
+From the downloaded `linux-release` folder:
+
+```bash
+chmod +x run-PhysicaX-linux.sh
+./run-PhysicaX-linux.sh
+```
+
+On WSL:
+
+```bash
+chmod +x run-PhysicaX-wsl.sh
+./run-PhysicaX-wsl.sh
+```
+
+To install the Debian package:
+
+```bash
+chmod +x install-PhysicaX-deb.sh
+./install-PhysicaX-deb.sh
+```
 
 ## CFD backend
 
@@ -193,13 +239,13 @@ The browser flow can talk to an external CFD backend through:
 - `CFD_BACKEND_URL`
 - `NEXT_PUBLIC_CFD_BACKEND_URL`
 
-Manual backend startup:
+Manual backend startup from the repository root:
 
 ```bash
-cd physicax-web/cfd/backend
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+cd physicax-web/cfd/backend
 uvicorn app:app --host 0.0.0.0 --port 8000
 ```
 
@@ -210,8 +256,7 @@ cd physicax-web
 npm run build
 
 cd ../physicax-desktop
-npm run desktop:prep-web
-npm run desktop:build-main
+npm run desktop:prepare-runtime:linux
 npm run desktop:smoke-test
 ```
 
@@ -219,8 +264,8 @@ For Linux release validation:
 
 ```bash
 cd physicax-desktop
-npm run desktop:build-backend:linux
 npm run desktop:package:linux
+npm run desktop:verify-release:linux
 ```
 
 ## Quality bar for PhysicaX changes

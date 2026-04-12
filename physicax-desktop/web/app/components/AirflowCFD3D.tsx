@@ -5598,8 +5598,8 @@ export function AirflowCFD3D() {
                   onChange={(event) => setExportPath(event.target.value)}
                   placeholder={
                     backendEngine === "openfoam"
-                      ? "C:\\path\\to\\field.csv"
-                      : "C:\\path\\to\\fluidx3d\\output\\field.vtk"
+                      ? "/path/to/field.csv"
+                      : "/path/to/fluidx3d/output/field.vtk"
                   }
                 />
                 {backendEngine === "fluidx3d" ? (

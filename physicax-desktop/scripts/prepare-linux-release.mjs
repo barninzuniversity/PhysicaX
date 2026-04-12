@@ -35,6 +35,29 @@ if (fs.existsSync(staleExtractDir)) {
 const copiedAppImage = copyIfPresent(path.join(distDir, appImageName), path.join(releaseDir, appImageName));
 const copiedDeb = copyIfPresent(path.join(distDir, debName), path.join(releaseDir, debName));
 
+const linuxLauncher = `#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+APPIMAGE="$SCRIPT_DIR/${appImageName}"
+
+if [ ! -f "$APPIMAGE" ]; then
+  echo "Missing AppImage: $APPIMAGE" >&2
+  exit 1
+fi
+
+chmod +x "$APPIMAGE"
+export APPIMAGE_EXTRACT_AND_RUN="\${APPIMAGE_EXTRACT_AND_RUN:-1}"
+
+if [ -z "\${DBUS_SESSION_BUS_ADDRESS:-}" ] && command -v dbus-run-session >/dev/null 2>&1; then
+  exec dbus-run-session -- "$APPIMAGE" "$@"
+fi
+
+exec "$APPIMAGE" "$@"
+`;
+
+writeFile(path.join(releaseDir, "run-PhysicaX-linux.sh"), linuxLauncher, 0o755);
+
 const wslLauncher = `#!/usr/bin/env bash
 set -euo pipefail
 
@@ -79,13 +102,35 @@ exec ./physicax-desktop
 
 writeFile(path.join(releaseDir, "run-PhysicaX-wsl.sh"), wslLauncher, 0o755);
 
+const debInstaller = `#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+DEB_FILE="$SCRIPT_DIR/${debName}"
+
+if [ ! -f "$DEB_FILE" ]; then
+  echo "Missing Debian package: $DEB_FILE" >&2
+  exit 1
+fi
+
+sudo apt install "$DEB_FILE"
+`;
+
+writeFile(path.join(releaseDir, "install-PhysicaX-deb.sh"), debInstaller, 0o755);
+
 const readme = `PhysicaX Linux Release
 ======================
 
 Folder contents:
 - ${appImageName}  (portable)
 - ${debName}  (Debian/Ubuntu package)
+- run-PhysicaX-linux.sh  (recommended launcher for native Linux)
 - run-PhysicaX-wsl.sh  (recommended launcher for WSL)
+- install-PhysicaX-deb.sh  (helper installer for Debian/Ubuntu)
+
+Run on Linux after downloading this folder:
+1) chmod +x run-PhysicaX-linux.sh
+2) ./run-PhysicaX-linux.sh
 
 Run on WSL (recommended):
 1) chmod +x run-PhysicaX-wsl.sh
@@ -98,16 +143,28 @@ Run AppImage directly:
 Install the Debian package:
 sudo apt install ./${debName}
 
+Or use the helper installer:
+1) chmod +x install-PhysicaX-deb.sh
+2) ./install-PhysicaX-deb.sh
+
 Notes:
-- If AppImage fails with "libfuse.so.2", install FUSE2: sudo apt install libfuse2
+- run-PhysicaX-linux.sh uses extract-and-run mode by default, which avoids the common FUSE problem on many Linux machines.
 - On WSL, the wrapper script extracts the AppImage to a cache folder and starts the desktop binary directly.
 - On WSL, if no user DBus session is present, the wrapper starts one automatically.
 - The app defaults to low GPU mode on WSL for stability. To force high mode: PHYSICAX_GPU_MODE=high ./run-PhysicaX-wsl.sh
 
-Rebuild from the repository root:
+Run from a source checkout on Linux:
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r /path/to/PhysicaX/requirements.txt
 cd /path/to/PhysicaX/physicax-web
-npm run build
+npm install
 cd ../physicax-desktop
+npm install
+npm run desktop:run:linux
+
+Rebuild release artifacts from source:
+cd /path/to/PhysicaX/physicax-desktop
 npm run desktop:package:linux
 `;
 
@@ -117,7 +174,9 @@ const summary = {
   releaseDir,
   appImage: copiedAppImage ? path.join(releaseDir, appImageName) : null,
   deb: copiedDeb ? path.join(releaseDir, debName) : null,
-  launcher: path.join(releaseDir, "run-PhysicaX-wsl.sh")
+  linuxLauncher: path.join(releaseDir, "run-PhysicaX-linux.sh"),
+  wslLauncher: path.join(releaseDir, "run-PhysicaX-wsl.sh"),
+  installScript: path.join(releaseDir, "install-PhysicaX-deb.sh")
 };
 
 console.log(JSON.stringify(summary, null, 2));

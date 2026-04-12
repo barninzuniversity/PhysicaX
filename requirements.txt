@@ -1,0 +1,6 @@
+# Canonical Python dependencies for the PhysicaX CFD backend.
+# Install from the repository root on Linux with:
+#   python3 -m venv .venv
+#   source .venv/bin/activate
+#   pip install -r requirements.txt
+-r physicax-web/cfd/backend/requirements.txt

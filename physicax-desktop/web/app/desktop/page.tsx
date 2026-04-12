@@ -27,6 +27,34 @@ const operatingTracks = [
   }
 ];
 
+const linuxSourceCommands = `cd /path/to/PhysicaX
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+cd physicax-web
+npm install
+
+cd ../physicax-desktop
+npm install
+npm run desktop:run:linux`;
+
+const linuxReleaseCommands = `cd /path/to/downloaded/PhysicaX-linux-release
+chmod +x run-PhysicaX-linux.sh
+./run-PhysicaX-linux.sh`;
+
+const linuxDebCommands = `cd /path/to/downloaded/PhysicaX-linux-release
+chmod +x install-PhysicaX-deb.sh
+./install-PhysicaX-deb.sh`;
+
+const linuxBackendCommands = `cd /path/to/PhysicaX
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+cd physicax-web/cfd/backend
+uvicorn app:app --host 0.0.0.0 --port 8000`;
+
 const operatingScenarios = [
   {
     id: "native",
@@ -584,14 +612,72 @@ export default function DesktopSettingsPage() {
       </section>
 
       <section className="section reveal">
+        <div className="section-header">
+          <p className="section-kicker">Linux quick start</p>
+          <h2>Run PhysicaX Yourself On Linux</h2>
+          <p className="section-lede">
+            These commands cover the two paths most people need: running from a source checkout and running after
+            downloading a packaged Linux release.
+          </p>
+        </div>
+        <div className="card-grid">
+          <div className="card">
+            <h3>Run from source</h3>
+            <p>Use this when you cloned or downloaded the repository and want the desktop app to build the web surface and backend locally.</p>
+            <div className="code-block compact">
+              <pre>
+                <code>{linuxSourceCommands}</code>
+              </pre>
+            </div>
+          </div>
+          <div className="card">
+            <h3>Run after downloading a release</h3>
+            <p>Use the Linux launcher when you downloaded the packaged release folder from GitHub or received it from another machine.</p>
+            <div className="code-block compact">
+              <pre>
+                <code>{linuxReleaseCommands}</code>
+              </pre>
+            </div>
+          </div>
+          <div className="card">
+            <h3>Install the Debian package</h3>
+            <p>Use the helper installer if you prefer a system install instead of running the AppImage-style release launcher directly.</p>
+            <div className="code-block compact">
+              <pre>
+                <code>{linuxDebCommands}</code>
+              </pre>
+            </div>
+          </div>
+          <div className="card">
+            <h3>Start the CFD backend only</h3>
+            <p>Use this when you want to drive the browser workflow with a standalone backend or debug the CFD service separately.</p>
+            <div className="code-block compact">
+              <pre>
+                <code>{linuxBackendCommands}</code>
+              </pre>
+            </div>
+          </div>
+        </div>
+        <p className="demo-note">
+          The repository root now includes a top-level <span className="mono">requirements.txt</span> so the Python CFD
+          backend can be installed from one place on Linux.
+        </p>
+      </section>
+
+      <section className="section reveal">
         <h2>WSL / Linux Notes</h2>
         <p>
-          If you are using the Linux package inside WSL, the most reliable launch path is the prepared WSL launcher. It
-          extracts the AppImage once and runs the verified packaged desktop binary directly.
+          If you are using the Linux package inside WSL, the most reliable launch path is the prepared WSL launcher. On
+          native Linux, the new general launcher starts the AppImage in extract-and-run mode by default so it works
+          more reliably on machines that do not have FUSE configured.
         </p>
         <div className="code-block">
           <pre>
-            <code>{`cd /path/to/PhysicaX/physicax-desktop/dist/linux-release
+            <code>{`cd /path/to/downloaded/PhysicaX-linux-release
+chmod +x run-PhysicaX-linux.sh
+./run-PhysicaX-linux.sh
+
+# WSL:
 chmod +x run-PhysicaX-wsl.sh
 ./run-PhysicaX-wsl.sh`}</code>
           </pre>
