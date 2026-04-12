@@ -154,6 +154,7 @@ npm install
 
 cd ../physicax-desktop
 npm install
+npm run desktop:doctor:linux
 npm run desktop:run:linux
 ```
 
@@ -177,11 +178,14 @@ From `physicax-desktop`:
 
 ```bash
 npm install
+npm run desktop:doctor:linux
 npm run desktop:prepare-runtime:linux
 npm run desktop:run:linux
 ```
 
 `desktop:prepare-runtime:linux` builds the web app, mirrors it into the desktop runtime, and packages the Linux CFD backend before Electron launches.
+
+`desktop:doctor:linux` gives you a quick preflight report for the Linux machine: missing tools, missing dependency installs, missing build artifacts, and whether release files already exist.
 
 The smoke test still checks that:
 
@@ -256,6 +260,7 @@ cd physicax-web
 npm run build
 
 cd ../physicax-desktop
+npm run desktop:doctor:linux
 npm run desktop:prepare-runtime:linux
 npm run desktop:smoke-test
 ```

@@ -24,6 +24,7 @@
     "desktop:build": "npm run desktop:prep-web && npm run desktop:build-main && electron-builder && node scripts/postbuild.mjs",
     "desktop:prepare-runtime:linux": "npm --prefix ../physicax-web run build && npm run desktop:prep-web && npm run desktop:build-main && npm run desktop:build-backend:linux",
     "desktop:run:linux": "npm run desktop:prepare-runtime:linux && electron .",
+    "desktop:doctor:linux": "bash scripts/doctor-linux.sh",
     "desktop:verify-release:linux": "node scripts/verify-linux-release.mjs",
     "desktop:package:linux": "npm run desktop:prepare-runtime:linux && npx electron-builder --linux AppImage deb && node scripts/prepare-linux-release.mjs && npm run desktop:verify-release:linux",
     "desktop:build-backend:win": "powershell -ExecutionPolicy Bypass -File backend/build-backend.ps1",

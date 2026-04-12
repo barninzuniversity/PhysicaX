@@ -11,6 +11,14 @@ type DesktopSettings = {
 };
 
 type BackendHealth = "checking" | "ready" | "offline";
+type CommandGuide = {
+  id: string;
+  title: string;
+  body: string;
+  command: string;
+  badge: string;
+  note: string;
+};
 
 const operatingTracks = [
   {
@@ -37,7 +45,11 @@ npm install
 
 cd ../physicax-desktop
 npm install
+npm run desktop:doctor:linux
 npm run desktop:run:linux`;
+
+const linuxDoctorCommands = `cd /path/to/PhysicaX/physicax-desktop
+npm run desktop:doctor:linux`;
 
 const linuxReleaseCommands = `cd /path/to/downloaded/PhysicaX-linux-release
 chmod +x run-PhysicaX-linux.sh
@@ -54,6 +66,49 @@ pip install -r requirements.txt
 
 cd physicax-web/cfd/backend
 uvicorn app:app --host 0.0.0.0 --port 8000`;
+
+const linuxCommandGuides: CommandGuide[] = [
+  {
+    id: "source",
+    title: "Run from source",
+    body: "Use this when you cloned or downloaded the repository and want the desktop app to build the web surface and backend locally.",
+    command: linuxSourceCommands,
+    badge: "Recommended first run",
+    note: "This path installs Python and JavaScript dependencies, checks the machine, then launches the desktop runtime."
+  },
+  {
+    id: "doctor",
+    title: "Check the machine first",
+    body: "Use the Linux doctor before launching when you want a quick read on missing tools, build outputs, and release artifacts.",
+    command: linuxDoctorCommands,
+    badge: "Self-check",
+    note: "The doctor reports missing prerequisites and points you toward the next command instead of making you guess."
+  },
+  {
+    id: "release",
+    title: "Run after downloading a release",
+    body: "Use the Linux launcher when you downloaded the packaged release folder from GitHub or received it from another machine.",
+    command: linuxReleaseCommands,
+    badge: "Portable release",
+    note: "This is the easiest handoff path for a finished Linux package."
+  },
+  {
+    id: "deb",
+    title: "Install the Debian package",
+    body: "Use the helper installer if you prefer a system install instead of running the AppImage-style release launcher directly.",
+    command: linuxDebCommands,
+    badge: "System install",
+    note: "Good for Debian and Ubuntu machines where you want the package registered with the desktop environment."
+  },
+  {
+    id: "backend",
+    title: "Start the CFD backend only",
+    body: "Use this when you want to drive the browser workflow with a standalone backend or debug the CFD service separately.",
+    command: linuxBackendCommands,
+    badge: "Service-only",
+    note: "Best for browser-based CFD debugging and manual backend verification."
+  }
+];
 
 const operatingScenarios = [
   {
@@ -157,6 +212,27 @@ export default function DesktopSettingsPage() {
   const [runtimeError, setRuntimeError] = useState("");
   const [lastSynced, setLastSynced] = useState<Date | null>(null);
   const [lastBackendCheck, setLastBackendCheck] = useState<Date | null>(null);
+  const [copiedCommandId, setCopiedCommandId] = useState<string | null>(null);
+
+  const fetchBackendStatus = async (url: string) => {
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 3500);
+    try {
+      return await fetch(`${url}/status`, { cache: "no-store", signal: controller.signal });
+    } finally {
+      window.clearTimeout(timeout);
+    }
+  };
+
+  const copyCommand = async (commandId: string, command: string) => {
+    try {
+      await navigator.clipboard.writeText(command);
+      setCopiedCommandId(commandId);
+      setMessage("Command copied to clipboard.");
+    } catch (error) {
+      setMessage(`Could not copy command: ${describeDesktopError(error)}`);
+    }
+  };
 
   const syncDesktopState = async (announce = false) => {
     if (!window.physicaxDesktop) {
@@ -208,10 +284,7 @@ export default function DesktopSettingsPage() {
 
     try {
       setBackendHealth("checking");
-      const controller = new AbortController();
-      const timeout = window.setTimeout(() => controller.abort(), 3500);
-      const response = await fetch(`${backendUrl}/status`, { cache: "no-store", signal: controller.signal });
-      window.clearTimeout(timeout);
+      const response = await fetchBackendStatus(backendUrl);
       setBackendHealth(response.ok ? "ready" : "offline");
       setLastBackendCheck(new Date());
       if (announce) {
@@ -242,10 +315,7 @@ export default function DesktopSettingsPage() {
     const checkBackend = async () => {
       try {
         setBackendHealth("checking");
-        const controller = new AbortController();
-        const timeout = window.setTimeout(() => controller.abort(), 3500);
-        const response = await fetch(`${backendUrl}/status`, { cache: "no-store", signal: controller.signal });
-        window.clearTimeout(timeout);
+        const response = await fetchBackendStatus(backendUrl);
         if (cancelled) return;
         setBackendHealth(response.ok ? "ready" : "offline");
         setLastBackendCheck(new Date());
@@ -266,6 +336,12 @@ export default function DesktopSettingsPage() {
       window.clearInterval(interval);
     };
   }, [ready, backendUrl]);
+
+  useEffect(() => {
+    if (!copiedCommandId) return;
+    const timeout = window.setTimeout(() => setCopiedCommandId(null), 1800);
+    return () => window.clearTimeout(timeout);
+  }, [copiedCommandId]);
 
   const toggleGpu = async (mode: "high" | "low") => {
     if (!window.physicaxDesktop) return;
@@ -616,51 +692,38 @@ export default function DesktopSettingsPage() {
           <p className="section-kicker">Linux quick start</p>
           <h2>Run PhysicaX Yourself On Linux</h2>
           <p className="section-lede">
-            These commands cover the two paths most people need: running from a source checkout and running after
-            downloading a packaged Linux release.
+            These launch paths now include a Linux self-check, so you can validate the machine before you commit to a
+            longer build or package workflow.
           </p>
         </div>
         <div className="card-grid">
-          <div className="card">
-            <h3>Run from source</h3>
-            <p>Use this when you cloned or downloaded the repository and want the desktop app to build the web surface and backend locally.</p>
-            <div className="code-block compact">
-              <pre>
-                <code>{linuxSourceCommands}</code>
-              </pre>
+          {linuxCommandGuides.map((guide) => (
+            <div className="card" key={guide.id}>
+              <div className="inline-kv">
+                <span className="pill pill-active">{guide.badge}</span>
+                <button
+                  type="button"
+                  className="control-chip"
+                  onClick={() => void copyCommand(guide.id, guide.command)}
+                >
+                  {copiedCommandId === guide.id ? "Copied" : "Copy command"}
+                </button>
+              </div>
+              <h3>{guide.title}</h3>
+              <p>{guide.body}</p>
+              <div className="code-block compact">
+                <pre>
+                  <code>{guide.command}</code>
+                </pre>
+              </div>
+              <p className="demo-note">{guide.note}</p>
             </div>
-          </div>
-          <div className="card">
-            <h3>Run after downloading a release</h3>
-            <p>Use the Linux launcher when you downloaded the packaged release folder from GitHub or received it from another machine.</p>
-            <div className="code-block compact">
-              <pre>
-                <code>{linuxReleaseCommands}</code>
-              </pre>
-            </div>
-          </div>
-          <div className="card">
-            <h3>Install the Debian package</h3>
-            <p>Use the helper installer if you prefer a system install instead of running the AppImage-style release launcher directly.</p>
-            <div className="code-block compact">
-              <pre>
-                <code>{linuxDebCommands}</code>
-              </pre>
-            </div>
-          </div>
-          <div className="card">
-            <h3>Start the CFD backend only</h3>
-            <p>Use this when you want to drive the browser workflow with a standalone backend or debug the CFD service separately.</p>
-            <div className="code-block compact">
-              <pre>
-                <code>{linuxBackendCommands}</code>
-              </pre>
-            </div>
-          </div>
+          ))}
         </div>
         <p className="demo-note">
           The repository root now includes a top-level <span className="mono">requirements.txt</span> so the Python CFD
-          backend can be installed from one place on Linux.
+          backend can be installed from one place on Linux, and the desktop package now includes a Linux doctor command
+          for quick preflight checks.
         </p>
       </section>
 
