@@ -77,7 +77,7 @@ export function SiteNav() {
     <nav className="site-nav">
       <div className="nav-grid">
         {groups.map((group) => (
-          <div key={group.label} className="nav-section">
+          <div key={group.label} className={`nav-section ${group.links.some((item) => isActive(item.href)) ? "active" : ""}`}>
             <div className="nav-section-head">
               <span className="nav-section-title">{group.label}</span>
               <span className="nav-section-meta">{group.meta}</span>
@@ -96,7 +96,7 @@ export function SiteNav() {
             </div>
           </div>
         ))}
-        <div className="nav-section nav-section-account">
+        <div className={`nav-section nav-section-account ${isActive("/profile") || isActive("/login") || isActive("/register") ? "active" : ""}`}>
           <div className="nav-section-head">
             <span className="nav-section-title">{t("account")}</span>
             <span className="nav-section-meta">{status === "authenticated" ? t("navSignedIn") : t("navAccess")}</span>

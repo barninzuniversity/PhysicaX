@@ -7,7 +7,7 @@ import os from "node:os";
 
 const uiPort = Number(process.env.PHYSICAX_UI_PORT || 3000);
 const backendPort = Number(process.env.PHYSICAX_BACKEND_PORT || 8000);
-const backendUrl = `http://localhost:${backendPort}`;
+const backendUrl = `http://127.0.0.1:${backendPort}`;
 const desktopAppName = "physicax-desktop";
 
 const resolveUserDataDir = () => {
@@ -265,6 +265,58 @@ const waitForUrl = (url: string, timeoutMs = 20000) =>
     attempt();
   });
 
+const readUrl = (url: string, timeoutMs = 3000) =>
+  new Promise<string>((resolve, reject) => {
+    try {
+      const target = new URL(url);
+      const req = http.request(
+        {
+          host: target.hostname,
+          port: target.port,
+          path: target.pathname,
+          method: "GET",
+          timeout: timeoutMs
+        },
+        (res) => {
+          const chunks: Buffer[] = [];
+          res.on("data", (chunk) => chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)));
+          res.on("end", () => {
+            if (!res.statusCode || res.statusCode >= 500) {
+              reject(new Error(`Unexpected status: ${res.statusCode ?? "unknown"}`));
+              return;
+            }
+            resolve(Buffer.concat(chunks).toString("utf-8"));
+          });
+        }
+      );
+      req.on("error", reject);
+      req.on("timeout", () => {
+        req.destroy(new Error("request-timeout"));
+      });
+      req.end();
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+const probeExistingUi = async () => {
+  try {
+    const html = await readUrl(`http://127.0.0.1:${uiPort}`, 3000);
+    return html.includes("PhysicaX") || html.includes("__next");
+  } catch {
+    return false;
+  }
+};
+
+const probeExistingBackend = async () => {
+  try {
+    const payload = await readUrl(`${backendUrl}/status`, 3000);
+    return payload.includes("\"status\"") || payload.includes("ready");
+  } catch {
+    return false;
+  }
+};
+
 const ensureLogDir = () => {
   const dir = path.join(resolveUserDataDir(), "logs");
   fs.mkdirSync(dir, { recursive: true });
@@ -307,6 +359,43 @@ const attachProcessLogs = (proc: ChildProcess | null, name: string) => {
   appendBootstrapLog(`desktop-main:attach-process-logs:${name}`, { logPath });
   proc.stdout?.pipe(stream);
   proc.stderr?.pipe(stream);
+};
+
+const stopProcess = (name: string, proc: ChildProcess | null) => {
+  if (!proc || proc.killed) return;
+  try {
+    appendBootstrapLog(`desktop-main:stop-process:${name}`, { pid: proc.pid });
+    proc.kill("SIGTERM");
+  } catch {
+    // ignore shutdown errors
+  }
+};
+
+const cleanupManagedProcesses = (reason: string) => {
+  appendBootstrapLog("desktop-main:cleanup-processes", { reason });
+  stopProcess("next", nextProcess);
+  stopProcess("backend", backendProcess);
+  nextProcess = null;
+  backendProcess = null;
+};
+
+const resolveWindowIcon = () => {
+  const candidates = app.isPackaged
+    ? [
+        path.join(process.resourcesPath, "build", "icons", "512x512.png"),
+        path.join(process.resourcesPath, "build", "icon.png")
+      ]
+    : [
+        path.join(desktopRoot(), "build", "icons", "512x512.png"),
+        path.join(desktopRoot(), "build", "icon.png"),
+        path.join(desktopRoot(), "build", "icon.svg")
+      ];
+  for (const candidate of candidates) {
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
+  }
+  return undefined;
 };
 
 const normalizeBackendBinary = (candidate: string) => {
@@ -368,6 +457,10 @@ const resolveNodeRuntime = () => {
 };
 
 const startBackend = async () => {
+  if (await probeExistingBackend()) {
+    appendBootstrapLog("desktop-main:reuse-existing-backend", { backendUrl });
+    return true;
+  }
   const backendBinary = resolveBackendBinary();
   const backendDataDir = ensureBackendDataDir();
   const openFoamBashrc = resolveOpenFoamBashrc();
@@ -456,7 +549,11 @@ const startBackend = async () => {
   return ready;
 };
 
-const startNextServer = () => {
+const startNextServer = async () => {
+  if (await probeExistingUi()) {
+    appendBootstrapLog("desktop-main:reuse-existing-ui", { uiPort });
+    return true;
+  }
   if (process.env.ELECTRON_START_URL && !app.isPackaged) {
     appendBootstrapLog("desktop-main:skip-next-server", { reason: "ELECTRON_START_URL" });
     return true;
@@ -545,8 +642,8 @@ const splashHtml = (message: string) =>
       "body{margin:0;display:flex;align-items:center;justify-content:center;height:100vh;background:radial-gradient(circle at 20% 20%,rgba(59,130,246,0.2),transparent 45%),radial-gradient(circle at 80% 30%,rgba(124,58,237,0.18),transparent 50%),#0b0f1a;color:#f8fafc;font-family:'Segoe UI',sans-serif;}" +
       ".card{background:rgba(16,24,38,0.88);padding:36px 40px;border-radius:22px;box-shadow:0 30px 70px rgba(0,0,0,0.4);max-width:540px;text-align:center;border:1px solid rgba(148,163,184,0.2);backdrop-filter:blur(16px) saturate(140%);}" +
       ".logo{display:flex;align-items:center;justify-content:center;gap:12px;font-size:24px;font-weight:700;margin-bottom:10px;}" +
-      ".mark{width:46px;height:46px;border-radius:14px;background:#0f172a;display:grid;place-items:center;box-shadow:0 12px 28px rgba(59,130,246,0.3);border:1px solid rgba(96,165,250,0.35);}" +
-      ".mark span{color:#e2e8f0;font-weight:700;letter-spacing:-0.04em;}" +
+      ".mark{width:54px;height:54px;border-radius:16px;background:linear-gradient(135deg,#071121,#13274f);display:grid;place-items:center;box-shadow:0 14px 32px rgba(59,130,246,0.26);border:1px solid rgba(96,165,250,0.25);overflow:hidden;}" +
+      ".mark svg{width:58px;height:58px;display:block;}" +
       ".pulse{width:56px;height:56px;border-radius:50%;border:2px solid rgba(125,211,252,0.35);position:absolute;animation:pulse 2.6s ease-out infinite;}" +
       ".loader{width:42px;height:42px;border:3px solid rgba(255,255,255,0.25);border-top-color:#7dd3fc;border-radius:50%;margin:18px auto 10px;animation:spin 1s linear infinite;}" +
       ".bar{height:6px;border-radius:999px;background:rgba(148,163,184,0.2);overflow:hidden;margin:14px 0 6px;}" +
@@ -555,7 +652,7 @@ const splashHtml = (message: string) =>
       "@keyframes spin{to{transform:rotate(360deg)}}" +
       "@keyframes pulse{0%{transform:scale(0.7);opacity:0.7;}70%{transform:scale(1.3);opacity:0;}100%{opacity:0;}}" +
       "@keyframes load{0%{transform:translateX(-100%);}50%{transform:translateX(60%);}100%{transform:translateX(220%);}}" +
-      "</style></head><body><div class='card'><div class='logo'><div class='mark'><span>PX</span></div><div>PhysicaX</div></div><div class='loader'></div><div class='bar'><span></span></div><div class='muted'>" +
+      "</style></head><body><div class='card'><div class='logo'><div class='mark'><svg viewBox='0 0 64 64' aria-hidden='true'><defs><linearGradient id='splash-shell' x1='9' y1='7' x2='55' y2='58' gradientUnits='userSpaceOnUse'><stop stop-color='#071121'/><stop offset='0.58' stop-color='#12264b'/><stop offset='1' stop-color='#09101a'/></linearGradient><linearGradient id='splash-orbit' x1='14' y1='12' x2='55' y2='49' gradientUnits='userSpaceOnUse'><stop stop-color='#7dd3fc'/><stop offset='0.52' stop-color='#60a5fa'/><stop offset='1' stop-color='#c084fc'/></linearGradient><radialGradient id='splash-core' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='translate(27.5 25.5) rotate(45) scale(21)'><stop stop-color='#f8fbff'/><stop offset='0.34' stop-color='#93eaff'/><stop offset='1' stop-color='#1d4ed8'/></radialGradient></defs><rect x='4' y='4' width='56' height='56' rx='18' fill='url(#splash-shell)'/><g transform='rotate(-18 32 32)'><ellipse cx='32' cy='23' rx='18' ry='7' stroke='url(#splash-orbit)' stroke-width='2.4'/><ellipse cx='32' cy='42' rx='14' ry='5.4' stroke='url(#splash-orbit)' stroke-width='1.7' stroke-opacity='0.85'/><circle cx='47.5' cy='25.5' r='2.7' fill='#c4b5fd'/></g><circle cx='27.5' cy='26.5' r='11' fill='url(#splash-core)'/><circle cx='23.5' cy='22.5' r='3.6' fill='#f8fbff' fill-opacity='0.8'/><path d='M22 46V18.5H30.25C35.8 18.5 39.25 21.45 39.25 26.2C39.25 31.05 35.8 33.95 30.25 33.95H26.65V46H22ZM26.65 30.1H29.85C32.95 30.1 34.9 28.75 34.9 26.2C34.9 23.8 32.95 22.35 29.85 22.35H26.65V30.1Z' fill='#f8fbff'/><path d='M39.25 44.5L45.1 36.7L39.65 29.15H43.8L47.95 34.95L52.15 29.15H56.2L50.7 36.75L56.6 44.5H52.3L47.95 38.5L43.55 44.5H39.25Z' fill='#c084fc'/></svg></div><div>PhysicaX</div></div><div class='loader'></div><div class='bar'><span></span></div><div class='muted'>" +
       message +
       "</div></div></body></html>"
   );
@@ -567,6 +664,7 @@ const createWindow = (startUrl: string, show = true) => {
     minWidth: 1100,
     minHeight: 700,
     backgroundColor: "#0b0b12",
+    icon: resolveWindowIcon(),
     webPreferences: {
       preload: path.join(__dirname, "preload.js")
     },
@@ -602,6 +700,7 @@ process.on("uncaughtException", (error) => {
     message: error.message,
     stack: error.stack
   });
+  cleanupManagedProcesses("uncaught-exception");
 });
 
 process.on("unhandledRejection", (reason) => {
@@ -611,7 +710,18 @@ process.on("unhandledRejection", (reason) => {
 });
 
 process.on("exit", (code) => {
+  cleanupManagedProcesses("process-exit");
   appendBootstrapLog("desktop-main:process-exit", { code });
+});
+
+process.on("SIGINT", () => {
+  cleanupManagedProcesses("sigint");
+  process.exit(0);
+});
+
+process.on("SIGTERM", () => {
+  cleanupManagedProcesses("sigterm");
+  process.exit(0);
 });
 
 app.on("will-finish-launching", () => {
@@ -633,7 +743,7 @@ app.whenReady().then(async () => {
   win.show();
 
   void startBackend().catch(() => {});
-  const nextStarted = startNextServer();
+  const nextStarted = await startNextServer();
   appendBootstrapLog("desktop-main:next-started-flag", { nextStarted });
   if (!nextStarted) {
     win.loadURL(
@@ -722,14 +832,7 @@ app.whenReady().then(async () => {
 app.on("before-quit", () => {
   appendBootstrapLog("desktop-main:before-quit");
   isQuitting = true;
-  if (nextProcess) {
-    nextProcess.kill();
-    nextProcess = null;
-  }
-  if (backendProcess) {
-    backendProcess.kill();
-    backendProcess = null;
-  }
+  cleanupManagedProcesses("before-quit");
 });
 
 app.on("window-all-closed", () => {

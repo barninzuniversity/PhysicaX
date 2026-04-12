@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { SiteNav } from "./SiteNav";
 import { UserMenu } from "./UserMenu";
@@ -36,7 +37,18 @@ const applyAccent = (value: string) => {
   document.documentElement.style.setProperty("--ring", `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.35)`);
 };
 
+const fetchWithTimeout = async (input: string, timeoutMs = 3000) => {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(input, { signal: controller.signal, cache: "no-store" });
+  } finally {
+    window.clearTimeout(timer);
+  }
+};
+
 export function SiteHeader() {
+  const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(true);
   const [hidden, setHidden] = useState(true);
   const [desktopAvailable, setDesktopAvailable] = useState(false);
@@ -51,6 +63,20 @@ export function SiteHeader() {
   const { collapsed: railCollapsed, toggle: toggleRail, setCollapsed: setRailCollapsed } = useRailState();
   const { locale, setLocale, t } = useLocale();
   const RECENT_LABS_KEY = "physicaxRecentLabs";
+  const primaryLinks = [
+    { href: "/", label: t("overview") },
+    { href: "/labs", label: t("labs") },
+    { href: "/dashboard", label: t("dashboard") },
+    { href: "/cfd", label: t("cfd") },
+    ...(desktopAvailable ? [{ href: "/desktop", label: "Desktop" }] : [])
+  ];
+
+  const isActiveLink = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+    return pathname.startsWith(href);
+  };
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -64,13 +90,17 @@ export function SiteHeader() {
     if (hiddenStored !== null) {
       setHidden(hiddenStored === "true");
     }
-    const desktopBridge = (window as typeof window & { physicaxDesktop?: any }).physicaxDesktop;
+    const desktopBridge = (window as typeof window & { physicaxDesktop?: unknown }).physicaxDesktop as
+      | {
+          getSettings?: () => Promise<{ gpuMode?: "high" | "low" } | null | undefined>;
+        }
+      | undefined;
     const desktopReady = Boolean(desktopBridge);
     setDesktopAvailable(desktopReady);
     if (desktopReady) {
       desktopBridge
-        .getSettings?.()
-        .then((settings: { gpuMode?: "high" | "low" } | null | undefined) => {
+        ?.getSettings?.()
+        .then((settings) => {
           if (settings?.gpuMode === "low") {
             setGpuMode("low");
           } else {
@@ -104,6 +134,11 @@ export function SiteHeader() {
       }
     }
   }, []);
+
+  useEffect(() => {
+    setActionsOpen(false);
+    setHidden(false);
+  }, [pathname]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -203,15 +238,15 @@ export function SiteHeader() {
     let cancelled = false;
     const check = async () => {
       try {
-        const backendUrl = await window.physicaxDesktop?.getBackendUrl?.();
-        if (!backendUrl) {
+        const desktopBridge = (window as typeof window & {
+          physicaxDesktop?: { getBackendUrl?: () => Promise<string> };
+        }).physicaxDesktop;
+        const runtimeBackendUrl = await desktopBridge?.getBackendUrl?.();
+        if (!runtimeBackendUrl) {
           if (!cancelled) setBackendStatus("offline");
           return;
         }
-        const controller = new AbortController();
-        const timer = window.setTimeout(() => controller.abort(), 3000);
-        const res = await fetch(`${backendUrl}/status`, { signal: controller.signal, cache: "no-store" });
-        window.clearTimeout(timer);
+        const res = await fetchWithTimeout(`${runtimeBackendUrl}/status`);
         if (!cancelled) setBackendStatus(res.ok ? "online" : "offline");
       } catch {
         if (!cancelled) setBackendStatus("offline");
@@ -230,17 +265,30 @@ export function SiteHeader() {
       return;
     }
     let lastY = window.scrollY;
+    let raf = 0;
     const onScroll = () => {
-      const currentY = window.scrollY;
-      const delta = currentY - lastY;
-      if (delta > 8 && currentY > 80) {
-        setHidden(true);
-      }
-      lastY = currentY;
+      if (raf) return;
+      raf = window.requestAnimationFrame(() => {
+        const currentY = window.scrollY;
+        const delta = currentY - lastY;
+        if (currentY <= 32 || delta < -10 || actionsOpen) {
+          setHidden(false);
+        } else if (delta > 12 && currentY > 96) {
+          setHidden(true);
+          setActionsOpen(false);
+        }
+        lastY = currentY;
+        raf = 0;
+      });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    return () => {
+      if (raf) {
+        window.cancelAnimationFrame(raf);
+      }
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [actionsOpen]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -294,157 +342,190 @@ export function SiteHeader() {
         {railCollapsed ? t("labsRailTitle") : t("labsRailCollapse")}
       </button>
       <header className={`site-header ${collapsed ? "nav-collapsed" : ""} ${hidden ? "is-hidden" : ""}`}>
-      <div className="header-top">
-        <div className="brand">
-          <div className="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 64 64" role="img" aria-label="PhysicaX logo">
-              <rect x="4" y="4" width="56" height="56" rx="16" fill="#0a0a0a" />
-              <path
-                d="M20 44V20h10c6 0 10 3 10 8 0 5-4 8-10 8h-4v8h-6zm6-14h4c3 0 5-1 5-4 0-3-2-4-5-4h-4v8z"
-                fill="#ffffff"
-              />
-              <path d="M40 42l8-10-8-10h6l5 7 5-7h6l-8 10 8 10h-6l-5-7-5 7h-6z" fill="#8b5cf6" />
-            </svg>
-          </div>
-          <div className="brand-text">
-            <div className="brand-title">PhysicaX</div>
-            <div className="brand-subtitle">Computational Physics Platform</div>
-          </div>
-        </div>
-        <div className="header-actions">
-          <div className="header-pill">{t("headerPill")}</div>
-          {desktopAvailable ? (
-            <div className={`status-pill ${backendStatus}`} aria-live="polite">
-              <span className="status-dot" aria-hidden="true" />
-              <span>
-                {t("backendLabel")}:{" "}
-                {backendStatus === "online" ? t("backendOnline") : backendStatus === "offline" ? t("backendOffline") : t("backendChecking")}
-              </span>
+        <div className="header-top">
+          <Link href="/" className="brand-link" aria-label="PhysicaX home">
+            <div className="brand">
+              <div className="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="brand-shell" x1="9" y1="7" x2="55" y2="58" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#071121" />
+                      <stop offset="0.58" stopColor="#12264b" />
+                      <stop offset="1" stopColor="#09101a" />
+                    </linearGradient>
+                    <linearGradient id="brand-orbit" x1="14" y1="12" x2="55" y2="49" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#7dd3fc" />
+                      <stop offset="0.52" stopColor="#60a5fa" />
+                      <stop offset="1" stopColor="#c084fc" />
+                    </linearGradient>
+                    <radialGradient id="brand-core" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(27.5 25.5) rotate(45) scale(21)">
+                      <stop stopColor="#f8fbff" />
+                      <stop offset="0.34" stopColor="#93eaff" />
+                      <stop offset="1" stopColor="#1d4ed8" />
+                    </radialGradient>
+                  </defs>
+                  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#brand-shell)" />
+                  <g transform="rotate(-18 32 32)">
+                    <ellipse cx="32" cy="23" rx="18" ry="7" stroke="url(#brand-orbit)" strokeWidth="2.4" />
+                    <ellipse cx="32" cy="42" rx="14" ry="5.4" stroke="url(#brand-orbit)" strokeWidth="1.7" strokeOpacity="0.85" />
+                    <circle cx="47.5" cy="25.5" r="2.7" fill="#c4b5fd" />
+                  </g>
+                  <circle cx="27.5" cy="26.5" r="11" fill="url(#brand-core)" />
+                  <circle cx="23.5" cy="22.5" r="3.6" fill="#f8fbff" fillOpacity="0.8" />
+                  <path
+                    d="M22 46V18.5H30.25C35.8 18.5 39.25 21.45 39.25 26.2C39.25 31.05 35.8 33.95 30.25 33.95H26.65V46H22ZM26.65 30.1H29.85C32.95 30.1 34.9 28.75 34.9 26.2C34.9 23.8 32.95 22.35 29.85 22.35H26.65V30.1Z"
+                    fill="#f8fbff"
+                  />
+                  <path d="M39.25 44.5L45.1 36.7L39.65 29.15H43.8L47.95 34.95L52.15 29.15H56.2L50.7 36.75L56.6 44.5H52.3L47.95 38.5L43.55 44.5H39.25Z" fill="#c084fc" />
+                </svg>
+              </div>
+              <div className="brand-text">
+                <div className="brand-title">PhysicaX</div>
+                <div className="brand-subtitle">Local-first physics workspace</div>
+              </div>
             </div>
-          ) : null}
-          <div className="quick-actions" ref={actionsRef}>
-            <button
-              type="button"
-              className={`nav-toggle ${actionsOpen ? "is-active" : ""}`}
-              onClick={() => setActionsOpen((prev) => !prev)}
-              aria-expanded={actionsOpen}
-            >
-              {t("quickActions")}
-            </button>
-            {actionsOpen ? (
-              <div className="quick-actions-menu" role="menu">
-                <div className="quick-actions-title">{t("quickActions")}</div>
-                <div className="quick-actions-list">
-                  <Link href="/search" className="quick-actions-item">{t("searchTitle")}</Link>
-                  <Link href="/dashboard" className="quick-actions-item">{t("dashboard")}</Link>
-                  <Link href="/registry" className="quick-actions-item">{t("workspaceQuickRegistry")}</Link>
-                  <Link href="/formulas" className="quick-actions-item">{t("workspaceQuickFormulas")}</Link>
-                  <Link href="/solvers" className="quick-actions-item">{t("workspaceQuickSolvers")}</Link>
-                </div>
-                <div className="quick-actions-meta">{t("recentLabsTitle")}</div>
-                {recentLabs.length ? (
-                  <div className="quick-actions-list">
-                    {recentLabs.slice(0, 4).map((lab) => (
-                      <Link key={lab.id} href={lab.href} className="quick-actions-item">
-                        {lab.title}
-                      </Link>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="quick-actions-empty">{t("recentLabsEmpty")}</div>
-                )}
+          </Link>
+          <div className="header-actions">
+            <div className="header-pill">{t("headerPill")}</div>
+            {desktopAvailable ? (
+              <div className={`status-pill ${backendStatus}`} aria-live="polite">
+                <span className="status-dot" aria-hidden="true" />
+                <span>
+                  {t("backendLabel")}:{" "}
+                  {backendStatus === "online" ? t("backendOnline") : backendStatus === "offline" ? t("backendOffline") : t("backendChecking")}
+                </span>
               </div>
             ) : null}
-          </div>
-          <div className="header-links">
-            <Link href="/" className="header-link">{t("overview")}</Link>
-            <Link href="/labs" className="header-link">{t("labs")}</Link>
-            <Link href="/dashboard" className="header-link">{t("dashboard")}</Link>
-            <Link href="/cfd" className="header-link">{t("cfd")}</Link>
-            {desktopAvailable ? <Link href="/desktop" className="header-link">Desktop</Link> : null}
-          </div>
-          <label className="field" style={{ minWidth: "120px" }}>
-            <span>{t("languageLabel")}</span>
-            <select value={locale} onChange={(event) => setLocale(event.target.value as "en" | "fr")}>
-              <option value="en">EN</option>
-              <option value="fr">FR</option>
-            </select>
-          </label>
-          <UserMenu />
-          <div className="theme-toggle-wrap">
-            <span className="theme-label">{t("themeLabel")}</span>
-            <button
-              type="button"
-              className={`nav-toggle theme-toggle ${theme === "dark" ? "is-dark" : "is-light"}`}
-              onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
-            >
-              {theme === "dark" ? t("themeDark") : t("themeLight")}
-            </button>
-          </div>
-          {desktopAvailable ? (
-            <div className="gpu-toggle-wrap">
-              <span className="theme-label">{t("gpuLabel")}</span>
+            <div className="quick-actions" ref={actionsRef}>
               <button
                 type="button"
-                className="nav-toggle"
-                onClick={toggleGpuMode}
-                disabled={gpuBusy}
+                className={`nav-toggle ${actionsOpen ? "is-active" : ""}`}
+                onClick={() => {
+                  setHidden(false);
+                  setActionsOpen((prev) => !prev);
+                }}
+                aria-expanded={actionsOpen}
               >
-                {gpuMode === "high" ? t("gpuHigh") : t("gpuLow")}
+                {t("quickActions")}
+              </button>
+              {actionsOpen ? (
+                <div className="quick-actions-menu" role="menu">
+                  <div className="quick-actions-title">{t("quickActions")}</div>
+                  <div className="quick-actions-list">
+                    <Link href="/search" className="quick-actions-item">{t("searchTitle")}</Link>
+                    <Link href="/dashboard" className="quick-actions-item">{t("dashboard")}</Link>
+                    <Link href="/registry" className="quick-actions-item">{t("workspaceQuickRegistry")}</Link>
+                    <Link href="/formulas" className="quick-actions-item">{t("workspaceQuickFormulas")}</Link>
+                    <Link href="/solvers" className="quick-actions-item">{t("workspaceQuickSolvers")}</Link>
+                  </div>
+                  <div className="quick-actions-meta">{t("recentLabsTitle")}</div>
+                  {recentLabs.length ? (
+                    <div className="quick-actions-list">
+                      {recentLabs.slice(0, 4).map((lab) => (
+                        <Link key={lab.id} href={lab.href} className="quick-actions-item">
+                          {lab.title}
+                        </Link>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="quick-actions-empty">{t("recentLabsEmpty")}</div>
+                  )}
+                </div>
+              ) : null}
+            </div>
+            <div className="header-links">
+              {primaryLinks.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`header-link ${isActiveLink(item.href) ? "active" : ""}`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+            <label className="field" style={{ minWidth: "120px" }}>
+              <span>{t("languageLabel")}</span>
+              <select value={locale} onChange={(event) => setLocale(event.target.value as "en" | "fr")}>
+                <option value="en">EN</option>
+                <option value="fr">FR</option>
+              </select>
+            </label>
+            <UserMenu />
+            <div className="theme-toggle-wrap">
+              <span className="theme-label">{t("themeLabel")}</span>
+              <button
+                type="button"
+                className={`nav-toggle theme-toggle ${theme === "dark" ? "is-dark" : "is-light"}`}
+                onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
+              >
+                {theme === "dark" ? t("themeDark") : t("themeLight")}
               </button>
             </div>
-          ) : null}
-          <div className="accent-picker">
-            <span className="theme-label">{t("accentLabel")}</span>
-            <input
-              type="color"
-              value={accent}
-              onChange={(event) => setAccent(event.target.value)}
-              aria-label={t("accentLabel")}
-            />
-            <div className="accent-presets">
-              {["#2563eb", "#10b981", "#f97316", "#ef4444", "#a855f7"].map((value) => (
+            {desktopAvailable ? (
+              <div className="gpu-toggle-wrap">
+                <span className="theme-label">{t("gpuLabel")}</span>
                 <button
-                  key={value}
                   type="button"
-                  className="accent-swatch"
-                  style={{ background: value }}
-                  onClick={() => setAccent(value)}
-                  aria-label={`${t("accentLabel")} ${value}`}
-                />
-              ))}
+                  className="nav-toggle"
+                  onClick={toggleGpuMode}
+                  disabled={gpuBusy}
+                >
+                  {gpuMode === "high" ? t("gpuHigh") : t("gpuLow")}
+                </button>
+              </div>
+            ) : null}
+            <div className="accent-picker">
+              <span className="theme-label">{t("accentLabel")}</span>
+              <input
+                type="color"
+                value={accent}
+                onChange={(event) => setAccent(event.target.value)}
+                aria-label={t("accentLabel")}
+              />
+              <div className="accent-presets">
+                {["#2563eb", "#10b981", "#f97316", "#ef4444", "#a855f7"].map((value) => (
+                  <button
+                    key={value}
+                    type="button"
+                    className="accent-swatch"
+                    style={{ background: value }}
+                    onClick={() => setAccent(value)}
+                    aria-label={`${t("accentLabel")} ${value}`}
+                  />
+                ))}
+              </div>
+              <button
+                type="button"
+                className="control-chip"
+                onClick={() => setAccent("#2563eb")}
+              >
+                {t("accentReset")}
+              </button>
             </div>
             <button
               type="button"
-              className="control-chip"
-              onClick={() => setAccent("#2563eb")}
+              className="nav-toggle"
+              onClick={() => setCollapsed((prev) => !prev)}
+              aria-expanded={!collapsed}
+              aria-controls="site-nav"
             >
-              {t("accentReset")}
+              {collapsed ? t("menu") : t("close")}
+            </button>
+            <button
+              type="button"
+              className="nav-toggle"
+              onClick={toggleRail}
+              aria-expanded={!railCollapsed}
+            >
+              {railCollapsed ? t("showLabs") : t("hideLabs")}
             </button>
           </div>
-          <button
-            type="button"
-            className="nav-toggle"
-            onClick={() => setCollapsed((prev) => !prev)}
-            aria-expanded={!collapsed}
-            aria-controls="site-nav"
-          >
-            {collapsed ? t("menu") : t("close")}
-          </button>
-          <button
-            type="button"
-            className="nav-toggle"
-            onClick={toggleRail}
-            aria-expanded={!railCollapsed}
-          >
-            {railCollapsed ? t("showLabs") : t("hideLabs")}
-          </button>
         </div>
-      </div>
-      <div className="nav-shell" id="site-nav">
-        <SiteNav />
-      </div>
-    </header>
+        <div className="nav-shell" id="site-nav">
+          <SiteNav />
+        </div>
+      </header>
     </>
   );
 }
