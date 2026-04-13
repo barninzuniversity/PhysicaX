@@ -17,6 +17,12 @@ export function FirstRunTour() {
     if (typeof window === "undefined") {
       return;
     }
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("tour") === "off" || params.get("docs") === "1") {
+      window.localStorage.setItem("physicaxTourDone", "true");
+      setOpen(false);
+      return;
+    }
     const done = window.localStorage.getItem("physicaxTourDone");
     if (done !== "true") {
       setOpen(true);

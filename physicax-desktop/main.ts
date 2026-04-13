@@ -398,6 +398,23 @@ const resolveWindowIcon = () => {
   return undefined;
 };
 
+const resolveSplashLogoMarkup = () => {
+  const candidates = [
+    path.join(desktopRoot(), "build", "icon.svg"),
+    path.join(process.resourcesPath, "build", "icon.svg")
+  ];
+  for (const candidate of candidates) {
+    try {
+      if (fs.existsSync(candidate)) {
+        return fs.readFileSync(candidate, "utf-8").replace(/\s{2,}/g, " ").trim();
+      }
+    } catch {
+      // ignore and fall through to the fallback markup
+    }
+  }
+  return "<span style='font-weight:800;font-size:20px;letter-spacing:-0.04em;color:#f8fafc'>PX</span>";
+};
+
 const normalizeBackendBinary = (candidate: string) => {
   try {
     if (fs.existsSync(candidate) && fs.statSync(candidate).isDirectory()) {
@@ -652,7 +669,9 @@ const splashHtml = (message: string) =>
       "@keyframes spin{to{transform:rotate(360deg)}}" +
       "@keyframes pulse{0%{transform:scale(0.7);opacity:0.7;}70%{transform:scale(1.3);opacity:0;}100%{opacity:0;}}" +
       "@keyframes load{0%{transform:translateX(-100%);}50%{transform:translateX(60%);}100%{transform:translateX(220%);}}" +
-      "</style></head><body><div class='card'><div class='logo'><div class='mark'><svg viewBox='0 0 64 64' aria-hidden='true'><defs><linearGradient id='splash-shell' x1='9' y1='7' x2='55' y2='58' gradientUnits='userSpaceOnUse'><stop stop-color='#071121'/><stop offset='0.58' stop-color='#12264b'/><stop offset='1' stop-color='#09101a'/></linearGradient><linearGradient id='splash-orbit' x1='14' y1='12' x2='55' y2='49' gradientUnits='userSpaceOnUse'><stop stop-color='#7dd3fc'/><stop offset='0.52' stop-color='#60a5fa'/><stop offset='1' stop-color='#c084fc'/></linearGradient><radialGradient id='splash-core' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='translate(27.5 25.5) rotate(45) scale(21)'><stop stop-color='#f8fbff'/><stop offset='0.34' stop-color='#93eaff'/><stop offset='1' stop-color='#1d4ed8'/></radialGradient></defs><rect x='4' y='4' width='56' height='56' rx='18' fill='url(#splash-shell)'/><g transform='rotate(-18 32 32)'><ellipse cx='32' cy='23' rx='18' ry='7' stroke='url(#splash-orbit)' stroke-width='2.4'/><ellipse cx='32' cy='42' rx='14' ry='5.4' stroke='url(#splash-orbit)' stroke-width='1.7' stroke-opacity='0.85'/><circle cx='47.5' cy='25.5' r='2.7' fill='#c4b5fd'/></g><circle cx='27.5' cy='26.5' r='11' fill='url(#splash-core)'/><circle cx='23.5' cy='22.5' r='3.6' fill='#f8fbff' fill-opacity='0.8'/><path d='M22 46V18.5H30.25C35.8 18.5 39.25 21.45 39.25 26.2C39.25 31.05 35.8 33.95 30.25 33.95H26.65V46H22ZM26.65 30.1H29.85C32.95 30.1 34.9 28.75 34.9 26.2C34.9 23.8 32.95 22.35 29.85 22.35H26.65V30.1Z' fill='#f8fbff'/><path d='M39.25 44.5L45.1 36.7L39.65 29.15H43.8L47.95 34.95L52.15 29.15H56.2L50.7 36.75L56.6 44.5H52.3L47.95 38.5L43.55 44.5H39.25Z' fill='#c084fc'/></svg></div><div>PhysicaX</div></div><div class='loader'></div><div class='bar'><span></span></div><div class='muted'>" +
+      "</style></head><body><div class='card'><div class='logo'><div class='mark'>" +
+      resolveSplashLogoMarkup() +
+      "</div><div>PhysicaX</div></div><div class='loader'></div><div class='bar'><span></span></div><div class='muted'>" +
       message +
       "</div></div></body></html>"
   );

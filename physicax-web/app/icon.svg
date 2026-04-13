@@ -1,37 +1,56 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
   <defs>
-    <linearGradient id="physicax-shell" x1="18" y1="14" x2="108" y2="116" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#071121"/>
-      <stop offset="0.58" stop-color="#11244A"/>
-      <stop offset="1" stop-color="#07101D"/>
+    <linearGradient id="icon-shell" x1="18" y1="12" x2="109" y2="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#050C19"/>
+      <stop offset="0.5" stop-color="#10244A"/>
+      <stop offset="1" stop-color="#060D17"/>
     </linearGradient>
-    <linearGradient id="physicax-orbit" x1="25" y1="26" x2="108" y2="100" gradientUnits="userSpaceOnUse">
+    <linearGradient id="icon-stroke" x1="26" y1="18" x2="100" y2="107" gradientUnits="userSpaceOnUse">
       <stop stop-color="#7DD3FC"/>
-      <stop offset="0.52" stop-color="#60A5FA"/>
+      <stop offset="0.48" stop-color="#60A5FA"/>
       <stop offset="1" stop-color="#C084FC"/>
     </linearGradient>
-    <radialGradient id="physicax-core" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(54 51) rotate(48.53) scale(45.193 47.5788)">
+    <linearGradient id="icon-mono" x1="34" y1="46" x2="97" y2="91" gradientUnits="userSpaceOnUse">
       <stop stop-color="#F8FBFF"/>
-      <stop offset="0.36" stop-color="#8EE7FF"/>
+      <stop offset="0.65" stop-color="#DBEAFE"/>
+      <stop offset="1" stop-color="#E9D5FF"/>
+    </linearGradient>
+    <radialGradient id="icon-core" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(49 47) rotate(44.2) scale(33 33)">
+      <stop stop-color="#F8FBFF"/>
+      <stop offset="0.33" stop-color="#93EAFF"/>
       <stop offset="1" stop-color="#1D4ED8"/>
     </radialGradient>
-    <filter id="physicax-shadow" x="6" y="6" width="116" height="116" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-      <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#020617" flood-opacity="0.28"/>
+    <radialGradient id="icon-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(78 33) rotate(131.4) scale(63 45)">
+      <stop stop-color="#60A5FA" stop-opacity="0.48"/>
+      <stop offset="1" stop-color="#60A5FA" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="icon-canvas" x1="10" y1="8" x2="118" y2="122" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FBFF"/>
+      <stop offset="1" stop-color="#DCE7F7"/>
+    </linearGradient>
+    <filter id="icon-shadow" x="4" y="4" width="120" height="120" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#020617" flood-opacity="0.24"/>
     </filter>
   </defs>
 
-  <rect width="128" height="128" rx="30" fill="#E2E8F0"/>
-  <g filter="url(#physicax-shadow)">
-    <rect x="12" y="12" width="104" height="104" rx="28" fill="url(#physicax-shell)"/>
-    <path d="M28 36C28 28.268 34.268 22 42 22H86C93.732 22 100 28.268 100 36V51C100 58.732 93.732 65 86 65H42C34.268 65 28 58.732 28 51V36Z" fill="url(#physicax-orbit)" fill-opacity="0.18"/>
-    <g transform="rotate(-18 64 64)">
-      <ellipse cx="64" cy="46" rx="34" ry="13" stroke="url(#physicax-orbit)" stroke-width="4.5"/>
-      <ellipse cx="64" cy="83" rx="27" ry="10.5" stroke="url(#physicax-orbit)" stroke-width="3.2" stroke-opacity="0.82"/>
-      <circle cx="94" cy="51" r="5" fill="#C4B5FD"/>
+  <rect width="128" height="128" rx="30" fill="url(#icon-canvas)"/>
+  <g filter="url(#icon-shadow)">
+    <rect x="12" y="12" width="104" height="104" rx="30" fill="url(#icon-shell)"/>
+    <rect x="12.75" y="12.75" width="102.5" height="102.5" rx="29.25" stroke="#BFDFFE" stroke-opacity="0.18"/>
+    <circle cx="92" cy="34" r="36" fill="url(#icon-glow)"/>
+    <circle cx="36" cy="33" r="2.2" fill="#DBEAFE" fill-opacity="0.85"/>
+    <circle cx="98" cy="47" r="2.6" fill="#C4B5FD" fill-opacity="0.95"/>
+    <circle cx="86" cy="28" r="1.7" fill="#F8FBFF" fill-opacity="0.75"/>
+    <path d="M28 90C35 72 50 61 67 57C82 53 94 47 102 35" stroke="url(#icon-stroke)" stroke-width="3.2" stroke-linecap="round" stroke-opacity="0.7"/>
+    <g transform="rotate(-17 64 64)">
+      <ellipse cx="66" cy="43" rx="35" ry="12.5" stroke="url(#icon-stroke)" stroke-width="4.5"/>
+      <ellipse cx="61" cy="83" rx="28" ry="10.5" stroke="url(#icon-stroke)" stroke-width="3" stroke-opacity="0.72"/>
+      <circle cx="97" cy="49" r="5.4" fill="#C4B5FD"/>
     </g>
-    <circle cx="55" cy="54" r="21" fill="url(#physicax-core)"/>
-    <circle cx="48" cy="46" r="7" fill="#F8FBFF" fill-opacity="0.8"/>
-    <path d="M43 91V39H58.5C68.25 39 74.5 44.1 74.5 52.7C74.5 61.4 68.1 66.6 58.5 66.6H52V91H43ZM52 58.8H58.15C63.25 58.8 66.5 56.55 66.5 52.7C66.5 48.9 63.25 46.75 58.15 46.75H52V58.8Z" fill="#F8FBFF"/>
-    <path d="M74.5 88L85.5 73.2L75.1 58.85H82.55L89.65 68.85L96.85 58.85H104.2L93.75 73.25L104.8 88H97.2L89.55 77.5L81.95 88H74.5Z" fill="#C084FC"/>
+    <circle cx="49" cy="49" r="20.5" fill="url(#icon-core)"/>
+    <circle cx="43" cy="41.5" r="6.4" fill="#F8FBFF" fill-opacity="0.82"/>
+    <circle cx="49" cy="49" r="25.5" stroke="#93EAFF" stroke-opacity="0.18"/>
+    <path d="M37 91V39.5H54.2C64.4 39.5 71 45 71 53.8C71 62.9 64.25 68.15 54.2 68.15H46.95V91H37ZM46.95 59.95H53.8C59.25 59.95 62.65 57.6 62.65 53.8C62.65 50.05 59.25 47.65 53.8 47.65H46.95V59.95Z" fill="url(#icon-mono)"/>
+    <path d="M71.5 88.6L82.1 74.4L71.95 60.1H79.55L86.35 69.9L93.4 60.1H100.8L90.6 74.4L101.35 88.6H93.55L86.2 78.1L78.9 88.6H71.5Z" fill="url(#icon-mono)"/>
   </g>
 </svg>

@@ -1,146 +1,116 @@
 # PhysicaX
 
-PhysicaX is a local-first physics workspace built for people who want more than isolated simulations. It combines an interactive Next.js web app, an Electron desktop runtime, a bundled CFD path, and a shared language for formulas, validation, and scientific workflow.
+<p align="center">
+  <img src="docs/images/physicax-logo.png" alt="PhysicaX logo" width="156">
+</p>
 
-The idea is simple: start with fast understanding, keep the model explainable, and escalate into heavier tooling only when the question actually needs it.
+<p align="center">
+  Local-first physics labs, Linux desktop runtime control, and CFD escalation in one explainable workspace.
+</p>
 
-## What PhysicaX does well
+![PhysicaX product overview](docs/images/physicax-overview.png)
 
-- Gives you browser-first physics labs for fast exploration, teaching, and comparison.
-- Keeps formulas, units, assumptions, and plots close together so the model stays explainable.
-- Packages the same experience into a desktop app for offline-friendly local runtime control.
-- Adds a CFD workflow that moves from quick validation to OpenFOAM-oriented artifact export.
-- Supports classroom, research, and operator-style use without forcing separate tools for each mode.
+PhysicaX is built for people who want more than isolated simulations. It combines a polished Next.js web app, an Electron desktop runtime, a bundled CFD path, and a shared language for formulas, units, assumptions, and reviewable outputs.
 
-## The three main ways to use it
+The product idea is simple:
 
-### 1. Browser workspace
+- start with fast understanding
+- keep the model explainable
+- escalate into heavier tooling only when the question really needs it
 
-Use the web app when you want the shortest path from a question to a visual result.
+## What makes PhysicaX useful
 
-Best for:
+- Browser-first labs for quick exploration, teaching, and concept checks.
+- A desktop app for managed local runtime control, GPU policy, and offline-friendly usage.
+- A CFD lane that starts with fast validation and only then promotes into heavier solver-backed evidence.
+- Shared navigation, formulas, search, notes, and runtime guidance so the platform feels like one product instead of separate tools.
 
-- teaching and classroom demos
-- self-study and concept exploration
-- formula lookup and graphing
-- quick experimentation before heavier runtime setup
+## Quick look
 
-What you get:
+### Product overview
 
-- interactive labs across mechanics, thermodynamics, waves, electromagnetics, chaos, ODE/PDE, statistics, and math
-- shared navigation, search, and discovery tools
-- formula and model registry surfaces
-- dashboard, research, and classroom-oriented pages
+![PhysicaX browser-first product overview](docs/images/physicax-overview.png)
 
-### 2. Desktop runtime
+Use the browser when you want the shortest path from a question to a visual result.
+
+- Best for teaching, demos, study, graphing, and quick experimentation.
+- Includes labs across mechanics, thermodynamics, waves, electromagnetics, chaos, ODE/PDE, math, and statistics.
+- Keeps formulas, assumptions, and plots close together so the model stays readable.
+
+### Desktop runtime guide
+
+![PhysicaX desktop runtime guide](docs/images/physicax-desktop-runtime.png)
 
 Use the desktop app when you want the platform to behave like a managed local product instead of a browser tab.
 
-Best for:
+- Best for Linux launches, packaged runtime control, and offline-friendly use.
+- Shows backend state, GPU mode, and launch guidance from one place.
+- Supports AppImage and `.deb` packaging flows plus a release-handoff folder.
 
-- offline-friendly usage
-- packaged local runtime control
-- WSL and Linux deployment validation
-- GPU policy control and backend visibility
+### CFD control guide
 
-What you get:
-
-- bundled local runtime
-- backend bootstrapping and service visibility
-- GPU mode management
-- update-folder handling for offline release drops
-- Linux AppImage and `.deb` packaging flows
-
-### 3. CFD workflow
+![PhysicaX CFD control guide](docs/images/physicax-cfd-control.png)
 
 Use the CFD path when the model needs stronger evidence than a lightweight lab can provide.
 
-Best for:
+- Start with backend health and quick validation.
+- Promote into export-oriented workflows only when the quick pass already looks trustworthy.
+- Review CSV and VTK artifacts instead of trusting logs alone.
 
-- airflow and transport validation
-- backend diagnostics
-- sampled field export
-- streamline and OpenFOAM-oriented workflows
+## Main working modes
 
-What you get:
+### 1. Browser-first exploration
 
-- a backend status surface
-- quick LBM-style smoke checks
-- artifact-oriented OpenFOAM export guidance
-- a cleaner path from setup validation to reviewable outputs
+Choose this when the goal is understanding, teaching, or quick comparison.
 
-## Why the product feels different
+1. Open the web app.
+2. Search or browse into a lab, registry page, or formula surface.
+3. Adjust parameters while the assumptions stay visible.
+4. Escalate into desktop or CFD only if the question needs local runtime control or heavier evidence.
 
-Most simulation tools force a tradeoff between approachability and power. PhysicaX is designed to remove that tradeoff as much as possible.
+### 2. Desktop-first local runtime
 
-- Validation-first: equations, units, and assumptions stay visible instead of disappearing behind implementation details.
-- Escalation without friction: you can begin with lightweight exploration and move into desktop or CFD without changing mental models.
-- Operational visibility: the desktop and CFD pages explain what is running, what is missing, and what artifacts should exist after a successful run.
-- Better teaching flow: the same environment supports guided explanation, self-study, and more serious experimentation.
+Choose this when you care about reliable local execution more than bare convenience.
+
+1. Build the web app.
+2. Prepare the desktop runtime.
+3. Launch the desktop app.
+4. Inspect backend status, GPU mode, and runtime health before a long session or release handoff.
+
+### 3. CFD validation
+
+Choose this when a simple plot is no longer enough.
+
+1. Confirm the backend responds.
+2. Run the lightest useful validation first.
+3. Promote into OpenFOAM-oriented export only when the quick check looks sane.
+4. Inspect the generated artifacts before treating the run as trustworthy.
 
 ## Product surfaces
 
 ### `physicax-web`
 
-This is the main web product. It includes:
+This is the main browser product.
 
-- homepage and product overview pages
-- interactive labs
-- formula and model registry surfaces
-- classroom and dashboard pages
-- browser-facing CFD routes and API endpoints
-
-This is the fastest path when you want to explore, teach, compare models, or test an idea quickly.
+- Homepage and product overview pages
+- Interactive labs
+- Formula and model registry surfaces
+- Dashboard, classroom, research, and gallery pages
+- Browser-facing CFD routes and API endpoints
 
 ### `physicax-desktop`
 
-This packages the PhysicaX experience for local operation. It includes:
+This packages the experience for local operation.
 
 - Electron runtime shell
-- packaged web surface
-- bundled CFD backend integration
-- update-folder and release workflows
-- Linux packaging helpers
+- Mirrored production web surface
+- Bundled CFD backend integration
+- Linux doctor, smoke-test, and packaging helpers
+- Offline release and update-folder workflows
 
-This is the best path when you want repeatable local execution, controlled runtime behavior, or release handoff.
+## Run PhysicaX on Linux
 
-## Typical workflows
-
-### Browser-first exploration
-
-1. Open the web app.
-2. Search or browse into the relevant lab or formula surface.
-3. Adjust parameters and compare behavior while assumptions stay visible.
-4. Save the result or escalate only if the question needs a local or CFD workflow.
-
-### Desktop-first local runtime
-
-1. Build the web app.
-2. Prepare the desktop runtime.
-3. Launch the desktop app and inspect backend, GPU, and update state.
-4. Use compatibility mode on WSL or unstable graphics stacks before promoting to high performance.
-
-### CFD validation path
-
-1. Start with backend health.
-2. Run the lightest useful validation first.
-3. Promote the case to OpenFOAM-style export only when the quick pass looks trustworthy.
-4. Inspect the generated CSV and VTK artifacts instead of assuming solver success from logs alone.
-
-## Project layout
-
-- `physicax-web/app`: routes, product pages, labs, shared UI, and client components.
-- `physicax-web/cfd`: browser-facing CFD backend assets and OpenFOAM support files.
-- `physicax-web/data`: search index, registries, and structured product data.
-- `physicax-desktop/main.ts`: Electron main process and runtime management.
-- `physicax-desktop/preload.ts`: desktop bridge exposed to the web UI.
-- `physicax-desktop/scripts`: web preparation, smoke tests, and Linux release helpers.
-- `physicax-desktop/backend`: packaged CFD backend build scripts and artifacts.
-- `requirements.txt`: top-level Python dependencies for the CFD backend on Linux.
-
-## Getting started
-
-### Linux quick start from source
+### Fastest source checkout path
 
 From the repository root:
 
@@ -158,9 +128,9 @@ npm run desktop:doctor:linux
 npm run desktop:run:linux
 ```
 
-This is the fastest way to launch the desktop app yourself on Linux from a downloaded or cloned source checkout.
+This is the recommended first run on Linux from a cloned or downloaded source checkout.
 
-### Web app
+### Run the web app only
 
 From `physicax-web`:
 
@@ -170,9 +140,9 @@ npm run build
 npm run start
 ```
 
-The production build is offline-safe and should not depend on downloading Google-hosted fonts during build time.
+Then open `http://localhost:3000`.
 
-### Desktop app
+### Run the desktop app only
 
 From `physicax-desktop`:
 
@@ -183,58 +153,66 @@ npm run desktop:prepare-runtime:linux
 npm run desktop:run:linux
 ```
 
-`desktop:prepare-runtime:linux` builds the web app, mirrors it into the desktop runtime, and packages the Linux CFD backend before Electron launches.
+What these commands do:
 
-`desktop:doctor:linux` gives you a quick preflight report for the Linux machine: missing tools, missing dependency installs, missing build artifacts, and whether release files already exist.
+- `desktop:doctor:linux` checks for missing tools, builds, packages, and Linux launch artifacts.
+- `desktop:prepare-runtime:linux` rebuilds the web app, mirrors it into the desktop runtime, and bundles the Linux CFD backend.
+- `desktop:run:linux` launches Electron with the prepared runtime.
 
-The smoke test still checks that:
+### Run after downloading a Linux release
 
-- the bundled CFD backend responds
-- the local standalone UI responds
-- the homepage loads correctly
-- production CSS assets are reachable
+If you downloaded the packaged Linux release folder from GitHub:
 
-### Linux packaging
+```bash
+cd /path/to/downloaded/PhysicaX-linux-release
+chmod +x run-PhysicaX-linux.sh
+./run-PhysicaX-linux.sh
+```
+
+### Run the WSL-friendly launcher
+
+```bash
+cd /path/to/downloaded/PhysicaX-linux-release
+chmod +x run-PhysicaX-wsl.sh
+./run-PhysicaX-wsl.sh
+```
+
+### Install the Debian package
+
+```bash
+cd /path/to/downloaded/PhysicaX-linux-release
+chmod +x install-PhysicaX-deb.sh
+./install-PhysicaX-deb.sh
+```
+
+## Build and verify
+
+### Recommended verification after changes
 
 ```bash
 cd physicax-web
 npm run build
 
 cd ../physicax-desktop
+npm run desktop:doctor:linux
+npm run desktop:prepare-runtime:linux
+npm run desktop:smoke-test
+```
+
+### Linux release validation
+
+```bash
+cd physicax-desktop
 npm run desktop:package:linux
+npm run desktop:verify-release:linux
 ```
 
-This produces a Linux release bundle under `physicax-desktop/dist/linux-release`, including:
+The smoke test checks that:
 
-- an AppImage
-- a `.deb` package
-- `run-PhysicaX-linux.sh` for native Linux launching
-- `run-PhysicaX-wsl.sh` for WSL-friendly launching
-- `install-PhysicaX-deb.sh` for Debian/Ubuntu installation
-- a generated `README.txt` for local release handoff
-
-### Run after downloading a Linux release
-
-From the downloaded `linux-release` folder:
-
-```bash
-chmod +x run-PhysicaX-linux.sh
-./run-PhysicaX-linux.sh
-```
-
-On WSL:
-
-```bash
-chmod +x run-PhysicaX-wsl.sh
-./run-PhysicaX-wsl.sh
-```
-
-To install the Debian package:
-
-```bash
-chmod +x install-PhysicaX-deb.sh
-./install-PhysicaX-deb.sh
-```
+- the bundled CFD backend responds
+- the local standalone UI responds
+- the homepage HTML loads correctly
+- production CSS assets are reachable
 
 ## CFD backend
 
@@ -249,33 +227,25 @@ Manual backend startup from the repository root:
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+
 cd physicax-web/cfd/backend
 uvicorn app:app --host 0.0.0.0 --port 8000
 ```
 
-## Recommended verification after changes
+## Project layout
 
-```bash
-cd physicax-web
-npm run build
+- `physicax-web/app`: routes, product pages, labs, shared UI, and client components.
+- `physicax-web/cfd`: browser-facing CFD backend assets and OpenFOAM support files.
+- `physicax-web/data`: search index, registries, and structured product data.
+- `physicax-desktop/main.ts`: Electron main process and runtime management.
+- `physicax-desktop/preload.ts`: desktop bridge exposed to the web UI.
+- `physicax-desktop/scripts`: web preparation, smoke tests, Linux doctor, and release helpers.
+- `physicax-desktop/backend`: packaged CFD backend build scripts and artifacts.
+- `requirements.txt`: top-level Python dependencies for the CFD backend on Linux.
 
-cd ../physicax-desktop
-npm run desktop:doctor:linux
-npm run desktop:prepare-runtime:linux
-npm run desktop:smoke-test
-```
+## Quality bar for changes
 
-For Linux release validation:
-
-```bash
-cd physicax-desktop
-npm run desktop:package:linux
-npm run desktop:verify-release:linux
-```
-
-## Quality bar for PhysicaX changes
-
-Good PhysicaX changes should usually improve at least one of these:
+Good PhysicaX changes should improve at least one of these:
 
 - clarity of the scientific model
 - confidence in runtime status or artifact quality

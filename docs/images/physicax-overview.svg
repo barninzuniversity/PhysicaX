@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#091426"/>
+      <stop offset="0.56" stop-color="#11244A"/>
+      <stop offset="1" stop-color="#261553"/>
+    </linearGradient>
+    <linearGradient id="card" x1="82" y1="200" x2="1100" y2="780" gradientUnits="userSpaceOnUse">
+      <stop stop-color="rgba(255,255,255,0.95)"/>
+      <stop offset="1" stop-color="rgba(244,247,255,0.88)"/>
+    </linearGradient>
+    <linearGradient id="chip" x1="0" y1="0" x2="180" y2="54" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#C084FC"/>
+    </linearGradient>
+    <filter id="shadow" x="40" y="120" width="1520" height="760" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="24" stdDeviation="24" flood-color="#020617" flood-opacity="0.24"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <g opacity="0.12">
+    <path d="M0 72H1600M0 144H1600M0 216H1600M0 288H1600M0 360H1600M0 432H1600M0 504H1600M0 576H1600M0 648H1600M0 720H1600M0 792H1600" stroke="#DBEAFE"/>
+    <path d="M80 0V900M160 0V900M240 0V900M320 0V900M400 0V900M480 0V900M560 0V900M640 0V900M720 0V900M800 0V900M880 0V900M960 0V900M1040 0V900M1120 0V900M1200 0V900M1280 0V900M1360 0V900M1440 0V900M1520 0V900" stroke="#DBEAFE"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="72" y="118" width="1456" height="676" rx="36" fill="url(#card)" />
+    <rect x="73" y="119" width="1454" height="674" rx="35" stroke="rgba(191,219,254,0.28)"/>
+  </g>
+
+  <g>
+    <text x="126" y="214" fill="#2563EB" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="5.2">LOCAL-FIRST PHYSICS WORKSPACE</text>
+    <text x="126" y="304" fill="#081121" font-family="Segoe UI, Arial, sans-serif" font-size="64" font-weight="800">One platform.</text>
+    <text x="126" y="378" fill="#081121" font-family="Segoe UI, Arial, sans-serif" font-size="64" font-weight="800">Three ways to work.</text>
+    <text x="126" y="440" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="27">PhysicaX unifies browser labs, Linux desktop runtime control, and CFD escalation</text>
+    <text x="126" y="478" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="27">so you can start lightweight and only go heavy when the question deserves it.</text>
+  </g>
+
+  <g>
+    <rect x="126" y="548" width="194" height="54" rx="27" fill="#2563EB"/>
+    <text x="165" y="582" fill="#F8FBFF" font-family="Segoe UI, Arial, sans-serif" font-size="23" font-weight="700">70+ labs</text>
+    <rect x="338" y="548" width="214" height="54" rx="27" fill="#E0ECFF"/>
+    <text x="379" y="582" fill="#183B76" font-family="Segoe UI, Arial, sans-serif" font-size="23" font-weight="700">Desktop app</text>
+    <rect x="570" y="548" width="238" height="54" rx="27" fill="#EDE9FE"/>
+    <text x="612" y="582" fill="#4C1D95" font-family="Segoe UI, Arial, sans-serif" font-size="23" font-weight="700">CFD workflow</text>
+  </g>
+
+  <g>
+    <rect x="126" y="638" width="292" height="124" rx="28" fill="#F8FBFF"/>
+    <rect x="126.75" y="638.75" width="290.5" height="122.5" rx="27.25" stroke="#DBEAFE"/>
+    <text x="156" y="682" fill="#2563EB" font-family="Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="2.2">BROWSER</text>
+    <text x="156" y="720" fill="#081121" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="700">Fast exploration</text>
+    <text x="156" y="754" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="21">Launch labs, formulas, and search</text>
+  </g>
+
+  <g>
+    <rect x="440" y="638" width="292" height="124" rx="28" fill="#F6F8FE"/>
+    <rect x="440.75" y="638.75" width="290.5" height="122.5" rx="27.25" stroke="#D7E5FF"/>
+    <text x="470" y="682" fill="#2563EB" font-family="Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="2.2">DESKTOP</text>
+    <text x="470" y="720" fill="#081121" font-family="Segoe UI, Arial, sans-serif" font-size="27" font-weight="700">Reliable local runtime</text>
+    <text x="470" y="754" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="21">GPU mode, backend status, Linux launch</text>
+  </g>
+
+  <g>
+    <rect x="754" y="638" width="304" height="124" rx="28" fill="#FBF5FF"/>
+    <rect x="754.75" y="638.75" width="302.5" height="122.5" rx="27.25" stroke="#E8D7FF"/>
+    <text x="784" y="682" fill="#7C3AED" font-family="Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="2.2">CFD</text>
+    <text x="784" y="720" fill="#081121" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="700">Evidence-first escalation</text>
+    <text x="784" y="754" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="20">Health check, validation, exported artifacts</text>
+  </g>
+
+  <g>
+    <rect x="1076" y="182" width="360" height="522" rx="40" fill="#0B1528"/>
+    <rect x="1077" y="183" width="358" height="520" rx="39" stroke="rgba(191,219,254,0.18)"/>
+    <rect x="1146" y="222" width="220" height="220" rx="50" fill="#071121"/>
+    <ellipse cx="1256" cy="336" rx="88" ry="28" stroke="#60A5FA" stroke-width="10"/>
+    <ellipse cx="1256" cy="336" rx="118" ry="36" transform="rotate(-25 1256 336)" stroke="#A78BFA" stroke-width="8" opacity="0.82"/>
+    <circle cx="1322" cy="282" r="18" fill="#C4B5FD"/>
+    <text x="1188" y="366" fill="#F8FBFF" font-family="Segoe UI, Arial, sans-serif" font-size="114" font-weight="800">PX</text>
+
+    <rect x="1128" y="510" width="256" height="52" rx="20" fill="#111F3A"/>
+    <circle cx="1160" cy="536" r="8" fill="#34D399"/>
+    <text x="1182" y="543" fill="#F8FBFF" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Browser + Desktop</text>
+
+    <rect x="1128" y="578" width="256" height="52" rx="20" fill="#111F3A"/>
+    <circle cx="1160" cy="604" r="8" fill="#60A5FA"/>
+    <text x="1182" y="611" fill="#F8FBFF" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Linux + WSL ready</text>
+
+    <rect x="1128" y="646" width="256" height="52" rx="20" fill="#111F3A"/>
+    <circle cx="1160" cy="672" r="8" fill="#C084FC"/>
+    <text x="1182" y="679" fill="#F8FBFF" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">OpenFOAM handoff</text>
+  </g>
+</svg>

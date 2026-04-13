@@ -7,6 +7,7 @@ import { SiteNav } from "./SiteNav";
 import { UserMenu } from "./UserMenu";
 import { useRailState } from "./useRailState";
 import { useLocale } from "./LocaleProvider";
+import { BrandMark } from "./BrandMark";
 
 const hexToRgb = (hex: string) => {
   const normalized = hex.replace("#", "");
@@ -47,10 +48,75 @@ const fetchWithTimeout = async (input: string, timeoutMs = 3000) => {
   }
 };
 
+const getSurfaceContext = (pathname: string, desktopAvailable: boolean) => {
+  if (pathname.startsWith("/desktop")) {
+    return {
+      badge: "Desktop runtime",
+      title: "Operate the local stack with confidence.",
+      summary: "Watch backend status, switch GPU policy, and launch Linux builds without guessing what the runtime is doing.",
+      actions: [
+        { href: "/desktop", label: "Runtime guide" },
+        { href: "/cfd", label: "CFD status" },
+        { href: "/platform", label: "Platform map" }
+      ]
+    };
+  }
+
+  if (pathname.startsWith("/cfd")) {
+    return {
+      badge: "CFD workflow",
+      title: "Promote into solver-backed evidence only when the question needs it.",
+      summary: "Keep backend health, quick validation, and exported artifacts in one lane so CFD stays calm and reviewable.",
+      actions: [
+        { href: "/cfd", label: "CFD checklist" },
+        { href: "/desktop", label: desktopAvailable ? "Desktop controls" : "Linux guide" },
+        { href: "/labs/mechanics/drag/flow-3d", label: "Airflow lab" }
+      ]
+    };
+  }
+
+  if (pathname.startsWith("/labs")) {
+    return {
+      badge: "Browser workspace",
+      title: "Explore fast, compare clearly, and keep the model explainable.",
+      summary: "The labs are the quickest way from a question to a graph, experiment, or teaching-ready visual.",
+      actions: [
+        { href: "/labs", label: "Browse labs" },
+        { href: "/formulas", label: "Formula library" },
+        { href: "/registry", label: "Registry" }
+      ]
+    };
+  }
+
+  if (pathname.startsWith("/dashboard") || pathname.startsWith("/research")) {
+    return {
+      badge: "Research workflow",
+      title: "Move from exploration into reusable runs and publishable outputs.",
+      summary: "Use the shared workspace to keep notes, comparisons, exports, and experiment context tied together.",
+      actions: [
+        { href: "/dashboard", label: "Dashboard" },
+        { href: "/research", label: "Research tools" },
+        { href: "/research/workflows", label: "Workflow notes" }
+      ]
+    };
+  }
+
+  return {
+    badge: "Workspace overview",
+    title: "One local-first platform for physics labs, desktop tooling, and CFD escalation.",
+    summary: "Start in the browser, switch into the desktop runtime when local control matters, and step into CFD when you need stronger evidence.",
+    actions: [
+      { href: "/labs", label: "Open labs" },
+      { href: desktopAvailable ? "/desktop" : "/platform", label: desktopAvailable ? "Desktop controls" : "Platform guide" },
+      { href: "/cfd", label: "CFD control" }
+    ]
+  };
+};
+
 export function SiteHeader() {
   const pathname = usePathname();
-  const [collapsed, setCollapsed] = useState(true);
-  const [hidden, setHidden] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [desktopAvailable, setDesktopAvailable] = useState(false);
   const [gpuMode, setGpuMode] = useState<"high" | "low">("high");
   const [gpuBusy, setGpuBusy] = useState(false);
@@ -77,6 +143,7 @@ export function SiteHeader() {
     }
     return pathname.startsWith(href);
   };
+  const surfaceContext = getSurfaceContext(pathname, desktopAvailable);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -346,42 +413,11 @@ export function SiteHeader() {
           <Link href="/" className="brand-link" aria-label="PhysicaX home">
             <div className="brand">
               <div className="brand-mark" aria-hidden="true">
-                <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
-                  <defs>
-                    <linearGradient id="brand-shell" x1="9" y1="7" x2="55" y2="58" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="#071121" />
-                      <stop offset="0.58" stopColor="#12264b" />
-                      <stop offset="1" stopColor="#09101a" />
-                    </linearGradient>
-                    <linearGradient id="brand-orbit" x1="14" y1="12" x2="55" y2="49" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="#7dd3fc" />
-                      <stop offset="0.52" stopColor="#60a5fa" />
-                      <stop offset="1" stopColor="#c084fc" />
-                    </linearGradient>
-                    <radialGradient id="brand-core" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(27.5 25.5) rotate(45) scale(21)">
-                      <stop stopColor="#f8fbff" />
-                      <stop offset="0.34" stopColor="#93eaff" />
-                      <stop offset="1" stopColor="#1d4ed8" />
-                    </radialGradient>
-                  </defs>
-                  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#brand-shell)" />
-                  <g transform="rotate(-18 32 32)">
-                    <ellipse cx="32" cy="23" rx="18" ry="7" stroke="url(#brand-orbit)" strokeWidth="2.4" />
-                    <ellipse cx="32" cy="42" rx="14" ry="5.4" stroke="url(#brand-orbit)" strokeWidth="1.7" strokeOpacity="0.85" />
-                    <circle cx="47.5" cy="25.5" r="2.7" fill="#c4b5fd" />
-                  </g>
-                  <circle cx="27.5" cy="26.5" r="11" fill="url(#brand-core)" />
-                  <circle cx="23.5" cy="22.5" r="3.6" fill="#f8fbff" fillOpacity="0.8" />
-                  <path
-                    d="M22 46V18.5H30.25C35.8 18.5 39.25 21.45 39.25 26.2C39.25 31.05 35.8 33.95 30.25 33.95H26.65V46H22ZM26.65 30.1H29.85C32.95 30.1 34.9 28.75 34.9 26.2C34.9 23.8 32.95 22.35 29.85 22.35H26.65V30.1Z"
-                    fill="#f8fbff"
-                  />
-                  <path d="M39.25 44.5L45.1 36.7L39.65 29.15H43.8L47.95 34.95L52.15 29.15H56.2L50.7 36.75L56.6 44.5H52.3L47.95 38.5L43.55 44.5H39.25Z" fill="#c084fc" />
-                </svg>
+                <BrandMark decorative idPrefix="header-brand" />
               </div>
               <div className="brand-text">
                 <div className="brand-title">PhysicaX</div>
-                <div className="brand-subtitle">Local-first physics workspace</div>
+                <div className="brand-subtitle">{surfaceContext.badge}</div>
               </div>
             </div>
           </Link>
@@ -520,6 +556,20 @@ export function SiteHeader() {
             >
               {railCollapsed ? t("showLabs") : t("hideLabs")}
             </button>
+          </div>
+        </div>
+        <div className="header-context">
+          <div className="header-context-copy">
+            <span className="header-context-badge">{surfaceContext.badge}</span>
+            <div className="header-context-title">{surfaceContext.title}</div>
+            <p className="header-context-summary">{surfaceContext.summary}</p>
+          </div>
+          <div className="header-context-links" aria-label="Suggested next actions">
+            {surfaceContext.actions.map((action) => (
+              <Link key={action.href} href={action.href} className={`header-context-link ${isActiveLink(action.href) ? "active" : ""}`}>
+                {action.label}
+              </Link>
+            ))}
           </div>
         </div>
         <div className="nav-shell" id="site-nav">

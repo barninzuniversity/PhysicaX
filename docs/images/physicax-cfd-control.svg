@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#081224"/>
+      <stop offset="0.58" stop-color="#11244A"/>
+      <stop offset="1" stop-color="#2A1558"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="78" y1="124" x2="1148" y2="790" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FBFF"/>
+      <stop offset="1" stop-color="#F6F5FF"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="1380" cy="196" r="248" fill="#60A5FA" fill-opacity="0.12"/>
+  <circle cx="1448" cy="708" r="236" fill="#C084FC" fill-opacity="0.12"/>
+
+  <rect x="74" y="92" width="1042" height="718" rx="38" fill="url(#panel)"/>
+  <rect x="75" y="93" width="1040" height="716" rx="37" stroke="#D6E4FF"/>
+
+  <text x="128" y="178" fill="#7C3AED" font-family="Segoe UI, Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="4.2">CFD CONTROL GUIDE</text>
+  <text x="128" y="260" fill="#081121" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="800">Keep CFD calm:</text>
+  <text x="128" y="328" fill="#081121" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="800">health, validation, artifacts.</text>
+  <text x="128" y="388" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="25">PhysicaX keeps heavier simulations grounded by making the runtime state obvious</text>
+  <text x="128" y="424" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="25">before you trust results, export fields, or hand the case off to OpenFOAM.</text>
+
+  <g>
+    <rect x="128" y="498" width="270" height="196" rx="28" fill="#F8FBFF"/>
+    <rect x="128.75" y="498.75" width="268.5" height="194.5" rx="27.25" stroke="#D8E7FF"/>
+    <text x="158" y="548" fill="#2563EB" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="2.1">STEP 1</text>
+    <text x="158" y="594" fill="#081121" font-family="Segoe UI, Arial, sans-serif" font-size="31" font-weight="700">Check backend</text>
+    <text x="158" y="636" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="21">Confirm the runtime answers</text>
+    <text x="158" y="668" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="21">before treating the issue as physics.</text>
+  </g>
+
+  <g>
+    <rect x="420" y="498" width="270" height="196" rx="28" fill="#F8FBFF"/>
+    <rect x="420.75" y="498.75" width="268.5" height="194.5" rx="27.25" stroke="#D8E7FF"/>
+    <text x="460" y="548" fill="#2563EB" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="2.1">STEP 2</text>
+    <text x="450" y="594" fill="#081121" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700">Run quick validation</text>
+    <text x="450" y="636" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="21">Use the lightest useful pass</text>
+    <text x="450" y="668" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="21">to expose setup mistakes early.</text>
+  </g>
+
+  <g>
+    <rect x="712" y="498" width="294" height="196" rx="28" fill="#FBF5FF"/>
+    <rect x="712.75" y="498.75" width="292.5" height="194.5" rx="27.25" stroke="#E8D7FF"/>
+    <text x="762" y="548" fill="#7C3AED" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="2.1">STEP 3</text>
+    <text x="742" y="594" fill="#081121" font-family="Segoe UI, Arial, sans-serif" font-size="31" font-weight="700">Review artifacts</text>
+    <text x="742" y="636" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="21">Trust CSV, VTK, and field exports,</text>
+    <text x="742" y="668" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="21">not solver logs by themselves.</text>
+  </g>
+
+  <path d="M382 596H430" stroke="#60A5FA" stroke-width="10" stroke-linecap="round"/>
+  <path d="M684 596H732" stroke="#C084FC" stroke-width="10" stroke-linecap="round"/>
+
+  <g>
+    <rect x="1164" y="110" width="364" height="692" rx="38" fill="#0E172B"/>
+    <rect x="1165" y="111" width="362" height="690" rx="37" stroke="rgba(191,219,254,0.18)"/>
+    <rect x="1260" y="150" width="172" height="172" rx="38" fill="#071121"/>
+    <ellipse cx="1346" cy="240" rx="68" ry="20" stroke="#60A5FA" stroke-width="8"/>
+    <ellipse cx="1346" cy="240" rx="92" ry="28" transform="rotate(-24 1346 240)" stroke="#A78BFA" stroke-width="6" opacity="0.82"/>
+    <circle cx="1398" cy="196" r="13" fill="#C4B5FD"/>
+    <text x="1288" y="266" fill="#F8FBFF" font-family="Segoe UI, Arial, sans-serif" font-size="82" font-weight="800">PX</text>
+
+    <text x="1218" y="368" fill="#F8FBFF" font-family="Segoe UI, Arial, sans-serif" font-size="29" font-weight="800">Suggested runtime</text>
+    <text x="1218" y="404" fill="#F8FBFF" font-family="Segoe UI, Arial, sans-serif" font-size="29" font-weight="800">lane</text>
+
+    <rect x="1216" y="420" width="260" height="72" rx="24" fill="#111F3A"/>
+    <text x="1242" y="456" fill="#DBEAFE" font-family="Segoe UI, Arial, sans-serif" font-size="20">Backend URL</text>
+    <text x="1242" y="484" fill="#F8FBFF" font-family="Consolas, Menlo, monospace" font-size="16">http://127.0.0.1:8000/status</text>
+
+    <rect x="1216" y="516" width="260" height="72" rx="24" fill="#111F3A"/>
+    <text x="1242" y="552" fill="#DBEAFE" font-family="Segoe UI, Arial, sans-serif" font-size="20">WSL-safe launcher</text>
+    <text x="1242" y="580" fill="#F8FBFF" font-family="Consolas, Menlo, monospace" font-size="18">run-PhysicaX-wsl.sh</text>
+
+    <rect x="1216" y="612" width="260" height="116" rx="24" fill="#111F3A"/>
+    <text x="1242" y="652" fill="#DBEAFE" font-family="Segoe UI, Arial, sans-serif" font-size="20">When to escalate</text>
+    <text x="1242" y="688" fill="#F8FBFF" font-family="Segoe UI, Arial, sans-serif" font-size="19">Only move into OpenFOAM</text>
+    <text x="1242" y="716" fill="#F8FBFF" font-family="Segoe UI, Arial, sans-serif" font-size="19">after the fast check looks sane.</text>
+  </g>
+</svg>

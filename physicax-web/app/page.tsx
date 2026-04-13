@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { GlobalSearch } from "./components/GlobalSearch";
 import { ScenarioPlanner, type PlannerScenario } from "./components/ScenarioPlanner";
+import { BrandMark } from "./components/BrandMark";
 
 const signalMetrics = [
   {
@@ -46,6 +47,24 @@ const workflowModes = [
     href: "/cfd",
     action: "Open CFD control center",
     badge: "High fidelity"
+  }
+];
+
+const heroPreviewDeck = [
+  {
+    label: "Browser",
+    title: "Fast explanation",
+    body: "Use labs, formulas, and search when you need an answer before you need packaging."
+  },
+  {
+    label: "Desktop",
+    title: "Reliable local runtime",
+    body: "Switch into the managed app when backend visibility, GPU policy, and Linux handoff matter."
+  },
+  {
+    label: "CFD",
+    title: "Evidence-first escalation",
+    body: "Promote into solver-backed exports only after the quick checks already look trustworthy."
   }
 ];
 
@@ -247,13 +266,29 @@ export default function HomePage() {
           </div>
         </div>
         <div className="hero-panel">
-          <div className="panel-card">
-            <h3>Start where you are</h3>
-            <ul className="feature-list">
-              <li>Use the browser when you want quick understanding, graphing, or teaching flow.</li>
-              <li>Use the desktop app when you want a packaged local stack and runtime controls.</li>
-              <li>Use CFD when drag, airflow, or heat transfer needs sampled outputs and solver diagnostics.</li>
-            </ul>
+          <div className="hero-brand-shell">
+            <div className="hero-brand-head">
+              <div className="hero-brand-mark" aria-hidden="true">
+                <BrandMark decorative idPrefix="hero-brand" />
+              </div>
+              <div className="hero-brand-copy">
+                <p className="hero-brand-kicker">Shared brand system</p>
+                <h3>One identity across the site, the Linux app, and the packaged runtime.</h3>
+                <p>
+                  PhysicaX is designed to feel like one product even as you move between browser-first learning,
+                  operator-grade desktop control, and CFD-backed validation.
+                </p>
+              </div>
+            </div>
+            <div className="hero-preview-grid">
+              {heroPreviewDeck.map((item) => (
+                <div className="hero-preview-card" key={item.label}>
+                  <span className="hero-preview-label">{item.label}</span>
+                  <strong>{item.title}</strong>
+                  <p>{item.body}</p>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="panel-card">
             <h3>Operational promises</h3>
