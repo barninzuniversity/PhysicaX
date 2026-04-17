@@ -18,6 +18,16 @@ The product idea is simple:
 - keep the model explainable
 - escalate into heavier tooling only when the question really needs it
 
+## Visual runbook
+
+### Linux launch runbook
+
+![PhysicaX Linux runbook](docs/images/physicax-linux-runbook.svg)
+
+### Operating lanes
+
+![PhysicaX launch modes](docs/images/physicax-launch-modes.svg)
+
 ## What makes PhysicaX useful
 
 - Browser-first labs for quick exploration, teaching, and concept checks.
@@ -110,6 +120,28 @@ This packages the experience for local operation.
 
 ## Run PhysicaX on Linux
 
+### One-command helper scripts
+
+From the repository root:
+
+```bash
+bash scripts/setup-linux.sh
+bash scripts/run-web-linux.sh
+bash scripts/run-desktop-linux.sh
+bash scripts/run-cfd-backend-linux.sh
+bash scripts/verify-linux.sh
+```
+
+What each script does:
+
+- `scripts/setup-linux.sh`: creates the Python virtualenv, installs root Python dependencies, and makes sure the web and desktop npm dependencies exist.
+- `scripts/run-web-linux.sh`: builds the standalone web app and starts it on port `3000`.
+- `scripts/run-desktop-linux.sh`: runs the Linux doctor, prepares the runtime, and launches the Electron app.
+- `scripts/run-cfd-backend-linux.sh`: starts only the CFD backend on port `8000`.
+- `scripts/verify-linux.sh`: runs the doctor, prepares the runtime, smoke-tests the desktop flow, and rebuilds the Linux release artifacts.
+
+If your project folder name contains spaces, keep the quotes around your `cd` command.
+
 ### Fastest source checkout path
 
 From the repository root:
@@ -201,6 +233,12 @@ npm run desktop:prepare-runtime:linux
 npm run desktop:smoke-test
 ```
 
+Or, from the repository root:
+
+```bash
+bash scripts/verify-linux.sh
+```
+
 ### Linux release validation
 
 ```bash
@@ -243,6 +281,7 @@ uvicorn app:app --host 0.0.0.0 --port 8000
 - `physicax-desktop/preload.ts`: desktop bridge exposed to the web UI.
 - `physicax-desktop/scripts`: web preparation, smoke tests, Linux doctor, and release helpers.
 - `physicax-desktop/backend`: packaged CFD backend build scripts and artifacts.
+- `scripts`: root-level Linux helpers for setup, web launch, desktop launch, backend launch, and verification.
 - `requirements.txt`: top-level Python dependencies for the CFD backend on Linux.
 
 ## Quality bar for changes

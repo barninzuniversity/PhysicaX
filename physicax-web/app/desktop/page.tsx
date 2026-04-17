@@ -35,18 +35,14 @@ const operatingTracks = [
   }
 ];
 
-const linuxSourceCommands = `cd /path/to/PhysicaX
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+const linuxSetupCommands = `cd "/path/to/PhysicaX"
+bash scripts/setup-linux.sh`;
 
-cd physicax-web
-npm install
+const linuxDesktopCommands = `cd "/path/to/PhysicaX"
+bash scripts/run-desktop-linux.sh`;
 
-cd ../physicax-desktop
-npm install
-npm run desktop:doctor:linux
-npm run desktop:run:linux`;
+const linuxWebCommands = `cd "/path/to/PhysicaX"
+bash scripts/run-web-linux.sh`;
 
 const linuxDoctorCommands = `cd /path/to/PhysicaX/physicax-desktop
 npm run desktop:doctor:linux`;
@@ -59,22 +55,36 @@ const linuxDebCommands = `cd /path/to/downloaded/PhysicaX-linux-release
 chmod +x install-PhysicaX-deb.sh
 ./install-PhysicaX-deb.sh`;
 
-const linuxBackendCommands = `cd /path/to/PhysicaX
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+const linuxBackendCommands = `cd "/path/to/PhysicaX"
+bash scripts/run-cfd-backend-linux.sh`;
 
-cd physicax-web/cfd/backend
-uvicorn app:app --host 0.0.0.0 --port 8000`;
+const linuxVerifyCommands = `cd "/path/to/PhysicaX"
+bash scripts/verify-linux.sh`;
 
 const linuxCommandGuides: CommandGuide[] = [
   {
-    id: "source",
-    title: "Run from source",
-    body: "Use this when you cloned or downloaded the repository and want the desktop app to build the web surface and backend locally.",
-    command: linuxSourceCommands,
-    badge: "Recommended first run",
-    note: "This path installs Python and JavaScript dependencies, checks the machine, then launches the desktop runtime."
+    id: "setup",
+    title: "Bootstrap the repo once",
+    body: "Use this first when you want the root folder to prepare Python and JavaScript dependencies without making you step through each package manually.",
+    command: linuxSetupCommands,
+    badge: "Recommended first step",
+    note: "This script creates the virtualenv, installs root Python requirements, and makes sure both npm workspaces are ready."
+  },
+  {
+    id: "desktop",
+    title: "Launch the desktop app",
+    body: "Use this when you want the full Linux desktop path from the repository root with the doctor check, runtime preparation, and Electron launch in one command.",
+    command: linuxDesktopCommands,
+    badge: "One-command desktop",
+    note: "This is the cleanest path when the app already lives on your machine and you want the real packaged-style runtime."
+  },
+  {
+    id: "web",
+    title: "Launch the web workspace",
+    body: "Use this when you want the browser experience only and prefer to skip Electron while still running the production standalone server.",
+    command: linuxWebCommands,
+    badge: "One-command web",
+    note: "This path builds the standalone Next.js output and serves it locally on port 3000."
   },
   {
     id: "doctor",
@@ -103,10 +113,18 @@ const linuxCommandGuides: CommandGuide[] = [
   {
     id: "backend",
     title: "Start the CFD backend only",
-    body: "Use this when you want to drive the browser workflow with a standalone backend or debug the CFD service separately.",
+    body: "Use this when you want to drive the browser workflow with a standalone backend or debug the CFD service separately from the desktop shell.",
     command: linuxBackendCommands,
     badge: "Service-only",
     note: "Best for browser-based CFD debugging and manual backend verification."
+  },
+  {
+    id: "verify",
+    title: "Run the full Linux verification pass",
+    body: "Use this when you want the repo to stress-test itself by running the doctor, preparing the runtime, smoke-testing the app, and rebuilding the Linux release bundle.",
+    command: linuxVerifyCommands,
+    badge: "Confidence pass",
+    note: "This is the strongest local check before you hand off the app or trust a fresh Linux package."
   }
 ];
 
@@ -692,8 +710,8 @@ export default function DesktopSettingsPage() {
           <p className="section-kicker">Linux quick start</p>
           <h2>Run PhysicaX Yourself On Linux</h2>
           <p className="section-lede">
-            These launch paths now include a Linux self-check, so you can validate the machine before you commit to a
-            longer build or package workflow.
+            These launch paths now include root helper scripts, so the repo can bootstrap itself from one place instead
+            of forcing you to memorize the web, desktop, and backend commands separately.
           </p>
         </div>
         <div className="card-grid">
@@ -722,8 +740,9 @@ export default function DesktopSettingsPage() {
         </div>
         <p className="demo-note">
           The repository root now includes a top-level <span className="mono">requirements.txt</span> so the Python CFD
-          backend can be installed from one place on Linux, and the desktop package now includes a Linux doctor command
-          for quick preflight checks.
+          backend can be installed from one place on Linux, the root <span className="mono">scripts</span> folder now
+          exposes one-command launch helpers, and the desktop package still includes a Linux doctor command for quick
+          preflight checks.
         </p>
       </section>
 

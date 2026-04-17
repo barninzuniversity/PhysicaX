@@ -1,0 +1,65 @@
+<svg width="1400" height="840" viewBox="0 0 1400 840" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg2" x1="90" y1="70" x2="1270" y2="780" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0b1220"/>
+      <stop offset="0.52" stop-color="#11213a"/>
+      <stop offset="1" stop-color="#152238"/>
+    </linearGradient>
+    <linearGradient id="browserCard" x1="160" y1="240" x2="470" y2="710" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0f2c4a"/>
+      <stop offset="1" stop-color="#113052"/>
+    </linearGradient>
+    <linearGradient id="desktopCard" x1="540" y1="220" x2="860" y2="720" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#16304d"/>
+      <stop offset="1" stop-color="#1b3554"/>
+    </linearGradient>
+    <linearGradient id="cfdCard" x1="930" y1="240" x2="1240" y2="710" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#17304b"/>
+      <stop offset="1" stop-color="#12354f"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="840" rx="40" fill="url(#bg2)"/>
+  <circle cx="210" cy="160" r="140" fill="#38bdf8" fill-opacity="0.12"/>
+  <circle cx="1210" cy="700" r="170" fill="#34d399" fill-opacity="0.1"/>
+  <text x="160" y="126" fill="#7dd3fc" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">PhysicaX operating map</text>
+  <text x="160" y="178" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="50" font-weight="800">Choose the lane that fits the job</text>
+  <text x="160" y="224" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="24">The platform is strongest when the runtime choice is explicit: fast browser work, managed desktop control, or solver-backed CFD evidence.</text>
+
+  <rect x="160" y="278" width="308" height="412" rx="30" fill="url(#browserCard)" stroke="#2c5e89"/>
+  <text x="190" y="332" fill="#67e8f9" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Browser workspace</text>
+  <text x="190" y="380" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="800">Explain fast</text>
+  <text x="190" y="422" fill="#dbeafe" font-family="Arial, Helvetica, sans-serif" font-size="21">Open labs, formulas, and search</text>
+  <text x="190" y="452" fill="#dbeafe" font-family="Arial, Helvetica, sans-serif" font-size="21">without waiting on packaging.</text>
+  <text x="190" y="516" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="20">Best when you want:</text>
+  <text x="210" y="554" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="20">• teaching and demos</text>
+  <text x="210" y="586" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="20">• plotting and concept checks</text>
+  <text x="210" y="618" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="20">• the shortest path to insight</text>
+  <text x="190" y="664" fill="#fde68a" font-family="Courier New, monospace" font-size="18">bash scripts/run-web-linux.sh</text>
+
+  <rect x="546" y="248" width="308" height="470" rx="30" fill="url(#desktopCard)" stroke="#39688f"/>
+  <text x="576" y="302" fill="#a7f3d0" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Desktop runtime</text>
+  <text x="576" y="350" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="800">Operate locally</text>
+  <text x="576" y="392" fill="#dbeafe" font-family="Arial, Helvetica, sans-serif" font-size="21">Use the packaged app when GPU mode,</text>
+  <text x="576" y="422" fill="#dbeafe" font-family="Arial, Helvetica, sans-serif" font-size="21">backend health, and Linux handoff matter.</text>
+  <text x="576" y="486" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="20">Best when you want:</text>
+  <text x="596" y="524" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="20">• WSL-safe compatibility control</text>
+  <text x="596" y="556" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="20">• packaged local services</text>
+  <text x="596" y="588" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="20">• release-ready Linux builds</text>
+  <text x="576" y="650" fill="#fde68a" font-family="Courier New, monospace" font-size="18">bash scripts/run-desktop-linux.sh</text>
+
+  <rect x="932" y="278" width="308" height="412" rx="30" fill="url(#cfdCard)" stroke="#2d6e84"/>
+  <text x="962" y="332" fill="#fcd34d" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">CFD evidence</text>
+  <text x="962" y="380" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="800">Escalate carefully</text>
+  <text x="962" y="422" fill="#dbeafe" font-family="Arial, Helvetica, sans-serif" font-size="21">Start with backend health and quick</text>
+  <text x="962" y="452" fill="#dbeafe" font-family="Arial, Helvetica, sans-serif" font-size="21">validation, then promote into exports.</text>
+  <text x="962" y="516" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="20">Best when you want:</text>
+  <text x="982" y="554" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="20">• stronger physical evidence</text>
+  <text x="982" y="586" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="20">• backend-specific debugging</text>
+  <text x="982" y="618" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="20">• artifact-driven review</text>
+  <text x="962" y="664" fill="#fde68a" font-family="Courier New, monospace" font-size="18">bash scripts/run-cfd-backend-linux.sh</text>
+
+  <path d="M468 484C504 484 510 484 546 484" stroke="#7dd3fc" stroke-width="6" stroke-linecap="round"/>
+  <path d="M854 484C890 484 896 484 932 484" stroke="#86efac" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="507" cy="484" r="8" fill="#7dd3fc"/>
+  <circle cx="893" cy="484" r="8" fill="#86efac"/>
+</svg>
