@@ -142,6 +142,8 @@ npm run start
 
 Then open `http://localhost:3000`.
 
+`npm run start` prefers the generated standalone server automatically, so the production path matches the way the desktop app launches the web surface.
+
 ### Run the desktop app only
 
 From `physicax-desktop`:
