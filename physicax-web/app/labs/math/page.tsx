@@ -1,260 +1,296 @@
 import Link from "next/link";
 import { MathBlock } from "../../components/MathBlock";
-import { LocaleText } from "../../components/LocaleText";
+
+const studioSignals = [
+  {
+    value: "MATLAB-style",
+    label: "workflow",
+    note: "One place for symbolic math, graphing, matrices, ODEs, and physics-ready diagnostics."
+  },
+  {
+    value: "18+",
+    label: "math labs",
+    note: "From graphing and CAS to stability, scaling, units, fitting, and sensitivity."
+  },
+  {
+    value: "Local-first",
+    label: "runtime",
+    note: "Runs inside the same PhysicaX workspace, so the math layer stays close to the physics layer."
+  },
+  {
+    value: "Physics-ready",
+    label: "reasoning",
+    note: "Units, assumptions, nondimensionalization, and derivation notes are part of the workflow."
+  }
+];
+
+const studioRoutes = [
+  {
+    tag: "Console",
+    title: "Computer algebra that feels like a real command window",
+    body: "Simplify, solve, differentiate, integrate, expand, factor, convert units, and work with matrices without leaving the app.",
+    href: "/labs/math/cas",
+    action: "Open CAS workspace"
+  },
+  {
+    tag: "Plots",
+    title: "A graphing canvas for functions, geometry, and intuition",
+    body: "Move between equations and visual output quickly, which is the part users remember when they decide a tool is worth returning to.",
+    href: "/labs/math/graphing",
+    action: "Open graphing studio"
+  },
+  {
+    tag: "ODEs",
+    title: "An equation workbench that behaves like a lightweight live script",
+    body: "Tune parameters, compare trajectories, and inspect numerical behavior with diagnostics already attached.",
+    href: "/labs/math/workbench",
+    action: "Open equation workbench"
+  },
+  {
+    tag: "Modeling",
+    title: "A formula and scaling layer that keeps the science honest",
+    body: "Use units, nondimensionalization, sensitivity, and approximation tools so the workflow feels trustworthy instead of flashy.",
+    href: "/labs/math/scaling/explorer",
+    action: "Open scaling explorer"
+  }
+];
+
+const workflowSteps = [
+  {
+    title: "Start in the command window",
+    body: "Define the expression, matrix, or ODE first so the problem statement is explicit before the visuals take over."
+  },
+  {
+    title: "Move into a visual surface",
+    body: "Plot the result, inspect trajectories, or compare approximations so the symbolic result becomes intuitive instead of abstract."
+  },
+  {
+    title: "Pressure-test the model",
+    body: "Use units, scaling, assumptions, and sensitivity tools to see whether the result still holds once the physics constraints are visible."
+  },
+  {
+    title: "Escalate into the rest of PhysicaX",
+    body: "Hand the cleaned-up model into labs, desktop workflows, or CFD when the question needs stronger runtime control or higher fidelity."
+  }
+];
+
+const popularLanes = [
+  {
+    title: "Symbolic + matrix lane",
+    body: "CAS, symbolic assumptions, determinants, eigen-analysis, row reduction, and reusable results.",
+    links: [
+      { href: "/labs/math/cas", label: "CAS" },
+      { href: "/labs/math/symbolic", label: "Symbolic tools" },
+      { href: "/labs/math/linear-algebra", label: "Linear algebra" }
+    ]
+  },
+  {
+    title: "Graph + explain lane",
+    body: "Graphing, calculus, interpolation, differentiation, and fitting when you need the idea to become visual fast.",
+    links: [
+      { href: "/labs/math/graphing", label: "Graphing" },
+      { href: "/labs/math/calculus", label: "Calculus" },
+      { href: "/labs/math/fitting", label: "Curve fitting" }
+    ]
+  },
+  {
+    title: "Model + validate lane",
+    body: "Workbench, approximations, roots, optimization, and timestep diagnostics for people building actual numerical stories.",
+    links: [
+      { href: "/labs/math/workbench", label: "Workbench" },
+      { href: "/labs/math/optimization", label: "Optimization" },
+      { href: "/labs/math/roots", label: "Root finder" }
+    ]
+  },
+  {
+    title: "Physics-ready lane",
+    body: "Scaling, units, nondimensionalization, regimes, and sensitivity when the math has to survive physical interpretation.",
+    links: [
+      { href: "/labs/math/units", label: "Units" },
+      { href: "/labs/math/nondimensional", label: "Nondimensionalization" },
+      { href: "/labs/math/sensitivity", label: "Sensitivity" }
+    ]
+  }
+];
+
+const adoptionReasons = [
+  {
+    title: "Looks serious on first contact",
+    body: "The math layer now reads like a product surface, not a list of disconnected demos."
+  },
+  {
+    title: "Rewards deeper use",
+    body: "Users can start with plots and keep going into symbolic work, scaling, and model diagnostics without changing tools."
+  },
+  {
+    title: "Makes the rest of PhysicaX stronger",
+    body: "A better math studio lifts the value of mechanics, thermo, waves, research pages, and CFD because the reasoning layer is easier to trust."
+  }
+];
 
 export default function MathEnginePage() {
   return (
     <>
       <section className="section reveal">
-        <div className="hero">
+        <div className="hero math-studio-hero">
           <div>
-            <div className="hero-kicker">
-              <LocaleText id="mathEngineKicker" fallback="Math Engine" />
-            </div>
-            <h1>
-              <LocaleText
-                id="mathEngineTitle"
-                fallback="Computational Math + Scientific Insight Lab"
-              />
-            </h1>
+            <div className="hero-kicker">Math Studio</div>
+            <h1>A MATLAB-inspired scientific computing surface built directly into PhysicaX.</h1>
             <p className="hero-lede">
-              <LocaleText
-                id="mathEngineLede"
-                fallback="A focused math layer for every physics module: formulas, assumptions, scaling, dimensional checks, and graphing tools that make simulations trustworthy."
-              />
+              Use symbolic algebra, graphing, matrices, ODE workbenches, scaling tools, and physics-aware checks in
+              one place. The goal is not just to calculate faster, but to make the mathematical story cleaner, more
+              visual, and easier to trust.
             </p>
             <div className="hero-badges">
-              <span><LocaleText id="mathBadgeSymbolic" fallback="Symbolic + numeric tooling" /></span>
-              <span><LocaleText id="mathBadgeUnits" fallback="Units + nondimensionalization" /></span>
-              <span><LocaleText id="mathBadgeSeries" fallback="Series + stability" /></span>
-              <span><LocaleText id="mathBadgeDerivation" fallback="Derivation + approximation" /></span>
+              <span>Command window mindset</span>
+              <span>Symbolic + numeric flow</span>
+              <span>Matrix + ODE tooling</span>
+              <span>Physics-ready assumptions</span>
             </div>
             <div className="hero-actions">
-              <Link className="control-button" href="/labs/math/graphing">
-                <LocaleText id="mathOpenGraphing" fallback="Open graphing lab" />
+              <Link className="control-button" href="/labs/math/cas">
+                Open Math Studio
               </Link>
-              <Link className="control-chip" href="/labs/math/series/taylor">
-                <LocaleText id="mathOpenTaylor" fallback="Taylor explorer" />
+              <Link className="control-button secondary" href="/labs/math/graphing">
+                Launch graphing canvas
               </Link>
-              <Link className="control-chip" href="/labs/math/units">
-                <LocaleText id="mathOpenUnits" fallback="Unit consistency" />
+              <Link className="control-chip" href="/labs/math/workbench">
+                Equation workbench
               </Link>
-              <Link className="control-chip" href="/labs/math/derivation">
-                <LocaleText id="mathOpenDerivation" fallback="Derivation mode" />
+              <Link className="control-chip" href="/labs/math/linear-algebra">
+                Matrix tools
               </Link>
             </div>
+            <div className="hero-signal-grid">
+              {studioSignals.map((item) => (
+                <div className="signal-card" key={item.label}>
+                  <div className="signal-value">{item.value}</div>
+                  <div className="signal-label">{item.label}</div>
+                  <div className="signal-note">{item.note}</div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="hero-panel">
-            <div className="card">
-              <h3><LocaleText id="mathFormulaContext" fallback="Formula Context" /></h3>
-              <MathBlock latex={String.raw`\nabla \cdot \vec{u} = 0,\;\; \mathrm{Re}=\frac{\rho U L}{\mu}`} />
+          <div className="hero-panel math-studio-panel">
+            <div className="math-console">
+              <div className="math-console-bar">
+                <span className="math-console-dot" />
+                <span className="math-console-dot" />
+                <span className="math-console-dot" />
+                <span className="math-console-title">Math Studio / Command Window</span>
+              </div>
+              <div className="math-console-body">
+                <div className="math-console-line">
+                  <span className="math-console-prompt">fx&gt;</span>
+                  <span>syms x; simplify(sin(x)^2 + cos(x)^2)</span>
+                </div>
+                <div className="math-console-line math-console-output">ans = 1</div>
+                <div className="math-console-line">
+                  <span className="math-console-prompt">fx&gt;</span>
+                  <span>solve(x^3 - 2*x - 5 == 0, x)</span>
+                </div>
+                <div className="math-console-line math-console-output">x ~= 2.09455</div>
+                <div className="math-console-line">
+                  <span className="math-console-prompt">fx&gt;</span>
+                  <span>ode: y&quot;&quot; = -k*y - c*v</span>
+                </div>
+                <div className="math-console-line math-console-comment">
+                  response: plot displacement, velocity, and inferred period
+                </div>
+              </div>
+            </div>
+            <div className="panel-card math-studio-formula">
+              <div className="status-label">Physics-ready context</div>
+              <MathBlock latex={String.raw`\nabla \cdot \vec{u}=0,\qquad \mathrm{Re}=\frac{\rho U L}{\mu},\qquad y''+c y'+k y=0`} />
               <p>
-                <LocaleText
-                  id="mathFormulaContextBody"
-                  fallback="Every lab links to governing equations and explicit assumptions."
-                />
+                The math layer is strongest when it stays connected to assumptions, dimensions, and governing
+                equations. That is the difference between a flashy calculator and a modeling tool people keep.
               </p>
             </div>
-            <div className="card">
-              <h3><LocaleText id="mathPrecisionChecks" fallback="Precision Checks" /></h3>
-              <p>
-                <LocaleText
-                  id="mathPrecisionChecksBody"
-                  fallback="Unit validation, sensitivity diagnostics, and stability warnings before you simulate."
-                />
-              </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="section reveal">
+        <div className="section-header">
+          <p className="section-kicker">Core studio surfaces</p>
+          <h2>The math section now behaves like a product, not a directory.</h2>
+          <p className="section-lede">
+            These are the places most likely to make the app feel premium to new users: a command-window style CAS, a
+            polished graphing surface, a live ODE workbench, and modeling tools that keep the physics visible.
+          </p>
+        </div>
+        <div className="spotlight-grid">
+          {studioRoutes.map((item) => (
+            <div className="spotlight-card" key={item.title}>
+              <div className="spotlight-tag">{item.tag}</div>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+              <Link className="control-chip" href={item.href}>
+                {item.action}
+              </Link>
             </div>
-          </div>
+          ))}
         </div>
       </section>
 
       <section className="section reveal">
-        <h2><LocaleText id="mathNavigator" fallback="Math Navigator" /></h2>
-        <div className="card-grid">
-          <div className="card">
-            <h3><LocaleText id="mathSymbolicWorkbench" fallback="Symbolic Workbench" /></h3>
-            <p>
-              <LocaleText
-                id="mathSymbolicWorkbenchBody"
-                fallback="Simplify expressions, compute derivatives, and estimate integrals."
-              />
-            </p>
-            <p><Link href="/labs/math/symbolic"><LocaleText id="mathOpenSymbolic" fallback="Open symbolic tools" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathSymbolicAssumptions" fallback="Symbolic Assumptions" /></h3>
-            <p>
-              <LocaleText
-                id="mathSymbolicAssumptionsBody"
-                fallback="Apply small/large/positive assumptions to simplify equations."
-              />
-            </p>
-            <p><Link href="/labs/math/assumptions"><LocaleText id="mathOpenAssumptions" fallback="Open assumptions lab" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathCasTitle" fallback="Full CAS (SymPy)" /></h3>
-            <p><LocaleText id="mathCasBody" fallback="Symbolic solve, simplify, integrate, and unit-aware transformations with step-by-step derivations." /></p>
-            <p><Link href="/labs/math/cas"><LocaleText id="mathOpenCas" fallback="Open CAS workspace" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathGraphingCalculator" fallback="Graphing Calculator" /></h3>
-            <p><LocaleText id="mathGraphingCalculatorBody" fallback="GeoGebra-style plotting with geometry tools and snapping." /></p>
-            <p><Link href="/labs/math/graphing"><LocaleText id="mathOpenGraphingTools" fallback="Open graphing tools" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathEquationWorkbench" fallback="Equation Workbench" /></h3>
-            <p><LocaleText id="mathEquationWorkbenchBody" fallback="Build custom ODEs, sweep parameters, and compare solutions." /></p>
-            <p><Link href="/labs/math/workbench"><LocaleText id="mathOpenWorkbench" fallback="Open workbench" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathFormulaLibrary" fallback="Formula Library" /></h3>
-            <p><LocaleText id="mathFormulaLibraryBody" fallback="Canonical equations with variables, assumptions, and notes." /></p>
-            <p><Link href="/labs/math/formulas"><LocaleText id="mathOpenFormulaLibrary" fallback="Open formula library" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathDerivationMode" fallback="Derivation Mode" /></h3>
-            <p><LocaleText id="mathDerivationModeBody" fallback="Follow governing equations, assumptions, and validity windows." /></p>
-            <p><Link href="/labs/math/derivation"><LocaleText id="mathOpenDerivationMode" fallback="Open derivation mode" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathApproximationComparator" fallback="Approximation Comparator" /></h3>
-            <p><LocaleText id="mathApproximationComparatorBody" fallback="Compare exact vs approximate models with error metrics." /></p>
-            <p><Link href="/labs/math/approximations"><LocaleText id="mathOpenComparator" fallback="Open comparator" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathIntegrationTitle" fallback="Integration Calculator" /></h3>
-            <p><LocaleText id="mathIntegrationBody" fallback="Simpson, Gauss, midpoint, and cumulative area diagnostics." /></p>
-            <p><Link href="/labs/math/integration"><LocaleText id="mathOpenIntegration" fallback="Open integration" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathCalculusTitle" fallback="Derivative + Integral Calculator" /></h3>
-            <p><LocaleText id="mathCalculusBody" fallback="Visualize derivatives and antiderivatives with custom colors." /></p>
-            <p><Link href="/labs/math/calculus"><LocaleText id="mathOpenCalculus" fallback="Open calculus tools" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathRootFinderTitle" fallback="Root Finder" /></h3>
-            <p><LocaleText id="mathRootFinderBody" fallback="Bisection, secant, and Newton iteration diagnostics." /></p>
-            <p><Link href="/labs/math/roots"><LocaleText id="mathOpenRootFinder" fallback="Open root finder" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathOptimizationTitle" fallback="Optimization Lab" /></h3>
-            <p><LocaleText id="mathOptimizationBody" fallback="Gradient descent with momentum and convergence tracking." /></p>
-            <p><Link href="/labs/math/optimization"><LocaleText id="mathOpenOptimization" fallback="Open optimization" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathInterpolationTitle" fallback="Interpolation Lab" /></h3>
-            <p><LocaleText id="mathInterpolationBody" fallback="Sample data and build interpolating polynomials." /></p>
-            <p><Link href="/labs/math/interpolation"><LocaleText id="mathOpenInterpolation" fallback="Open interpolation" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathDifferentiationTitle" fallback="Numerical Differentiation" /></h3>
-            <p><LocaleText id="mathDifferentiationBody" fallback="Finite differences with error comparison." /></p>
-            <p><Link href="/labs/math/differentiation"><LocaleText id="mathOpenDifferentiation" fallback="Open differentiation" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathCurveFittingTitle" fallback="Curve Fitting" /></h3>
-            <p><LocaleText id="mathCurveFittingBody" fallback="Regression models with R² diagnostics." /></p>
-            <p><Link href="/labs/math/fitting"><LocaleText id="mathOpenCurveFitting" fallback="Open curve fitting" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathConnectionsCardTitle" fallback="Math Connections Mode" /></h3>
-            <p><LocaleText id="mathConnectionsCardBody" fallback="Link discrete maps, stability, and physical intuition." /></p>
-            <p><Link href="/labs/math/connections"><LocaleText id="mathConnectionsCardLink" fallback="Open math connections" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathGlossary" fallback="Glossary" /></h3>
-            <p><LocaleText id="mathGlossaryBody" fallback="Definitions and notation used across the platform." /></p>
-            <p><Link href="/formulas/glossary"><LocaleText id="mathOpenGlossary" fallback="Open glossary" /></Link></p>
-          </div>
+        <div className="section-header">
+          <p className="section-kicker">Working style</p>
+          <h2>How the Math Studio should feel</h2>
+          <p className="section-lede">
+            The point is to help users think like model builders: define clearly, visualize quickly, validate early,
+            and only then move into heavier workflows.
+          </p>
+        </div>
+        <div className="workflow-strip">
+          {workflowSteps.map((item, index) => (
+            <div className="workflow-card" key={item.title}>
+              <div className="workflow-index">{String(index + 1).padStart(2, "0")}</div>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </div>
+          ))}
         </div>
       </section>
 
       <section className="section reveal">
-        <h2><LocaleText id="mathScalingRegimes" fallback="Scaling + Regimes" /></h2>
+        <div className="section-header">
+          <p className="section-kicker">Popular lanes</p>
+          <h2>Pick the math lane that matches the question</h2>
+          <p className="section-lede">
+            This keeps the section approachable for new users while still feeling deep enough for more serious work.
+          </p>
+        </div>
         <div className="card-grid">
-          <div className="card">
-            <h3><LocaleText id="mathScalingExplorer" fallback="Scaling Explorer" /></h3>
-            <p><LocaleText id="mathScalingExplorerBody" fallback="Characteristic scales, nondimensional time, and similarity checks." /></p>
-            <p><Link href="/labs/math/scaling/explorer"><LocaleText id="mathOpenScalingExplorer" fallback="Open scaling explorer" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathDimensionlessGroups" fallback="Dimensionless Groups" /></h3>
-            <p><LocaleText id="mathDimensionlessGroupsBody" fallback="Re, Pr, Ma, Fr, Gr, Ra, We with regime hints." /></p>
-            <p><Link href="/labs/math/scaling/groups"><LocaleText id="mathOpenDimensionlessGroups" fallback="Open dimensionless groups" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathAsymptoticRegimes" fallback="Asymptotic Regimes" /></h3>
-            <p><LocaleText id="mathAsymptoticRegimesBody" fallback="Log-log slope analysis and dominant balance cues." /></p>
-            <p><Link href="/labs/math/regimes"><LocaleText id="mathOpenRegimes" fallback="Open regimes" /></Link></p>
-          </div>
+          {popularLanes.map((lane) => (
+            <div className="card" key={lane.title}>
+              <h3>{lane.title}</h3>
+              <p>{lane.body}</p>
+              <div className="scenario-links">
+                {lane.links.map((link) => (
+                  <Link className="control-chip" href={link.href} key={link.href}>
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
       <section className="section reveal">
-        <h2><LocaleText id="mathSeriesLinearization" fallback="Series + Linearization" /></h2>
-        <div className="card-grid">
-          <div className="card">
-            <h3><LocaleText id="mathTaylorSeries" fallback="Taylor Series" /></h3>
-            <p><LocaleText id="mathTaylorSeriesBody" fallback="Custom functions with local approximation errors." /></p>
-            <p><Link href="/labs/math/series/taylor"><LocaleText id="mathOpenTaylorExplorer" fallback="Open Taylor explorer" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathFourierSeries" fallback="Fourier Series" /></h3>
-            <p><LocaleText id="mathFourierSeriesBody" fallback="Harmonic builder and spectral fidelity checks." /></p>
-            <p><Link href="/labs/math/series/fourier"><LocaleText id="mathOpenFourierBuilder" fallback="Open Fourier builder" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathLinearization" fallback="Linearization + Jacobian" /></h3>
-            <p><LocaleText id="mathLinearizationBody" fallback="Find equilibria, classify stability, and view Jacobians." /></p>
-            <p><Link href="/labs/math/linearization"><LocaleText id="mathOpenLinearization" fallback="Open linearization" /></Link></p>
-          </div>
+        <div className="section-header">
+          <p className="section-kicker">Retention logic</p>
+          <h2>Why this part of the app can attract and keep users</h2>
         </div>
-      </section>
-
-      <section className="section reveal">
-        <h2><LocaleText id="mathAccuracySensitivity" fallback="Accuracy + Sensitivity" /></h2>
         <div className="card-grid">
-          <div className="card">
-            <h3><LocaleText id="mathSensitivityAnalysis" fallback="Sensitivity Analysis" /></h3>
-            <p><LocaleText id="mathSensitivityAnalysisBody" fallback="Partial derivatives and normalized sensitivity metrics." /></p>
-            <p><Link href="/labs/math/sensitivity"><LocaleText id="mathOpenSensitivity" fallback="Open sensitivity" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathTimestepAccuracy" fallback="Timestep Accuracy" /></h3>
-            <p><LocaleText id="mathTimestepAccuracyBody" fallback="Explore error vs step size and solver behavior." /></p>
-            <p><Link href="/labs/math/stability/timestep"><LocaleText id="mathOpenTimestepAccuracy" fallback="Open timestep accuracy" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathStabilityRegions" fallback="Stability Regions" /></h3>
-            <p><LocaleText id="mathStabilityRegionsBody" fallback="Stability maps and CFL-style limits." /></p>
-            <p><Link href="/labs/math/stability/regions"><LocaleText id="mathOpenStabilityRegions" fallback="Open stability regions" /></Link></p>
-          </div>
-        </div>
-      </section>
-
-      <section className="section reveal">
-        <h2><LocaleText id="mathUnitsNondim" fallback="Units + Nondimensionalization" /></h2>
-        <div className="card-grid">
-          <div className="card">
-            <h3><LocaleText id="mathUnitConsistency" fallback="Unit Consistency" /></h3>
-            <p><LocaleText id="mathUnitConsistencyBody" fallback="Check dimensional consistency for custom expressions." /></p>
-            <p><Link href="/labs/math/units"><LocaleText id="mathOpenUnitChecker" fallback="Open unit checker" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathDerivedUnits" fallback="Derived Units" /></h3>
-            <p><LocaleText id="mathDerivedUnitsBody" fallback="Identify derived SI units and match dimensions to symbols." /></p>
-            <p><Link href="/labs/math/units/derived"><LocaleText id="mathOpenDerivedUnits" fallback="Open derived units" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathNondimensionalization" fallback="Nondimensionalization" /></h3>
-            <p><LocaleText id="mathNondimensionalizationBody" fallback="Compute dimensionless variables from characteristic scales." /></p>
-            <p><Link href="/labs/math/nondimensional"><LocaleText id="mathOpenNondimensionalization" fallback="Open nondimensionalization" /></Link></p>
-          </div>
-          <div className="card">
-            <h3><LocaleText id="mathLinearAlgebra" fallback="Linear Algebra" /></h3>
-            <p><LocaleText id="mathLinearAlgebraBody" fallback="Solve systems and inspect eigenstructure." /></p>
-            <p><Link href="/labs/math/linear-algebra"><LocaleText id="mathOpenLinearAlgebra" fallback="Open linear algebra" /></Link></p>
-          </div>
+          {adoptionReasons.map((item) => (
+            <div className="card" key={item.title}>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </div>
+          ))}
         </div>
       </section>
     </>

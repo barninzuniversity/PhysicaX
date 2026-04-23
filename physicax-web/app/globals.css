@@ -1442,6 +1442,94 @@ aside[data-lab-rail] {
   color: var(--muted);
 }
 
+.math-studio-hero {
+  align-items: stretch;
+}
+
+.math-studio-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.math-console {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(125, 211, 252, 0.18);
+  background:
+    radial-gradient(circle at top right, rgba(56, 189, 248, 0.14), transparent 35%),
+    linear-gradient(180deg, rgba(7, 17, 32, 0.98), rgba(10, 19, 33, 0.96));
+  box-shadow: 0 26px 60px rgba(2, 6, 23, 0.28);
+  color: #dbeafe;
+}
+
+.math-console-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(15, 23, 42, 0.66);
+}
+
+.math-console-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f87171, #fbbf24);
+  box-shadow: 0 0 0 1px rgba(248, 250, 252, 0.1);
+}
+
+.math-console-dot:nth-child(2) {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+
+.math-console-dot:nth-child(3) {
+  background: linear-gradient(135deg, #34d399, #22c55e);
+}
+
+.math-console-title {
+  margin-left: 4px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgba(191, 219, 254, 0.9);
+}
+
+.math-console-body {
+  display: grid;
+  gap: 12px;
+  padding: 18px 18px 20px;
+  font-family: var(--font-geist-mono), "Courier New", monospace;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.math-console-line {
+  color: rgba(219, 234, 254, 0.92);
+}
+
+.math-console-prompt {
+  margin-right: 10px;
+  color: #7dd3fc;
+  font-weight: 700;
+}
+
+.math-console-output {
+  padding-left: 24px;
+  color: #f8fafc;
+}
+
+.math-console-comment {
+  padding-left: 24px;
+  color: rgba(167, 243, 208, 0.88);
+}
+
+.math-studio-formula .status-label {
+  margin-bottom: 10px;
+}
+
 .section {
   background: var(--card);
   border-radius: var(--radius-lg);
@@ -1710,6 +1798,12 @@ aside[data-lab-rail] {
 
 .workflow-card h3 {
   margin: 14px 0 8px;
+}
+
+@media (max-width: 900px) {
+  .math-console-body {
+    font-size: 12px;
+  }
 }
 
 .scenario-shell {

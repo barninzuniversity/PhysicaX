@@ -28,6 +28,10 @@ The product idea is simple:
 
 ![PhysicaX launch modes](docs/images/physicax-launch-modes.svg)
 
+### Math Studio
+
+![PhysicaX Math Studio](docs/images/physicax-math-studio.svg)
+
 ## What makes PhysicaX useful
 
 - Browser-first labs for quick exploration, teaching, and concept checks.
@@ -141,6 +145,37 @@ What each script does:
 - `scripts/verify-linux.sh`: runs the doctor, prepares the runtime, smoke-tests the desktop flow, and rebuilds the Linux release artifacts.
 
 If your project folder name contains spaces, keep the quotes around your `cd` command.
+
+### Exact commands for this PC
+
+These are the exact commands for the current checkout on this machine:
+
+```bash
+cd "/home/ibrahim/Desktop/Project (copy 1)"
+bash scripts/setup-linux.sh
+bash scripts/run-desktop-linux.sh
+```
+
+Website only:
+
+```bash
+cd "/home/ibrahim/Desktop/Project (copy 1)"
+bash scripts/run-web-linux.sh
+```
+
+CFD backend only:
+
+```bash
+cd "/home/ibrahim/Desktop/Project (copy 1)"
+bash scripts/run-cfd-backend-linux.sh
+```
+
+Full Linux verification:
+
+```bash
+cd "/home/ibrahim/Desktop/Project (copy 1)"
+bash scripts/verify-linux.sh
+```
 
 ### Fastest source checkout path
 
