@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { FeatureChecklist } from "../components/FeatureChecklist";
 import { ScenarioPlanner, type PlannerScenario } from "../components/ScenarioPlanner";
 
 type DesktopSettings = {
@@ -11,6 +12,11 @@ type DesktopSettings = {
 };
 
 type BackendHealth = "checking" | "ready" | "offline";
+type BackendStatusPayload = {
+  status?: string;
+  openfoam?: string;
+  fluidx3d?: string;
+};
 type CommandGuide = {
   id: string;
   title: string;
@@ -128,6 +134,29 @@ const linuxCommandGuides: CommandGuide[] = [
   }
 ];
 
+const portableConfidenceChecklist = [
+  "Run the Linux doctor before launch so missing tools or artifacts are visible early.",
+  "Prepare the runtime and confirm the backend health endpoint resolves cleanly.",
+  "Smoke-test the packaged desktop flow before trusting it for demos or handoff.",
+  "Package the AppImage and .deb only after the runtime path already feels stable.",
+  "Keep the release verification summary with the Linux release folder when you share the build."
+];
+
+const escalationCards = [
+  {
+    title: "Explore in the browser",
+    body: "Start here when the job is teaching, quick comparison, or concept exploration and you do not need local runtime controls yet."
+  },
+  {
+    title: "Validate inside the desktop runtime",
+    body: "Move into the desktop app when GPU policy, backend state, and local release behavior become part of the question."
+  },
+  {
+    title: "Package for portable handoff",
+    body: "Finish with the Linux release lane when another machine needs a verified runtime instead of a source checkout."
+  }
+];
+
 const operatingScenarios = [
   {
     id: "native",
@@ -205,6 +234,37 @@ const operatingScenarios = [
 
 const describeDesktopError = (error: unknown) => (error instanceof Error ? error.message : "Unexpected desktop runtime error.");
 
+const interpretBackendStatus = (payload: BackendStatusPayload | null) => {
+  const status = payload?.status?.toLowerCase();
+  const openfoam = payload?.openfoam?.toLowerCase();
+  const fluidx3d = payload?.fluidx3d?.toLowerCase();
+
+  if (status === "ready") {
+    if (openfoam === "ready" || fluidx3d === "ready") {
+      return {
+        health: "ready" as const,
+        note: "The backend is ready and at least one heavier artifact lane is already visible."
+      };
+    }
+    return {
+      health: "ready" as const,
+      note: "The backend is ready. Use the quick validation lane before expecting exported artifacts."
+    };
+  }
+
+  if (status) {
+    return {
+      health: "offline" as const,
+      note: `The backend answered, but reported ${status} instead of ready.`
+    };
+  }
+
+  return {
+    health: "offline" as const,
+    note: "The backend responded without a readable readiness status."
+  };
+};
+
 declare global {
   interface Window {
     physicaxDesktop?: {
@@ -230,13 +290,21 @@ export default function DesktopSettingsPage() {
   const [runtimeError, setRuntimeError] = useState("");
   const [lastSynced, setLastSynced] = useState<Date | null>(null);
   const [lastBackendCheck, setLastBackendCheck] = useState<Date | null>(null);
+  const [backendStatusNote, setBackendStatusNote] = useState("");
   const [copiedCommandId, setCopiedCommandId] = useState<string | null>(null);
 
   const fetchBackendStatus = async (url: string) => {
     const controller = new AbortController();
     const timeout = window.setTimeout(() => controller.abort(), 3500);
     try {
-      return await fetch(`${url}/status`, { cache: "no-store", signal: controller.signal });
+      const response = await fetch(`${url}/status`, { cache: "no-store", signal: controller.signal });
+      let payload: BackendStatusPayload | null = null;
+      try {
+        payload = (await response.json()) as BackendStatusPayload;
+      } catch {
+        payload = null;
+      }
+      return { response, payload };
     } finally {
       window.clearTimeout(timeout);
     }
@@ -291,6 +359,7 @@ export default function DesktopSettingsPage() {
   const refreshBackendHealth = async (announce = false) => {
     if (!ready || !backendUrl) {
       setBackendHealth(ready ? "offline" : "checking");
+      setBackendStatusNote(ready ? "No backend URL is configured for the packaged runtime." : "Backend checks are available inside the desktop app.");
       if (announce) {
         setMessage(ready ? "No backend URL is configured for the packaged runtime." : "Backend checks are available inside the desktop app.");
       }
@@ -302,14 +371,23 @@ export default function DesktopSettingsPage() {
 
     try {
       setBackendHealth("checking");
-      const response = await fetchBackendStatus(backendUrl);
-      setBackendHealth(response.ok ? "ready" : "offline");
+      const { response, payload } = await fetchBackendStatus(backendUrl);
+      const interpreted = response.ok
+        ? interpretBackendStatus(payload)
+        : { health: "offline" as const, note: `The backend returned HTTP ${response.status}.` };
+      setBackendHealth(interpreted.health);
+      setBackendStatusNote(interpreted.note);
       setLastBackendCheck(new Date());
       if (announce) {
-        setMessage(response.ok ? "Backend health refreshed successfully." : "Backend responded, but not with a healthy status.");
+        setMessage(
+          interpreted.health === "ready"
+            ? "Backend health refreshed successfully."
+            : `Backend needs attention. ${interpreted.note}`
+        );
       }
     } catch (error) {
       setBackendHealth("offline");
+      setBackendStatusNote("The backend did not answer within the short confidence-check timeout.");
       if (announce) {
         setMessage(`Backend check failed: ${describeDesktopError(error)}`);
       }
@@ -325,6 +403,7 @@ export default function DesktopSettingsPage() {
   useEffect(() => {
     if (!ready || !backendUrl) {
       setBackendHealth(ready ? "offline" : "checking");
+      setBackendStatusNote(ready ? "No backend URL is configured for the packaged runtime." : "Backend checks are available inside the desktop app.");
       return;
     }
 
@@ -333,13 +412,18 @@ export default function DesktopSettingsPage() {
     const checkBackend = async () => {
       try {
         setBackendHealth("checking");
-        const response = await fetchBackendStatus(backendUrl);
+        const { response, payload } = await fetchBackendStatus(backendUrl);
         if (cancelled) return;
-        setBackendHealth(response.ok ? "ready" : "offline");
+        const interpreted = response.ok
+          ? interpretBackendStatus(payload)
+          : { health: "offline" as const, note: `The backend returned HTTP ${response.status}.` };
+        setBackendHealth(interpreted.health);
+        setBackendStatusNote(interpreted.note);
         setLastBackendCheck(new Date());
       } catch {
         if (!cancelled) {
           setBackendHealth("offline");
+          setBackendStatusNote("The backend did not answer within the short confidence-check timeout.");
         }
       }
     };
@@ -439,11 +523,9 @@ export default function DesktopSettingsPage() {
         note:
           !ready
             ? "Backend health becomes actionable inside the packaged desktop runtime."
-            : backendHealth === "ready"
-            ? "The local backend answered the health endpoint."
-            : backendHealth === "offline"
-              ? "Check the packaged backend before assuming the CFD layer is broken."
-              : "Waiting for the local runtime to report service health."
+            : backendHealth === "checking"
+              ? "Waiting for the local runtime to report service health."
+              : backendStatusNote || "Check the packaged backend before assuming the CFD layer is broken."
       },
       {
         label: "GPU policy",
@@ -463,7 +545,7 @@ export default function DesktopSettingsPage() {
           : "The browser preview explains the packaged release path and WSL launcher."
       }
     ],
-    [backendHealth, ready, settings?.gpuMode, settings?.updateDir]
+    [backendHealth, backendStatusNote, ready, settings?.gpuMode, settings?.updateDir]
   );
 
   return (
@@ -580,6 +662,12 @@ export default function DesktopSettingsPage() {
             </span>
             {lastBackendCheck ? <span className="pill">Last backend check: {lastBackendCheck.toLocaleTimeString()}</span> : null}
           </div>
+          {backendStatusNote ? (
+            <div className="details-block">
+              <strong>Backend confidence note</strong>
+              <p className="demo-note">{backendStatusNote}</p>
+            </div>
+          ) : null}
           <div className="control-row">
             <div className="control-group">
               <button type="button" className="control-button" onClick={() => void toggleGpu("high")} disabled={Boolean(actionBusy)}>
@@ -703,6 +791,31 @@ export default function DesktopSettingsPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="section reveal">
+        <div className="section-header">
+          <p className="section-kicker">Confidence pass</p>
+          <h2>Turn a local launch into a portable, reviewable runtime</h2>
+          <p className="section-lede">
+            A strong desktop workflow should start simple, prove the local stack is healthy, and only then promote into
+            packaging and handoff. This section keeps that escalation path visible.
+          </p>
+        </div>
+        <div className="card-grid">
+          {escalationCards.map((card) => (
+            <div className="card" key={card.title}>
+              <h3>{card.title}</h3>
+              <p>{card.body}</p>
+            </div>
+          ))}
+        </div>
+        <FeatureChecklist
+          title="Portable Runtime Confidence Checklist"
+          description="Use this before demos, release handoff, or a long validation session. The goal is to trust the runtime because you checked it, not because it happened to launch once."
+          items={portableConfidenceChecklist}
+          storageKey="physicax-desktop-portable-confidence"
+        />
       </section>
 
       <section className="section reveal" id="linux-quick-start">

@@ -127,6 +127,7 @@ Folder contents:
 - run-PhysicaX-linux.sh  (recommended launcher for native Linux)
 - run-PhysicaX-wsl.sh  (recommended launcher for WSL)
 - install-PhysicaX-deb.sh  (helper installer for Debian/Ubuntu)
+- verification-summary.json  (written after release verification with file hashes and sizes)
 
 Run on Linux after downloading this folder:
 1) chmod +x run-PhysicaX-linux.sh
@@ -152,6 +153,7 @@ Notes:
 - On WSL, the wrapper script extracts the AppImage to a cache folder and starts the desktop binary directly.
 - On WSL, if no user DBus session is present, the wrapper starts one automatically.
 - The app defaults to low GPU mode on WSL for stability. To force high mode: PHYSICAX_GPU_MODE=high ./run-PhysicaX-wsl.sh
+- Inspect verification-summary.json when you want a quick artifact-quality record for handoff or release review.
 
 Run from a source checkout on Linux:
 python3 -m venv .venv

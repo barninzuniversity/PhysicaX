@@ -297,6 +297,8 @@ The smoke test checks that:
 - the homepage HTML loads correctly
 - production CSS assets are reachable
 
+The Linux release verification also writes `physicax-desktop/dist/linux-release/verification-summary.json` so a handoff includes file sizes and SHA-256 hashes instead of just a claim that packaging succeeded.
+
 ## CFD backend
 
 The browser flow can talk to an external CFD backend through:
@@ -336,3 +338,11 @@ Good PhysicaX changes should improve at least one of these:
 - ease of teaching or demonstrating a concept
 - portability of the desktop experience
 - smoothness of the escalation path from simple exploration to serious validation
+
+Examples of strong improvements:
+
+- make the model assumptions, units, or validation limits easier to read in the UI
+- replace a vague runtime success state with inspectable health or artifact evidence
+- add a clearer teaching/demo path that helps a concept land quickly
+- reduce Linux or desktop setup friction so the same workflow survives on more machines
+- make it easier for a user to start light, learn fast, and escalate only when stronger evidence is needed

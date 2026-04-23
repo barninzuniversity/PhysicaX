@@ -80,8 +80,12 @@ warn_if_missing "web production build" "$WEB_DIR/.next/standalone/server.js" "ru
 warn_if_missing_exec "bundled CFD backend" "$DESKTOP_DIR/backend/dist/physicax-cfd-backend" "run: cd \"$DESKTOP_DIR\" && npm run desktop:build-backend:linux"
 warn_if_missing "linux release folder" "$RELEASE_DIR" "run: cd \"$DESKTOP_DIR\" && npm run desktop:package:linux"
 warn_if_missing_exec "linux launcher" "$RELEASE_DIR/run-PhysicaX-linux.sh" "run: cd \"$DESKTOP_DIR\" && npm run desktop:package:linux"
+warn_if_missing_exec "wsl launcher" "$RELEASE_DIR/run-PhysicaX-wsl.sh" "run: cd \"$DESKTOP_DIR\" && npm run desktop:package:linux"
+warn_if_missing_exec "deb installer helper" "$RELEASE_DIR/install-PhysicaX-deb.sh" "run: cd \"$DESKTOP_DIR\" && npm run desktop:package:linux"
+warn_if_missing "release readme" "$RELEASE_DIR/README.txt" "run: cd \"$DESKTOP_DIR\" && npm run desktop:package:linux"
 warn_if_missing "linux AppImage" "$RELEASE_DIR/PhysicaX-0.1.0.AppImage" "run: cd \"$DESKTOP_DIR\" && npm run desktop:package:linux"
 warn_if_missing "linux deb package" "$RELEASE_DIR/physicax-desktop_0.1.0_amd64.deb" "run: cd \"$DESKTOP_DIR\" && npm run desktop:package:linux"
+warn_if_missing "release verification summary" "$RELEASE_DIR/verification-summary.json" "run: cd \"$DESKTOP_DIR\" && npm run desktop:verify-release:linux"
 
 echo
 if (( failures > 0 )); then

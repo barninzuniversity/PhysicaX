@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CFDStatusCard } from "../components/CFDStatusCard";
+import { FeatureChecklist } from "../components/FeatureChecklist";
 import { ScenarioPlanner, type PlannerScenario } from "../components/ScenarioPlanner";
 
 const workflowCards = [
@@ -48,6 +49,31 @@ const artifactCards = [
     title: "Streamline tracks",
     body: "When configured, the streamline VTK output becomes the visual proof that the heavier post-processing path really completed."
   }
+];
+
+const modelClarityCards = [
+  {
+    title: "Quick LBM validation explains the setup",
+    body: "Use the fast lane to verify geometry, boundary conditions, and whether the runtime behaves sensibly before you ask for heavier exports.",
+    note: "Best first move"
+  },
+  {
+    title: "OpenFOAM is the evidence layer",
+    body: "Promote into OpenFOAM only after the quick pass already looks physically reasonable. That keeps expensive runs attached to a clear purpose.",
+    note: "Promote with intent"
+  },
+  {
+    title: "Artifacts close the trust loop",
+    body: "Treat the uniform grid, pressure output, and streamline files as the proof that the export lane really completed and is worth reviewing.",
+    note: "Files over logs"
+  }
+];
+
+const cfdEvidenceChecklist = [
+  "Confirm the /status endpoint reports a healthy local backend before adjusting the model.",
+  "Run the quick LBM validation first to catch geometry and boundary-condition mistakes cheaply.",
+  "Escalate into OpenFOAM only after the fast pass looks physically sensible.",
+  "Inspect uniformGrid.csv, pressure output, and streamline files before trusting the heavy run."
 ];
 
 const cfdScenarios = [
@@ -210,6 +236,34 @@ export default function CFDPage() {
           title="Choose The CFD Lane Before You Spend Compute"
           lede="The fastest way to calm down a CFD workflow is to make the purpose of the next run explicit."
           scenarios={cfdScenarios}
+        />
+      </section>
+
+      <section className="section reveal">
+        <div className="section-header">
+          <p className="section-kicker">Model clarity</p>
+          <h2>Keep the CFD story readable as you escalate</h2>
+          <p className="section-lede">
+            The point of the workflow is not just to run a solver. It is to know what each stage can prove, what it
+            cannot prove yet, and when it is worth paying for a heavier validation step.
+          </p>
+        </div>
+        <div className="card-grid">
+          {modelClarityCards.map((card) => (
+            <div className="card" key={card.title}>
+              <div className="inline-kv">
+                <span className="pill pill-active">{card.note}</span>
+              </div>
+              <h3>{card.title}</h3>
+              <p>{card.body}</p>
+            </div>
+          ))}
+        </div>
+        <FeatureChecklist
+          title="CFD Evidence Ladder"
+          description="Use this as the calm path from exploration to evidence. The workflow gets stronger only when each earlier step already makes sense."
+          items={cfdEvidenceChecklist}
+          storageKey="physicax-cfd-evidence-ladder"
         />
       </section>
 

@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -20,6 +21,7 @@ const requiredFiles = [
 ];
 
 const issues = [];
+const checksumFileName = "verification-summary.json";
 
 const expectFile = (fileName) => {
   const filePath = path.join(releaseDir, fileName);
@@ -42,6 +44,17 @@ const checkExecutable = (fileName) => {
 const readmePath = expectFile("README.txt");
 const readme = readmePath ? fs.readFileSync(readmePath, "utf-8") : "";
 
+const fileDigest = (filePath) => {
+  const hash = crypto.createHash("sha256");
+  hash.update(fs.readFileSync(filePath));
+  const stat = fs.statSync(filePath);
+  return {
+    path: filePath,
+    size: stat.size,
+    sha256: hash.digest("hex")
+  };
+};
+
 for (const fileName of requiredFiles) {
   expectFile(fileName);
 }
@@ -56,7 +69,8 @@ const expectedReadmeSnippets = [
   `sudo apt install ./${debName}`,
   appImageName,
   debName,
-  `npm run desktop:run:linux`
+  `npm run desktop:run:linux`,
+  checksumFileName
 ];
 
 for (const snippet of expectedReadmeSnippets) {
@@ -73,14 +87,13 @@ if (issues.length) {
   process.exit(1);
 }
 
-console.log(
-  JSON.stringify(
-    {
-      releaseDir,
-      verifiedFiles: requiredFiles.map((fileName) => path.join(releaseDir, fileName)),
-      version
-    },
-    null,
-    2
-  )
-);
+const summary = {
+  releaseDir,
+  version,
+  generatedAt: new Date().toISOString(),
+  verifiedFiles: requiredFiles.map((fileName) => fileDigest(path.join(releaseDir, fileName)))
+};
+
+fs.writeFileSync(path.join(releaseDir, checksumFileName), JSON.stringify(summary, null, 2));
+
+console.log(JSON.stringify(summary, null, 2));

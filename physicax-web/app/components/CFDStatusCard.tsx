@@ -127,6 +127,63 @@ export function CFDStatusCard() {
   const backendReady = status?.status === "ready";
   const openfoamReady = status?.openfoam === "ready";
   const fluidx3dReady = status?.fluidx3d === "ready";
+  const pressureArtifactReady = Boolean(status?.openfoamPressurePath);
+  const confidenceSignals = [
+    {
+      label: "Backend heartbeat",
+      ready: backendReady,
+      note: backendReady
+        ? "The status endpoint answered with a ready runtime."
+        : "Fix reachability and startup issues before interpreting the physics."
+    },
+    {
+      label: "Quick validation lane",
+      ready: backendReady,
+      note: backendReady
+        ? "You can safely use the fast LBM path to check geometry and boundary conditions."
+        : "The quick lane is blocked until the local runtime is stable."
+    },
+    {
+      label: "Sampled field artifact",
+      ready: openfoamReady,
+      note: openfoamReady
+        ? "OpenFOAM sampling is available for concrete field review."
+        : "Promote into OpenFOAM only after the quick pass already looks sensible."
+    },
+    {
+      label: "Pressure or streamline evidence",
+      ready: pressureArtifactReady || fluidx3dReady,
+      note:
+        pressureArtifactReady || fluidx3dReady
+          ? "The heavier export lane has started leaving inspectable evidence behind."
+          : "Logs alone are not enough. Wait for pressure or streamline outputs when fidelity matters."
+    }
+  ];
+  const confidenceReadyCount = confidenceSignals.filter((signal) => signal.ready).length;
+  const confidenceLabel =
+    confidenceReadyCount <= 1
+      ? "Runtime bring-up"
+      : confidenceReadyCount === 2
+        ? "Quick validation"
+        : confidenceReadyCount === 3
+          ? "Artifact review"
+          : "High-confidence export";
+  const confidenceSummary =
+    confidenceReadyCount <= 1
+      ? "Treat this as runtime bring-up. Prove the service is alive before reading solver meaning into failures."
+      : confidenceReadyCount === 2
+        ? "You have enough confidence for the cheap validation lane. Use the quick LBM run to test the setup before heavier exports."
+        : confidenceReadyCount === 3
+          ? "The stack is ready for exported artifact review. Inspect the sampled field before deciding the case is trustworthy."
+          : "The evidence chain looks strong: runtime, quick validation, and exported artifacts are all visible.";
+  const escalationGuidance =
+    confidenceReadyCount <= 1
+      ? "Stay at the runtime layer: refresh status, verify the backend URL, and do not escalate into OpenFOAM yet."
+      : confidenceReadyCount === 2
+        ? "Move into the quick LBM test now. If the geometry and boundary conditions look sensible, then promote to OpenFOAM."
+        : confidenceReadyCount === 3
+          ? "You are in the export-review lane. Compare sampled fields and pressure output before packaging or reporting the run."
+          : "You are ready for the strongest local CFD path in PhysicaX: artifact-backed review with portable desktop handoff when needed.";
 
   const nextStep = error
     ? "Launch the packaged desktop app or start the FastAPI backend manually, then refresh status before running a CFD test."
@@ -200,6 +257,23 @@ export function CFDStatusCard() {
             </span>
           ))}
         </div>
+      </div>
+      <div className="details-block">
+        <strong>Confidence snapshot</strong>
+        <p className="demo-note">
+          {confidenceLabel}: {confidenceSummary}
+        </p>
+        <div className="pill-grid">
+          {confidenceSignals.map((signal) => (
+            <span key={signal.label} className={`pill ${signal.ready ? "pill-good" : ""}`}>
+              {signal.label}: {signal.ready ? "ready" : "pending"}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className="details-block">
+        <strong>Escalation lane</strong>
+        <p className="demo-note">{escalationGuidance}</p>
       </div>
       <div className="demo-note">
         Set <span className="mono">CFD_BACKEND_URL</span> (or{" "}

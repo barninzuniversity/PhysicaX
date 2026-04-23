@@ -21,4 +21,5 @@ npm --prefix "$PHYSICAX_DESKTOP_DIR" run desktop:smoke-test
 physicax_log "Packaging and verifying the Linux release"
 npm --prefix "$PHYSICAX_DESKTOP_DIR" run desktop:package:linux
 
+physicax_log "Release verification summary written to $PHYSICAX_DESKTOP_DIR/dist/linux-release/verification-summary.json"
 physicax_log "Linux verification finished successfully."

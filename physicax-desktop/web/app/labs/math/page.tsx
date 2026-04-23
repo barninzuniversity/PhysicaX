@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FeatureChecklist } from "../../components/FeatureChecklist";
 import { MathBlock } from "../../components/MathBlock";
 
 const studioSignals = [
@@ -145,6 +146,28 @@ const studioDeskCards = [
   }
 ];
 
+const teachingRecipes = [
+  {
+    title: "Lead with a visible question",
+    body: "Start in CAS or the workbench with one governing expression, then show the graph or trajectory immediately so the audience sees why the equation matters."
+  },
+  {
+    title: "Narrate the assumptions out loud",
+    body: "Use units, scaling, and approximation tools during the demo so people learn what makes the model trustworthy instead of just watching buttons change."
+  },
+  {
+    title: "Escalate only when the picture is clear",
+    body: "Once the symbolic and visual story makes sense, move into a lab, desktop runtime, or CFD only if the concept needs stronger evidence."
+  }
+];
+
+const teachingChecklist = [
+  "State the governing equation, variable meanings, and what the audience should notice first.",
+  "Plot or simulate the result quickly so the symbolic step becomes visual and memorable.",
+  "Call out units, assumptions, scaling, or sensitivity before claiming the model is trustworthy.",
+  "Escalate into a deeper lab or desktop/CFD workflow only after the classroom-sized explanation already holds together."
+];
+
 export default function MathEnginePage() {
   return (
     <>
@@ -286,6 +309,31 @@ export default function MathEnginePage() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="section reveal">
+        <div className="section-header">
+          <p className="section-kicker">Teaching flow</p>
+          <h2>Make the math section easier to teach and demonstrate</h2>
+          <p className="section-lede">
+            A strong demo should feel like a guided scientific conversation: show the model, make it visual, then
+            validate the assumptions before moving into a heavier workflow.
+          </p>
+        </div>
+        <div className="card-grid">
+          {teachingRecipes.map((recipe) => (
+            <div className="card" key={recipe.title}>
+              <h3>{recipe.title}</h3>
+              <p>{recipe.body}</p>
+            </div>
+          ))}
+        </div>
+        <FeatureChecklist
+          title="Teaching and Demo Checklist"
+          description="Use this when you want the Math Studio to land well in a lesson, walkthrough, or product demo rather than just showing raw capability."
+          items={teachingChecklist}
+          storageKey="physicax-math-teaching-checklist"
+        />
       </section>
 
       <section className="section reveal" id="math-studio-lanes">
