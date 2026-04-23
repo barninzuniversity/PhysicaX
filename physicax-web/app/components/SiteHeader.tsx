@@ -149,6 +149,8 @@ export function SiteHeader() {
     if (typeof window === "undefined") {
       return;
     }
+    const params = new URLSearchParams(window.location.search);
+    const docsMode = params.get("docs") === "1";
     const stored = window.localStorage.getItem("physicaxNavCollapsed");
     if (stored !== null) {
       setCollapsed(stored === "true");
@@ -179,14 +181,23 @@ export function SiteHeader() {
 
     const storedTheme = window.localStorage.getItem("physicaxTheme");
     const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const nextTheme = storedTheme === "dark" || storedTheme === "light" ? storedTheme : prefersDark ? "dark" : "light";
+    const nextTheme = docsMode
+      ? "light"
+      : storedTheme === "dark" || storedTheme === "light"
+        ? storedTheme
+        : prefersDark
+          ? "dark"
+          : "light";
     setTheme(nextTheme as "light" | "dark");
     document.documentElement.dataset.theme = nextTheme;
 
     const storedAccent = window.localStorage.getItem("physicaxAccent");
-    if (storedAccent) {
-      setAccent(storedAccent);
-      applyAccent(storedAccent);
+    const nextAccent = docsMode ? "#2563eb" : storedAccent || "#2563eb";
+    setAccent(nextAccent);
+    applyAccent(nextAccent);
+    if (docsMode) {
+      window.localStorage.setItem("physicaxTheme", "light");
+      window.localStorage.setItem("physicaxAccent", nextAccent);
     }
 
     const storedRecent = window.localStorage.getItem(RECENT_LABS_KEY);
@@ -451,6 +462,15 @@ export function SiteHeader() {
               {actionsOpen ? (
                 <div className="quick-actions-menu" role="menu">
                   <div className="quick-actions-title">{t("quickActions")}</div>
+                  <div className="quick-actions-meta">This surface</div>
+                  <div className="quick-actions-list quick-actions-list-compact">
+                    {surfaceContext.actions.map((action) => (
+                      <Link key={action.href} href={action.href} className="quick-actions-item quick-actions-item-context">
+                        {action.label}
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="quick-actions-meta">Workspace</div>
                   <div className="quick-actions-list">
                     <Link href="/search" className="quick-actions-item">{t("searchTitle")}</Link>
                     <Link href="/dashboard" className="quick-actions-item">{t("dashboard")}</Link>

@@ -128,10 +128,27 @@ const adoptionReasons = [
   }
 ];
 
+const studioDeskCards = [
+  {
+    eyebrow: "Live script lane",
+    title: "Move from symbolic intent into visual evidence without losing the thread.",
+    body: "Start with the command window, keep the current expression in view, and switch into graphing or workbench surfaces only when the next step is obvious.",
+    code: "fx> f(x) = exp(-0.2*x) * sin(3*x)",
+    tags: ["CAS", "Plots", "Notes"]
+  },
+  {
+    eyebrow: "Model health",
+    title: "Keep units, scaling, and sensitivity close enough to trust the result.",
+    body: "The point of the Math Studio is not just faster calculation. It is to make a result easier to defend before it leaves the math layer.",
+    code: "units -> nondimensional -> validate",
+    tags: ["Units", "Scaling", "Validation"]
+  }
+];
+
 export default function MathEnginePage() {
   return (
     <>
-      <section className="section reveal">
+      <section className="section reveal" id="math-studio-hero">
         <div className="hero math-studio-hero">
           <div>
             <div className="hero-kicker">Math Studio</div>
@@ -207,11 +224,28 @@ export default function MathEnginePage() {
                 equations. That is the difference between a flashy calculator and a modeling tool people keep.
               </p>
             </div>
+            <div className="math-studio-desk">
+              {studioDeskCards.map((card) => (
+                <div className="math-desk-card" key={card.title}>
+                  <div className="status-label">{card.eyebrow}</div>
+                  <h3>{card.title}</h3>
+                  <p>{card.body}</p>
+                  <div className="math-desk-code">{card.code}</div>
+                  <div className="math-desk-tags" aria-label={`${card.eyebrow} tags`}>
+                    {card.tags.map((tag) => (
+                      <span className="math-desk-tag" key={tag}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="section reveal">
+      <section className="section reveal" id="math-studio-surfaces">
         <div className="section-header">
           <p className="section-kicker">Core studio surfaces</p>
           <h2>The math section now behaves like a product, not a directory.</h2>
@@ -254,7 +288,7 @@ export default function MathEnginePage() {
         </div>
       </section>
 
-      <section className="section reveal">
+      <section className="section reveal" id="math-studio-lanes">
         <div className="section-header">
           <p className="section-kicker">Popular lanes</p>
           <h2>Pick the math lane that matches the question</h2>

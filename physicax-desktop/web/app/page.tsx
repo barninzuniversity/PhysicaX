@@ -228,7 +228,7 @@ const audienceCards = [
 export default function HomePage() {
   return (
     <>
-      <section className="section reveal hero">
+      <section className="section reveal hero" id="workspace-hero">
         <div>
           <p className="hero-kicker">Local-first simulation workspace</p>
           <h1>PhysicaX gives you one place to explore physics, validate models, and move into CFD when the question gets serious.</h1>
@@ -301,10 +301,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section reveal">
+      <section className="section reveal" id="choose-mode">
         <div className="section-header">
           <p className="section-kicker">Choose the mode</p>
-          <h2>Choose The Right Mode</h2>
+          <h2>Choose the Right Mode</h2>
           <p className="section-lede">
             PhysicaX is one workspace with three working styles. Pick the mode that matches today&apos;s job instead of
             forcing every task through the same interface.
@@ -326,10 +326,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section reveal">
+      <section className="section reveal" id="pathfinder">
         <ScenarioPlanner
           eyebrow="Pathfinder"
-          title="Plan The Right PhysicaX Session"
+          title="Plan the Right PhysicaX Session"
           lede="Pick the kind of job you are doing and PhysicaX should make the next step obvious, not ambiguous."
           scenarios={pathfinderScenarios}
         />
@@ -471,7 +471,7 @@ export default function HomePage() {
         <GlobalSearch />
       </section>
 
-      <section className="section reveal quick-actions-section">
+      <section className="section reveal quick-actions-section" id="launch-board">
         <div className="section-header">
           <p className="section-kicker">Launch board</p>
           <h2>Quick Actions</h2>

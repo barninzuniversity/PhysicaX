@@ -468,7 +468,7 @@ export default function DesktopSettingsPage() {
 
   return (
     <>
-      <section className="section reveal hero">
+      <section className="section reveal hero" id="desktop-runtime-guide">
         <div>
           <p className="hero-kicker">{ready ? "Desktop control center" : "Desktop-specific controls"}</p>
           <h1>
@@ -705,7 +705,7 @@ export default function DesktopSettingsPage() {
         </div>
       </section>
 
-      <section className="section reveal">
+      <section className="section reveal" id="linux-quick-start">
         <div className="section-header">
           <p className="section-kicker">Linux quick start</p>
           <h2>Run PhysicaX Yourself On Linux</h2>
@@ -744,9 +744,13 @@ export default function DesktopSettingsPage() {
           exposes one-command launch helpers, and the desktop package still includes a Linux doctor command for quick
           preflight checks.
         </p>
+        <p className="demo-note">
+          If you already have the repo on your machine, replace <span className="mono">/path/to/PhysicaX</span> with your
+          local checkout path and keep the quotes when that path contains spaces.
+        </p>
       </section>
 
-      <section className="section reveal">
+      <section className="section reveal" id="wsl-linux-notes">
         <h2>WSL / Linux Notes</h2>
         <p>
           If you are using the Linux package inside WSL, the most reliable launch path is the prepared WSL launcher. On

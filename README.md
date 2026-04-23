@@ -12,7 +12,7 @@
 
 PhysicaX is built for people who want more than isolated simulations. It combines a polished Next.js web app, an Electron desktop runtime, a bundled CFD path, and a shared language for formulas, units, assumptions, and reviewable outputs.
 
-The product images below are captured from the running app and Linux desktop flow so the README reflects what actually ships.
+The product images below are captured from the running app and Linux desktop flow so the README reflects what actually ships. The Linux runbook and operating-lanes panels are composites assembled from those live captures to keep the README readable without inventing UI that does not exist.
 
 The product idea is simple:
 
@@ -24,11 +24,11 @@ The product idea is simple:
 
 ### Linux launch runbook
 
-![PhysicaX Linux runbook](docs/images/physicax-linux-runbook.svg)
+![PhysicaX Linux runbook](docs/images/physicax-linux-runbook.png)
 
 ### Operating lanes
 
-![PhysicaX launch modes](docs/images/physicax-launch-modes.svg)
+![PhysicaX launch modes](docs/images/physicax-launch-modes.png)
 
 ### Math Studio
 
@@ -178,6 +178,12 @@ Full Linux verification:
 cd "/home/ibrahim/Desktop/Project (copy 1)"
 bash scripts/verify-linux.sh
 ```
+
+What you should expect after launch:
+
+- `bash scripts/run-desktop-linux.sh` prepares the runtime and opens the Electron app on the desktop controls surface.
+- `bash scripts/run-web-linux.sh` serves the production web workspace at `http://localhost:3000`.
+- `bash scripts/run-cfd-backend-linux.sh` starts the CFD backend at `http://127.0.0.1:8000/status`.
 
 ### Fastest source checkout path
 
