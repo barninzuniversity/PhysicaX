@@ -12,6 +12,8 @@
 
 PhysicaX is built for people who want more than isolated simulations. It combines a polished Next.js web app, an Electron desktop runtime, a bundled CFD path, and a shared language for formulas, units, assumptions, and reviewable outputs.
 
+The product images below are captured from the running app and Linux desktop flow so the README reflects what actually ships.
+
 The product idea is simple:
 
 - start with fast understanding
@@ -30,7 +32,7 @@ The product idea is simple:
 
 ### Math Studio
 
-![PhysicaX Math Studio](docs/images/physicax-math-studio.svg)
+![PhysicaX Math Studio](docs/images/physicax-math-studio.png)
 
 ## What makes PhysicaX useful
 

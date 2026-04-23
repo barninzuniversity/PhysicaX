@@ -388,26 +388,30 @@ export function SiteHeader() {
 
   return (
     <>
-      <button
-        type="button"
-        className={`nav-fab ${hidden ? "is-visible" : ""}`}
-        onClick={() => setHidden((prev) => !prev)}
-        aria-expanded={!hidden}
-        aria-controls="site-nav"
-        title={`${t("menu")} (M)`}
-      >
-        {hidden ? t("menu") : t("close")}
-      </button>
-      <button
-        type="button"
-        className={`rail-fab ${railCollapsed ? "is-visible" : ""}`}
-        onClick={toggleRail}
-        aria-expanded={!railCollapsed}
-        aria-controls="lab-rail"
-        title={`${t("labsRailTitle")} (L)`}
-      >
-        {railCollapsed ? t("labsRailTitle") : t("labsRailCollapse")}
-      </button>
+      {hidden ? (
+        <button
+          type="button"
+          className="nav-fab is-visible"
+          onClick={() => setHidden(false)}
+          aria-expanded={false}
+          aria-controls="site-nav"
+          title={`${t("menu")} (M)`}
+        >
+          {t("menu")}
+        </button>
+      ) : null}
+      {railCollapsed ? (
+        <button
+          type="button"
+          className="rail-fab is-visible"
+          onClick={toggleRail}
+          aria-expanded={false}
+          aria-controls="lab-rail"
+          title={`${t("labsRailTitle")} (L)`}
+        >
+          {t("labsRailTitle")}
+        </button>
+      ) : null}
       <header className={`site-header ${collapsed ? "nav-collapsed" : ""} ${hidden ? "is-hidden" : ""}`}>
         <div className="header-top">
           <Link href="/" className="brand-link" aria-label="PhysicaX home">
@@ -466,6 +470,87 @@ export function SiteHeader() {
                   ) : (
                     <div className="quick-actions-empty">{t("recentLabsEmpty")}</div>
                   )}
+                  <div className="quick-actions-controls" aria-label="Workspace controls">
+                    <label className="field quick-actions-field">
+                      <span>{t("languageLabel")}</span>
+                      <select value={locale} onChange={(event) => setLocale(event.target.value as "en" | "fr")}>
+                        <option value="en">EN</option>
+                        <option value="fr">FR</option>
+                      </select>
+                    </label>
+                    <div className="quick-actions-control-strip">
+                      <div className="theme-toggle-wrap quick-actions-toggle-wrap">
+                        <span className="theme-label">{t("themeLabel")}</span>
+                        <button
+                          type="button"
+                          className={`nav-toggle theme-toggle ${theme === "dark" ? "is-dark" : "is-light"}`}
+                          onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
+                        >
+                          {theme === "dark" ? t("themeDark") : t("themeLight")}
+                        </button>
+                      </div>
+                      {desktopAvailable ? (
+                        <div className="gpu-toggle-wrap quick-actions-toggle-wrap">
+                          <span className="theme-label">{t("gpuLabel")}</span>
+                          <button
+                            type="button"
+                            className="nav-toggle"
+                            onClick={toggleGpuMode}
+                            disabled={gpuBusy}
+                          >
+                            {gpuMode === "high" ? t("gpuHigh") : t("gpuLow")}
+                          </button>
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="accent-picker quick-actions-accent-picker">
+                      <span className="theme-label">{t("accentLabel")}</span>
+                      <input
+                        type="color"
+                        value={accent}
+                        onChange={(event) => setAccent(event.target.value)}
+                        aria-label={t("accentLabel")}
+                      />
+                      <div className="accent-presets">
+                        {["#2563eb", "#10b981", "#f97316", "#ef4444", "#a855f7"].map((value) => (
+                          <button
+                            key={value}
+                            type="button"
+                            className="accent-swatch"
+                            style={{ background: value }}
+                            onClick={() => setAccent(value)}
+                            aria-label={`${t("accentLabel")} ${value}`}
+                          />
+                        ))}
+                      </div>
+                      <button
+                        type="button"
+                        className="control-chip"
+                        onClick={() => setAccent("#2563eb")}
+                      >
+                        {t("accentReset")}
+                      </button>
+                    </div>
+                    <div className="quick-actions-control-strip quick-actions-control-strip-compact">
+                      <button
+                        type="button"
+                        className="nav-toggle"
+                        onClick={() => setCollapsed((prev) => !prev)}
+                        aria-expanded={!collapsed}
+                        aria-controls="site-nav"
+                      >
+                        {collapsed ? t("menu") : t("close")}
+                      </button>
+                      <button
+                        type="button"
+                        className="nav-toggle"
+                        onClick={toggleRail}
+                        aria-expanded={!railCollapsed}
+                      >
+                        {railCollapsed ? t("showLabs") : t("hideLabs")}
+                      </button>
+                    </div>
+                  </div>
                 </div>
               ) : null}
             </div>
@@ -480,82 +565,7 @@ export function SiteHeader() {
                 </Link>
               ))}
             </div>
-            <label className="field" style={{ minWidth: "120px" }}>
-              <span>{t("languageLabel")}</span>
-              <select value={locale} onChange={(event) => setLocale(event.target.value as "en" | "fr")}>
-                <option value="en">EN</option>
-                <option value="fr">FR</option>
-              </select>
-            </label>
             <UserMenu />
-            <div className="theme-toggle-wrap">
-              <span className="theme-label">{t("themeLabel")}</span>
-              <button
-                type="button"
-                className={`nav-toggle theme-toggle ${theme === "dark" ? "is-dark" : "is-light"}`}
-                onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
-              >
-                {theme === "dark" ? t("themeDark") : t("themeLight")}
-              </button>
-            </div>
-            {desktopAvailable ? (
-              <div className="gpu-toggle-wrap">
-                <span className="theme-label">{t("gpuLabel")}</span>
-                <button
-                  type="button"
-                  className="nav-toggle"
-                  onClick={toggleGpuMode}
-                  disabled={gpuBusy}
-                >
-                  {gpuMode === "high" ? t("gpuHigh") : t("gpuLow")}
-                </button>
-              </div>
-            ) : null}
-            <div className="accent-picker">
-              <span className="theme-label">{t("accentLabel")}</span>
-              <input
-                type="color"
-                value={accent}
-                onChange={(event) => setAccent(event.target.value)}
-                aria-label={t("accentLabel")}
-              />
-              <div className="accent-presets">
-                {["#2563eb", "#10b981", "#f97316", "#ef4444", "#a855f7"].map((value) => (
-                  <button
-                    key={value}
-                    type="button"
-                    className="accent-swatch"
-                    style={{ background: value }}
-                    onClick={() => setAccent(value)}
-                    aria-label={`${t("accentLabel")} ${value}`}
-                  />
-                ))}
-              </div>
-              <button
-                type="button"
-                className="control-chip"
-                onClick={() => setAccent("#2563eb")}
-              >
-                {t("accentReset")}
-              </button>
-            </div>
-            <button
-              type="button"
-              className="nav-toggle"
-              onClick={() => setCollapsed((prev) => !prev)}
-              aria-expanded={!collapsed}
-              aria-controls="site-nav"
-            >
-              {collapsed ? t("menu") : t("close")}
-            </button>
-            <button
-              type="button"
-              className="nav-toggle"
-              onClick={toggleRail}
-              aria-expanded={!railCollapsed}
-            >
-              {railCollapsed ? t("showLabs") : t("hideLabs")}
-            </button>
           </div>
         </div>
         <div className="header-context">

@@ -471,7 +471,7 @@ export default function HomePage() {
         <GlobalSearch />
       </section>
 
-      <section className="section reveal quick-actions">
+      <section className="section reveal quick-actions-section">
         <div className="section-header">
           <p className="section-kicker">Launch board</p>
           <h2>Quick Actions</h2>

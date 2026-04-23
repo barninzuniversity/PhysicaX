@@ -8,8 +8,26 @@ const standaloneDir = path.join(projectRoot, ".next", "standalone");
 const standaloneServer = path.join(standaloneDir, "server.js");
 const nextBin = path.join(projectRoot, "node_modules", "next", "dist", "bin", "next");
 const nextBuildDir = path.join(projectRoot, ".next");
+const nextStaticDir = path.join(nextBuildDir, "static");
+const standaloneStaticDir = path.join(standaloneDir, ".next", "static");
+const publicDir = path.join(projectRoot, "public");
+const standalonePublicDir = path.join(standaloneDir, "public");
 const port = process.env.PORT || "3000";
 const hostname = process.env.HOSTNAME || "0.0.0.0";
+
+const syncDir = (src, dest) => {
+  if (!fs.existsSync(src)) {
+    return;
+  }
+  fs.rmSync(dest, { recursive: true, force: true });
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  fs.cpSync(src, dest, { recursive: true });
+};
+
+const prepareStandaloneRuntime = () => {
+  syncDir(nextStaticDir, standaloneStaticDir);
+  syncDir(publicDir, standalonePublicDir);
+};
 
 const run = (command, args, cwd, extraEnv = {}) => {
   const child = spawn(command, args, {
@@ -40,6 +58,7 @@ const run = (command, args, cwd, extraEnv = {}) => {
 };
 
 if (fs.existsSync(standaloneServer)) {
+  prepareStandaloneRuntime();
   console.log(`[physicax-web] Starting standalone server on http://${hostname}:${port}`);
   run(process.execPath, [standaloneServer], standaloneDir);
 } else if (fs.existsSync(nextBin) && fs.existsSync(nextBuildDir)) {
