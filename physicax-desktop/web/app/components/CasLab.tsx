@@ -45,6 +45,21 @@ type AssumptionRow = {
   flags: AssumptionFlags;
 };
 
+type CasPreset = {
+  id: string;
+  label: string;
+  summary: string;
+  expr: string;
+  op: string;
+  variable?: string;
+  targetUnit?: string;
+  solveVars?: string;
+  order?: string;
+  seriesPoint?: string;
+  assumptions?: AssumptionRow[];
+  substitutions?: { name: string; value: string }[];
+};
+
 const ops = [
   { id: "eval", label: "evaluate" },
   { id: "simplify", label: "simplify" },
@@ -65,6 +80,49 @@ const ops = [
   { id: "transpose", label: "transpose" },
   { id: "trace", label: "trace" },
   { id: "rank", label: "rank" }
+];
+
+const casPresets: CasPreset[] = [
+  {
+    id: "identity",
+    label: "Trig identity",
+    summary: "A fast classroom-safe check that the symbolic stack is ready.",
+    expr: "sin(x)^2 + cos(x)^2",
+    op: "simplify",
+    variable: "x",
+    assumptions: [{ name: "x", flags: { real: true } }],
+    substitutions: [{ name: "x", value: "1" }]
+  },
+  {
+    id: "limit",
+    label: "Foundational limit",
+    summary: "Use the classic sin(x)/x limit before escalating the result into graphing.",
+    expr: "sin(x)/x",
+    op: "limit",
+    variable: "x",
+    assumptions: [{ name: "x", flags: { real: true, nonzero: true } }],
+    substitutions: [{ name: "x", value: "0.5" }]
+  },
+  {
+    id: "units",
+    label: "Units cleanup",
+    summary: "Convert a familiar engineering speed to SI before simulation or plotting.",
+    expr: "72*kilometer/hour",
+    op: "units_convert",
+    variable: "x",
+    targetUnit: "meter/second",
+    assumptions: [{ name: "x", flags: { real: true } }],
+    substitutions: [{ name: "x", value: "1" }]
+  },
+  {
+    id: "eigen",
+    label: "Matrix eigenvalues",
+    summary: "A quick linear algebra lane for stability or mode discussions.",
+    expr: "Matrix([[1, 2], [2, 5]])",
+    op: "eigenvals",
+    assumptions: [{ name: "x", flags: { real: true } }],
+    substitutions: [{ name: "x", value: "1" }]
+  }
 ];
 
 export function CasLab() {
@@ -277,6 +335,21 @@ export function CasLab() {
   }, [plotCalc.error]);
 
   const plotSeries = plotCalc.series;
+  const applyPreset = (preset: CasPreset) => {
+    setExpr(preset.expr);
+    setOp(preset.op);
+    setVariable(preset.variable ?? "x");
+    setTargetUnit(preset.targetUnit ?? "meter/second");
+    setSolveVars(preset.solveVars ?? "x");
+    setOrder(preset.order ?? "4");
+    setSeriesPoint(preset.seriesPoint ?? "0");
+    setLimitPoint("0");
+    setLimitDir("+");
+    setBoundA("0");
+    setBoundB("1");
+    setAssumptions(preset.assumptions ?? [{ name: "x", flags: { real: true } }]);
+    setSubsRows(preset.substitutions ?? [{ name: "x", value: "1" }]);
+  };
 
   return (
     <div className="cas-shell">
@@ -296,6 +369,24 @@ export function CasLab() {
       <div className="cas-grid">
         <div className="cas-card">
           <h3>{t("casEditor")}</h3>
+          <div className="cas-preset-strip">
+            {casPresets.map((preset) => (
+              <button key={preset.id} type="button" className="control-chip" onClick={() => applyPreset(preset)}>
+                {preset.label}
+              </button>
+            ))}
+          </div>
+          <div className="demo-note">
+            Prepared examples help new users start from a trustworthy symbolic path instead of a blank editor.
+          </div>
+          <div className="cas-preset-grid">
+            {casPresets.map((preset) => (
+              <div key={`${preset.id}-card`} className="cas-preset-card">
+                <strong>{preset.label}</strong>
+                <div className="demo-note">{preset.summary}</div>
+              </div>
+            ))}
+          </div>
           <label className="field">
             {t("casExpression")}
             <textarea value={expr} onChange={(e) => setExpr(e.target.value)} rows={4} />

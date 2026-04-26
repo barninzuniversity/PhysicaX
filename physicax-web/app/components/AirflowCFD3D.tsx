@@ -33,6 +33,20 @@ type FlowDirectionPreset = "x+" | "x-" | "y+" | "y-" | "z+" | "z-" | "custom";
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const toRadians = (value: number) => (value * Math.PI) / 180;
+const formatBytes = (value?: number) => {
+  if (!value || !Number.isFinite(value)) return "not available";
+  if (value >= 1024 * 1024) {
+    return `${(value / (1024 * 1024)).toFixed(2)} MB`;
+  }
+  if (value >= 1024) {
+    return `${(value / 1024).toFixed(1)} KB`;
+  }
+  return `${value} bytes`;
+};
+const formatArtifactTime = (value?: number) => {
+  if (!value || !Number.isFinite(value)) return "No artifact timestamp yet";
+  return new Date(value * 1000).toLocaleString();
+};
 const normalizeVec3 = (x: number, y: number, z: number): [number, number, number] => {
   const len = Math.hypot(x, y, z) || 1;
   return [x / len, y / len, z / len];
@@ -4993,6 +5007,99 @@ export function AirflowCFD3D() {
   } else if (backendEngine === "fluidx3d") {
     pipelineLabel = openfoamReady ? "OpenFOAM ready (finalizing)" : fluidx3dReady ? "FluidX3D ready" : "FluidX3D preview";
   }
+  const artifactPath =
+    dataSource !== "backend"
+      ? ""
+      : backendEngine === "openfoam"
+        ? backendMeta?.openfoamPath || backendMeta?.openfoamPressurePath || caseInfo?.zipPath || meshMeta?.sampleDictPath || ""
+        : backendEngine === "fluidx3d"
+          ? backendMeta?.fluidx3dPath || exportPath
+          : exportPath;
+  const artifactSize =
+    dataSource !== "backend"
+      ? undefined
+      : backendEngine === "openfoam"
+        ? backendMeta?.openfoamSize
+        : backendEngine === "fluidx3d"
+          ? backendMeta?.fluidx3dSize
+          : undefined;
+  const artifactTime =
+    dataSource !== "backend"
+      ? undefined
+      : backendEngine === "openfoam"
+        ? backendMeta?.openfoamMtime
+        : backendEngine === "fluidx3d"
+          ? backendMeta?.fluidx3dMtime
+          : undefined;
+  const modeEvidenceLabel =
+    dataSource !== "backend"
+      ? "Analytic preview"
+      : backendEngine === "openfoam"
+        ? openfoamReady
+          ? "OpenFOAM artifact-backed"
+          : runStatus === "running"
+            ? "OpenFOAM runtime in progress"
+            : "OpenFOAM staging"
+        : backendEngine === "fluidx3d"
+          ? fluidx3dReady
+            ? "FluidX3D field-backed"
+            : "FluidX3D preview"
+          : backendStatus === "ready"
+            ? "LBM proxy ready"
+            : "LBM proxy preview";
+  const canProve =
+    dataSource !== "backend"
+      ? [
+          "Flow direction, body orientation, and wake intuition.",
+          "Whether your setup choices are visually sensible before you spend solver time."
+        ]
+      : backendEngine === "openfoam"
+        ? [
+            "Field-backed streamline and pressure evidence once the exported artifacts are fresh.",
+            "A stronger validation lane for release review or solver handoff."
+          ]
+        : backendEngine === "fluidx3d"
+          ? [
+              "Imported velocity-field behavior, streamtube structure, and artifact freshness.",
+              "Whether the external FluidX3D field is recent enough to trust for visual review."
+            ]
+          : [
+              "Fast backend-backed wake checks before you commit to heavier export workflows.",
+              "A quick readiness pass for local CFD plumbing."
+            ];
+  const cannotProve =
+    dataSource !== "backend"
+      ? [
+          "Mesh-specific pressure validation.",
+          "Artifact-grade evidence without promoting into a backend-backed lane."
+        ]
+      : backendEngine === "openfoam"
+        ? [
+            "Solver correctness without reviewing the generated files and mesh context.",
+            "Final confidence if timestamps or exported evidence are stale."
+          ]
+        : backendEngine === "fluidx3d"
+          ? [
+              "Any claim beyond the imported field itself if the uploaded artifact is stale or incomplete.",
+              "OpenFOAM-style case fidelity without a solver-backed case review."
+            ]
+          : [
+              "Final artifact confidence without exporting evidence.",
+              "OpenFOAM- or FluidX3D-grade validation detail."
+            ];
+  const recommendedEscalation =
+    dataSource !== "backend"
+      ? "Start here to tune the geometry and incoming flow, then switch to a backend lane before treating the result as validated."
+      : backendEngine === "openfoam"
+        ? "Review the exported field paths and timestamps, then inspect CSV or case artifacts before calling the run trusted."
+        : backendEngine === "fluidx3d"
+          ? "Keep the uploaded field fresh, then compare it with external solver expectations or promote into an OpenFOAM case if you need stronger provenance."
+          : "Use the proxy for quick readiness, then escalate into OpenFOAM or FluidX3D when the question needs inspectable artifacts.";
+  const evidenceChips = [
+    `mode: ${modeEvidenceLabel}`,
+    `refresh: ${autoRefresh ? `auto every ${autoRefreshInterval}s` : "manual"}`,
+    artifactPath ? `artifact: ${artifactPath.split("/").pop()}` : "artifact: pending"
+  ];
 
   return (
     <div className="demo-panel">
@@ -5622,6 +5729,58 @@ export function AirflowCFD3D() {
           <span className="pill">rel speed = {Number.isFinite(relSpeed) ? relSpeed.toFixed(2) : "--"} m/s</span>
           <span className="pill">drag approx {Number.isFinite(dragForce) ? dragForce.toFixed(2) : "--"} N</span>
           <span className="pill">q = {Number.isFinite(dynamicPressure) ? dynamicPressure.toFixed(1) : "--"} Pa</span>
+        </div>
+        <div className="model-grid cfd-evidence-grid">
+          <div className="model-card">
+            <h3>Flow model</h3>
+            <p className="demo-note">
+              Keep the fluid preset, viscosity, and Reynolds-style scale visible before you interpret the wake.
+            </p>
+            <div className="pill-grid">
+              <span className="pill">preset: {FLUID_PRESETS[fluidPreset].label}</span>
+              <span className="pill">rho = {Number.isFinite(densityVal) ? densityVal.toPrecision(4) : "--"} kg/m^3</span>
+              <span className="pill">nu = {Number.isFinite(nuVal) ? nuVal.toExponential(2) : "--"} m^2/s</span>
+              <span className="pill">Re = {Number.isFinite(reynolds) ? reynolds.toFixed(0) : "--"}</span>
+            </div>
+          </div>
+          <div className="model-card">
+            <h3>Evidence rail</h3>
+            <div className="pill-grid">
+              {evidenceChips.map((item) => (
+                <span key={item} className="pill">
+                  {item}
+                </span>
+              ))}
+            </div>
+            <ul className="feature-list">
+              <li>Last artifact refresh: {formatArtifactTime(artifactTime)}</li>
+              <li>Artifact size: {formatBytes(artifactSize)}</li>
+              <li>{artifactPath ? `Evidence path: ${artifactPath}` : "No exported evidence path is visible yet."}</li>
+            </ul>
+          </div>
+          <div className="model-card">
+            <h3>What this mode can prove</h3>
+            <ul className="feature-list">
+              {canProve.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            <div className="demo-note equation-workbench-subhead">What it cannot prove yet</div>
+            <ul className="feature-list">
+              {cannotProve.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="model-card">
+            <h3>Escalation cue</h3>
+            <p className="demo-note">{recommendedEscalation}</p>
+            <div className="pill-grid">
+              {meshMeta?.sampleDictPath ? <span className="pill">sampleDict ready</span> : null}
+              {caseInfo?.zipPath ? <span className="pill">case zip ready</span> : null}
+              {backendMeta?.openfoamPressurePath ? <span className="pill">pressure artifact visible</span> : null}
+            </div>
+          </div>
         </div>
         {backendError ? <div className="demo-note" style={{ color: "#b91c1c" }}>{backendError}</div> : null}
         {cfdOnly && backendStatus !== "ready" ? (
