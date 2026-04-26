@@ -126,6 +126,69 @@ This packages the experience for local operation.
 
 ## Run PhysicaX on Linux
 
+### Start here on this PC
+
+If you want the full PhysicaX desktop app from the exact folder already on your machine, use this:
+
+```bash
+cd "/home/ibrahim/Desktop/Project (copy 1)"
+bash scripts/setup-linux.sh
+bash scripts/run-desktop-linux.sh
+```
+
+That is the recommended first launch path for this checkout.
+
+What happens when you run it:
+
+- `setup-linux.sh` creates the local Python environment, installs Python dependencies, and makes sure the web and desktop npm packages are present.
+- `run-desktop-linux.sh` runs the Linux doctor, prepares the runtime, and opens the Electron desktop app.
+- The desktop app uses the same production web build that the packaged Linux release uses.
+
+What you should expect to see:
+
+- the terminal prints the Linux doctor checks first
+- the desktop runtime prepares the web app and CFD backend
+- the Electron window opens on the PhysicaX desktop controls surface
+
+### Command guide by task
+
+Use these commands from the repository root depending on what you want to launch.
+
+#### Full desktop app
+
+```bash
+cd "/home/ibrahim/Desktop/Project (copy 1)"
+bash scripts/setup-linux.sh
+bash scripts/run-desktop-linux.sh
+```
+
+#### Website only
+
+```bash
+cd "/home/ibrahim/Desktop/Project (copy 1)"
+bash scripts/run-web-linux.sh
+```
+
+Then open `http://127.0.0.1:3000` in your browser.
+
+#### CFD backend only
+
+```bash
+cd "/home/ibrahim/Desktop/Project (copy 1)"
+bash scripts/run-cfd-backend-linux.sh
+```
+
+Then check `http://127.0.0.1:8000/status`.
+
+#### Full verification
+
+```bash
+cd "/home/ibrahim/Desktop/Project (copy 1)"
+bash scripts/verify-linux.sh
+```
+
+Use this when you want the strongest confidence pass before packaging, demoing, or pushing changes.
+
 ### One-command helper scripts
 
 From the repository root:
@@ -148,42 +211,20 @@ What each script does:
 
 If your project folder name contains spaces, keep the quotes around your `cd` command.
 
-### Exact commands for this PC
+### Quick troubleshooting
 
-These are the exact commands for the current checkout on this machine:
+- Keep quotes around `cd "/home/ibrahim/Desktop/Project (copy 1)"` because the folder name contains spaces.
+- The first run can take longer because it installs Python packages and builds the production web app.
+- If the web app does not open, confirm that `http://127.0.0.1:3000` responds after `bash scripts/run-web-linux.sh`.
+- If the CFD backend does not respond, open `http://127.0.0.1:8000/status` after `bash scripts/run-cfd-backend-linux.sh`.
+- If you want to re-check the whole machine state, run `bash scripts/verify-linux.sh`.
+- If port `3000` or `8000` is already in use, stop the older process or launch with different ports before rerunning.
 
-```bash
-cd "/home/ibrahim/Desktop/Project (copy 1)"
-bash scripts/setup-linux.sh
-bash scripts/run-desktop-linux.sh
-```
+### Exact URLs after launch
 
-Website only:
-
-```bash
-cd "/home/ibrahim/Desktop/Project (copy 1)"
-bash scripts/run-web-linux.sh
-```
-
-CFD backend only:
-
-```bash
-cd "/home/ibrahim/Desktop/Project (copy 1)"
-bash scripts/run-cfd-backend-linux.sh
-```
-
-Full Linux verification:
-
-```bash
-cd "/home/ibrahim/Desktop/Project (copy 1)"
-bash scripts/verify-linux.sh
-```
-
-What you should expect after launch:
-
-- `bash scripts/run-desktop-linux.sh` prepares the runtime and opens the Electron app on the desktop controls surface.
-- `bash scripts/run-web-linux.sh` serves the production web workspace at `http://localhost:3000`.
-- `bash scripts/run-cfd-backend-linux.sh` starts the CFD backend at `http://127.0.0.1:8000/status`.
+- Desktop app: opens as an Electron window on your Linux desktop.
+- Website: `http://127.0.0.1:3000`
+- CFD backend health: `http://127.0.0.1:8000/status`
 
 ### Fastest source checkout path
 
