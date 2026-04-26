@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FeatureChecklist } from "../../../components/FeatureChecklist";
 import { CasLab } from "../../../components/CasLab";
 
 const casSignals = [
@@ -32,6 +33,19 @@ const casWorkflow = [
     title: "Reuse the result immediately",
     body: "Copy it, graph it, or feed it into the rest of the studio while the context is still fresh."
   }
+];
+
+const casDemoPath = [
+  "Load the foundational limit or trig-identity preset so the audience can recognize the target result immediately.",
+  "Run the symbolic operation with assumptions visible, then read the steps out loud instead of skipping to the answer.",
+  "Use the result directly in graphing or the workbench while the expression is still fresh."
+];
+
+const casExplainabilityChecklist = [
+  "State what the expression represents before you run the operator.",
+  "Say which assumptions matter and why they change the result.",
+  "Show the symbolic steps or a substitution check before treating the answer as trustworthy.",
+  "Escalate into graphing or the workbench only after the algebra is readable."
 ];
 
 export default function CasPage() {
@@ -123,6 +137,33 @@ export default function CasPage() {
         </div>
       </section>
 
+      <section className="section reveal">
+        <div className="split">
+          <div className="demo-panel">
+            <div className="demo-title">Prepared example path</div>
+            <ul className="feature-list">
+              {casDemoPath.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            <div className="inline-kv">
+              <Link className="control-chip" href="/labs/math/graphing">
+                Plot the cleaned result
+              </Link>
+              <Link className="control-chip" href="/labs/math/workbench">
+                Reuse it in the workbench
+              </Link>
+            </div>
+          </div>
+          <FeatureChecklist
+            title="CAS explainability checklist"
+            description="Use this quick pass when you are teaching, demoing, or preparing a symbolic result for the next tool."
+            items={casExplainabilityChecklist}
+            storageKey="physicax-cas-explainability-checklist"
+          />
+        </div>
+      </section>
+
       <section className="section reveal" id="cas-workspace">
         <div className="section-header">
           <p className="section-kicker">Workspace</p>
@@ -133,6 +174,13 @@ export default function CasPage() {
           </p>
         </div>
         <CasLab />
+        <div className="details-block" style={{ marginTop: "16px" }}>
+          <strong>What to do next</strong>
+          <p className="demo-note">
+            If the algebra now looks clean and believable, move into graphing for visible behavior, into the equation
+            workbench for dynamics, or into the desktop/CFD lane only when the question needs stronger runtime evidence.
+          </p>
+        </div>
       </section>
     </>
   );

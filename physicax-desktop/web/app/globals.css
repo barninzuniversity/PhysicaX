@@ -1165,6 +1165,98 @@ aside[data-lab-rail] {
   margin-top: 4px;
 }
 
+.lab-context-shell {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+  margin-bottom: 20px;
+  border-radius: 22px;
+  border: 1px solid rgba(37, 99, 235, 0.14);
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.11), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 248, 252, 0.96));
+  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.08);
+}
+
+.lab-context-top {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.9fr);
+  align-items: start;
+}
+
+.lab-context-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+}
+
+.lab-context-title {
+  margin: 8px 0 0;
+  font-size: 1.25rem;
+  letter-spacing: -0.03em;
+}
+
+.lab-context-summary {
+  margin: 10px 0 0;
+  color: var(--muted);
+  max-width: 72ch;
+}
+
+.lab-context-equation {
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(37, 99, 235, 0.14);
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: var(--shadow-tight);
+}
+
+.lab-context-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.lab-context-card {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.lab-context-card h3 {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+.lab-context-list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+}
+
+.lab-context-next {
+  margin: 0;
+  color: var(--muted);
+}
+
+.lab-context-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.lab-context-links .control-button,
+.lab-context-links .control-chip {
+  text-decoration: none;
+}
+
 .lab-workspace-meta {
   display: flex;
   flex-wrap: wrap;
@@ -1231,6 +1323,9 @@ aside[data-lab-rail] {
   .lab-workspace-header {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .lab-context-top {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -2221,6 +2316,91 @@ aside[data-lab-rail] {
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
+.equation-workbench-panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(320px, 1.45fr) minmax(250px, 1fr);
+  grid-template-areas:
+    "title title title"
+    "controls readout readout"
+    "controls main outputs";
+  gap: 16px;
+}
+
+.equation-workbench-panel .demo-title {
+  grid-area: title;
+}
+
+.equation-workbench-controls {
+  grid-area: controls;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.equation-workbench-params {
+  margin-top: 0;
+}
+
+.equation-workbench-readout {
+  grid-area: readout;
+}
+
+.equation-workbench-panel .demo-stack {
+  grid-area: main;
+}
+
+.equation-workbench-panel .demo-output {
+  grid-area: outputs;
+  align-content: start;
+}
+
+.equation-workbench-code {
+  margin-top: 10px;
+}
+
+.equation-workbench-param-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.equation-workbench-param-card {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(248, 250, 252, 0.85);
+}
+
+.equation-workbench-param-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.equation-workbench-subhead {
+  margin-top: 8px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.equation-workbench-warning-stack {
+  display: grid;
+  gap: 8px;
+}
+
+.equation-workbench-warning {
+  border-radius: 14px;
+  line-height: 1.45;
+  padding: 10px 12px;
+}
+
+.cfd-evidence-grid {
+  margin-top: 6px;
+}
+
 .lab-shell .demo-panel {
   display: grid;
   grid-template-columns: minmax(240px, 1fr) minmax(320px, 2.2fr) minmax(240px, 1fr);
@@ -2262,6 +2442,16 @@ aside[data-lab-rail] {
 }
 
 @media (max-width: 1100px) {
+  .equation-workbench-panel {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "title"
+      "controls"
+      "readout"
+      "outputs"
+      "main";
+  }
+
   .lab-shell .demo-panel {
     grid-template-columns: 1fr;
     grid-template-areas:
@@ -3859,6 +4049,28 @@ input[type="range"]::-moz-range-track {
   display: grid;
   gap: 12px;
   box-shadow: var(--shadow-soft);
+}
+
+.cas-preset-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.cas-preset-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.cas-preset-card {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(248, 250, 252, 0.86);
 }
 
 .cas-row {

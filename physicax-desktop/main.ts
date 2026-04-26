@@ -71,6 +71,21 @@ type DesktopSettings = {
   updateDir?: string;
 };
 
+type ReleaseVerifiedFile = {
+  path: string;
+  fileName?: string;
+  relativePath?: string;
+  size: number;
+  sha256: string;
+};
+
+type ReleaseVerificationSummary = {
+  releaseDir?: string;
+  version?: string;
+  generatedAt?: string;
+  verifiedFiles?: ReleaseVerifiedFile[];
+};
+
 const defaultSettings: DesktopSettings = {
   gpuMode: "high",
   autoUpdate: true
@@ -153,6 +168,88 @@ const resolveUpdateDir = () => {
   if (settings.updateDir) return settings.updateDir;
   if (process.env.PHYSICAX_UPDATE_DIR) return process.env.PHYSICAX_UPDATE_DIR;
   return path.join(desktopRoot(), "updates");
+};
+
+const resolveReleaseDirCandidates = () => {
+  const candidates = [
+    path.join(desktopRoot(), "dist", "linux-release"),
+    path.join(desktopRoot(), "..", "dist", "linux-release"),
+    path.join(process.resourcesPath, "linux-release"),
+    path.join(path.dirname(process.execPath), "linux-release"),
+    path.join(path.dirname(process.execPath), "..", "linux-release"),
+    path.join(resolveUpdateDir(), "linux-release"),
+    resolveUpdateDir()
+  ];
+
+  return [...new Set(candidates)];
+};
+
+const getReleaseVerification = () => {
+  const summaryName = "verification-summary.json";
+  const candidateDirs = resolveReleaseDirCandidates();
+  const releaseDir =
+    candidateDirs.find((candidate) => fs.existsSync(path.join(candidate, summaryName))) ||
+    candidateDirs.find((candidate) => fs.existsSync(candidate));
+  if (!releaseDir) {
+    return {
+      summaryExists: false,
+      missingFiles: [],
+      availableFiles: [],
+      error: "No Linux release directory was found from the desktop runtime."
+    };
+  }
+
+  const summaryPath = path.join(releaseDir, summaryName);
+  const availableFiles = fs.existsSync(releaseDir) ? fs.readdirSync(releaseDir).sort() : [];
+  if (!fs.existsSync(summaryPath)) {
+    return {
+      releaseDir,
+      summaryPath,
+      summaryExists: false,
+      missingFiles: [],
+      availableFiles,
+      error: "verification-summary.json is missing from the current release directory."
+    };
+  }
+
+  try {
+    const summary = JSON.parse(fs.readFileSync(summaryPath, "utf-8")) as ReleaseVerificationSummary;
+    const verifiedFiles = (summary.verifiedFiles ?? []).map((file) => {
+      const fileName = file.fileName || file.relativePath || path.basename(file.path);
+      const actualPath = fileName ? path.join(releaseDir, fileName) : file.path;
+      const exists = fs.existsSync(actualPath);
+      const actualSize = exists ? fs.statSync(actualPath).size : undefined;
+      return {
+        ...file,
+        fileName,
+        actualPath,
+        actualSize,
+        exists,
+        sizeMatches: exists ? actualSize === file.size : false
+      };
+    });
+    const missingFiles = verifiedFiles.filter((file) => !file.exists).map((file) => file.fileName || path.basename(file.path));
+
+    return {
+      releaseDir,
+      summaryPath,
+      summaryExists: true,
+      version: summary.version,
+      generatedAt: summary.generatedAt,
+      verifiedFiles,
+      missingFiles,
+      availableFiles
+    };
+  } catch (error) {
+    return {
+      releaseDir,
+      summaryPath,
+      summaryExists: false,
+      missingFiles: [],
+      availableFiles,
+      error: error instanceof Error ? error.message : "Could not parse verification summary."
+    };
+  }
 };
 
 const compareVersions = (a: string, b: string) => {
@@ -698,6 +795,7 @@ const createWindow = (startUrl: string, show = true) => {
 
 ipcMain.handle("physicax:get-backend-url", () => backendUrl);
 ipcMain.handle("physicax:get-settings", () => settings);
+ipcMain.handle("physicax:get-release-verification", () => getReleaseVerification());
 ipcMain.handle("physicax:set-gpu-mode", (_event, mode: "high" | "low") => {
   settings.gpuMode = mode;
   saveSettings(settings);

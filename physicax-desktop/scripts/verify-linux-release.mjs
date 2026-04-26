@@ -48,7 +48,10 @@ const fileDigest = (filePath) => {
   const hash = crypto.createHash("sha256");
   hash.update(fs.readFileSync(filePath));
   const stat = fs.statSync(filePath);
+  const fileName = path.basename(filePath);
   return {
+    fileName,
+    relativePath: fileName,
     path: filePath,
     size: stat.size,
     sha256: hash.digest("hex")

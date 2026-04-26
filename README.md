@@ -339,6 +339,11 @@ Good PhysicaX changes should improve at least one of these:
 - portability of the desktop experience
 - smoothness of the escalation path from simple exploration to serious validation
 
+The current product pass adds two reusable expectations on top of that:
+
+- lab pages should expose model context directly in the workspace, including governing equations, units, assumptions, validation limits, and the next escalation step
+- Linux release handoff should carry inspectable artifact evidence through `verification-summary.json`, and the desktop runtime should be able to read that same evidence live
+
 Examples of strong improvements:
 
 - make the model assumptions, units, or validation limits easier to read in the UI

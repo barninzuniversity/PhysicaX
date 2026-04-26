@@ -17,6 +17,28 @@ type BackendStatusPayload = {
   openfoam?: string;
   fluidx3d?: string;
 };
+type ReleaseVerifiedFile = {
+  path: string;
+  fileName?: string;
+  relativePath?: string;
+  size: number;
+  sha256: string;
+  actualPath?: string;
+  actualSize?: number;
+  exists?: boolean;
+  sizeMatches?: boolean;
+};
+type ReleaseVerificationPayload = {
+  releaseDir?: string;
+  summaryPath?: string;
+  summaryExists?: boolean;
+  version?: string;
+  generatedAt?: string;
+  verifiedFiles?: ReleaseVerifiedFile[];
+  missingFiles?: string[];
+  availableFiles?: string[];
+  error?: string;
+};
 type CommandGuide = {
   id: string;
   title: string;
@@ -233,6 +255,12 @@ const operatingScenarios = [
 ] satisfies PlannerScenario[];
 
 const describeDesktopError = (error: unknown) => (error instanceof Error ? error.message : "Unexpected desktop runtime error.");
+const formatReleaseFileSize = (value?: number) => {
+  if (!value || !Number.isFinite(value)) return "size unavailable";
+  if (value >= 1024 * 1024) return `${(value / (1024 * 1024)).toFixed(2)} MB`;
+  if (value >= 1024) return `${(value / 1024).toFixed(1)} KB`;
+  return `${value} bytes`;
+};
 
 const interpretBackendStatus = (payload: BackendStatusPayload | null) => {
   const status = payload?.status?.toLowerCase();
@@ -270,6 +298,7 @@ declare global {
     physicaxDesktop?: {
       getBackendUrl: () => Promise<string>;
       getSettings: () => Promise<DesktopSettings>;
+      getReleaseVerification: () => Promise<ReleaseVerificationPayload>;
       setGpuMode: (mode: "high" | "low") => Promise<DesktopSettings>;
       checkForUpdates: () => Promise<{ available: boolean; version?: string }>;
       getVersion: () => Promise<string>;
@@ -292,6 +321,7 @@ export default function DesktopSettingsPage() {
   const [lastBackendCheck, setLastBackendCheck] = useState<Date | null>(null);
   const [backendStatusNote, setBackendStatusNote] = useState("");
   const [copiedCommandId, setCopiedCommandId] = useState<string | null>(null);
+  const [releaseVerification, setReleaseVerification] = useState<ReleaseVerificationPayload | null>(null);
 
   const fetchBackendStatus = async (url: string) => {
     const controller = new AbortController();
@@ -333,14 +363,16 @@ export default function DesktopSettingsPage() {
     setRuntimeError("");
 
     try {
-      const [setts, ver, backend] = await Promise.all([
+      const [setts, ver, backend, verification] = await Promise.all([
         window.physicaxDesktop.getSettings(),
         window.physicaxDesktop.getVersion(),
-        window.physicaxDesktop.getBackendUrl()
+        window.physicaxDesktop.getBackendUrl(),
+        window.physicaxDesktop.getReleaseVerification()
       ]);
       setSettings(setts);
       setVersion(ver);
       setBackendUrl(backend);
+      setReleaseVerification(verification);
       setLastSynced(new Date());
       if (announce) {
         setMessage("Desktop runtime state refreshed.");
@@ -507,6 +539,25 @@ export default function DesktopSettingsPage() {
     ],
     [settings?.gpuMode, backendHealth]
   );
+  const releaseSummary = useMemo(() => {
+    const files = releaseVerification?.verifiedFiles ?? [];
+    const presentCount = files.filter((file) => file.exists).length;
+    const missingCount = releaseVerification?.missingFiles?.length ?? 0;
+    const confidenceLabel =
+      !releaseVerification?.summaryExists
+        ? "Summary missing"
+        : missingCount > 0
+          ? "Attention needed"
+          : files.length > 0
+            ? "Verified"
+            : "Awaiting evidence";
+    return {
+      files,
+      presentCount,
+      missingCount,
+      confidenceLabel
+    };
+  }, [releaseVerification]);
 
   const runtimeSnapshot = useMemo(
     () => [
@@ -539,13 +590,15 @@ export default function DesktopSettingsPage() {
       },
       {
         label: "Release handoff",
-        value: settings?.updateDir ? "Configured" : "Local package flow",
+        value: releaseSummary.confidenceLabel,
         note: ready
-          ? "Update-folder operations are visible from the runtime."
+          ? releaseVerification?.summaryExists
+            ? "The desktop runtime can read the same verification artifact that ships with the Linux release folder."
+            : releaseVerification?.error || "Refresh runtime state after generating the Linux release bundle."
           : "The browser preview explains the packaged release path and WSL launcher."
       }
     ],
-    [backendHealth, backendStatusNote, ready, settings?.gpuMode, settings?.updateDir]
+    [backendHealth, backendStatusNote, ready, releaseSummary.confidenceLabel, releaseVerification?.error, releaseVerification?.summaryExists, settings?.gpuMode]
   );
 
   return (
@@ -707,6 +760,76 @@ export default function DesktopSettingsPage() {
             </div>
           </div>
           {message ? <div className="details-block"><strong>Desktop message</strong><p className="demo-note">{message}</p></div> : null}
+        </section>
+      ) : null}
+
+      {ready ? (
+        <section className="section reveal">
+          <div className="section-header">
+            <p className="section-kicker">Release confidence</p>
+            <h2>Artifact Evidence From The Packaged Runtime</h2>
+            <p className="section-lede">
+              This reads the same <span className="mono">verification-summary.json</span> that ships with the Linux
+              release folder, so the runtime, scripts, and handoff artifacts stay aligned.
+            </p>
+          </div>
+          <div className="status-grid">
+            <div className={`status-card ${releaseVerification?.summaryExists && !releaseSummary.missingCount ? "is-good" : "is-warn"}`}>
+              <div className="status-label">Verification summary</div>
+              <div className="status-value">{releaseSummary.confidenceLabel}</div>
+              <div className="status-note">
+                {releaseVerification?.generatedAt
+                  ? `Generated ${new Date(releaseVerification.generatedAt).toLocaleString()}`
+                  : releaseVerification?.error || "No verification summary is visible yet."}
+              </div>
+            </div>
+            <div className={`status-card ${releaseSummary.missingCount === 0 ? "is-good" : "is-bad"}`}>
+              <div className="status-label">Verified files</div>
+              <div className="status-value">
+                {releaseSummary.presentCount}/{releaseSummary.files.length || 0}
+              </div>
+              <div className="status-note">
+                {releaseSummary.missingCount === 0
+                  ? "Every file listed in the verification artifact is present."
+                  : `${releaseSummary.missingCount} expected artifact(s) are missing from the release folder.`}
+              </div>
+            </div>
+            <div className="status-card">
+              <div className="status-label">Release folder</div>
+              <div className="status-value">{releaseVerification?.releaseDir ? "Visible" : "Unavailable"}</div>
+              <div className="status-note">{releaseVerification?.releaseDir || "Generate or unpack a Linux release first."}</div>
+            </div>
+            <div className="status-card">
+              <div className="status-label">Runtime version</div>
+              <div className="status-value">{releaseVerification?.version || version || "Unknown"}</div>
+              <div className="status-note">Useful when you are matching a packaged runtime with a release handoff bundle.</div>
+            </div>
+          </div>
+          {releaseVerification?.error ? (
+            <div className="details-block">
+              <strong>Release evidence note</strong>
+              <p className="demo-note">{releaseVerification.error}</p>
+            </div>
+          ) : null}
+          {releaseSummary.files.length ? (
+            <div className="model-grid">
+              {releaseSummary.files.map((file) => (
+                <div key={`${file.fileName || file.path}-${file.sha256}`} className="model-card">
+                  <h3>{file.fileName || file.relativePath || file.path.split("/").pop() || "Artifact"}</h3>
+                  <div className="pill-grid">
+                    <span className={`pill ${file.exists ? "pill-good" : "pill-bad"}`}>
+                      {file.exists ? "present" : "missing"}
+                    </span>
+                    <span className={`pill ${file.sizeMatches ? "pill-good" : file.exists ? "pill-active" : ""}`}>
+                      {file.sizeMatches ? "size match" : file.exists ? "size changed" : "unverified"}
+                    </span>
+                    <span className="pill">{formatReleaseFileSize(file.size)}</span>
+                  </div>
+                  <div className="demo-note">{file.actualPath || file.path}</div>
+                </div>
+              ))}
+            </div>
+          ) : null}
         </section>
       ) : null}
 
