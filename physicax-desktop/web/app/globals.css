@@ -379,16 +379,36 @@ textarea:focus-visible {
 [data-theme="dark"] .quick-actions-menu {
   background: rgba(15, 23, 42, 0.95);
   border-color: rgba(148, 163, 184, 0.2);
+  color: #e2e8f0;
 }
 
 [data-theme="dark"] .quick-actions-controls {
   border-top-color: rgba(148, 163, 184, 0.16);
 }
 
+[data-theme="dark"] .quick-actions-title,
+[data-theme="dark"] .quick-actions-meta,
+[data-theme="dark"] .theme-label,
+[data-theme="dark"] .quick-actions-empty {
+  color: rgba(226, 232, 240, 0.76);
+}
+
 [data-theme="dark"] .quick-actions-toggle-wrap,
 [data-theme="dark"] .quick-actions-accent-picker {
   background: rgba(15, 23, 42, 0.78);
   border-color: rgba(148, 163, 184, 0.2);
+}
+
+[data-theme="dark"] .quick-actions-item {
+  color: #f8fafc;
+  background: rgba(15, 23, 42, 0.42);
+  border-color: rgba(148, 163, 184, 0.1);
+}
+
+[data-theme="dark"] .quick-actions-item:hover {
+  background: rgba(30, 41, 59, 0.92);
+  border-color: rgba(96, 165, 250, 0.24);
+  color: #ffffff;
 }
 
 .theme-toggle-wrap {
@@ -421,6 +441,12 @@ textarea:focus-visible {
 [data-theme="dark"] .gpu-toggle-wrap {
   background: rgba(15, 23, 42, 0.7);
   border-color: rgba(148, 163, 184, 0.2);
+}
+
+[data-theme="dark"] .theme-toggle {
+  background: rgba(15, 23, 42, 0.86);
+  border-color: rgba(148, 163, 184, 0.22);
+  color: #e2e8f0;
 }
 
 .theme-label {
@@ -555,6 +581,23 @@ textarea:focus-visible {
 .nav-toggle[aria-expanded="false"] {
   background: rgba(37, 99, 235, 0.12);
   border-color: rgba(37, 99, 235, 0.3);
+}
+
+[data-theme="dark"] .nav-toggle {
+  background: rgba(15, 23, 42, 0.9);
+  border-color: rgba(148, 163, 184, 0.22);
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .nav-toggle:hover {
+  background: rgba(30, 41, 59, 0.96);
+  border-color: rgba(96, 165, 250, 0.28);
+  box-shadow: 0 10px 22px rgba(2, 6, 23, 0.28);
+}
+
+[data-theme="dark"] .nav-toggle[aria-expanded="false"] {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.26), rgba(14, 165, 233, 0.2));
+  border-color: rgba(96, 165, 250, 0.34);
 }
 
 .header-pill {
@@ -2316,6 +2359,50 @@ aside[data-lab-rail] {
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
+.cfd-status-shell {
+  display: grid;
+  gap: 14px;
+}
+
+.cfd-status-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.cfd-status-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.cfd-status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.cfd-status-lanes {
+  display: grid;
+  gap: 12px;
+}
+
+.cfd-status-actions {
+  align-items: center;
+}
+
+.cfd-mini-table {
+  margin-top: 4px;
+}
+
+.cfd-hero-console {
+  display: grid;
+  gap: 14px;
+}
+
 .equation-workbench-panel {
   display: grid;
   grid-template-columns: minmax(260px, 1fr) minmax(320px, 1.45fr) minmax(250px, 1fr);
@@ -2628,6 +2715,13 @@ input[type="range"]::-moz-range-track {
   color: var(--muted);
 }
 
+[data-theme="dark"] .field,
+[data-theme="dark"] .field-hint,
+[data-theme="dark"] .control-help,
+[data-theme="dark"] .demo-note {
+  color: rgba(226, 232, 240, 0.74);
+}
+
 .field-error {
   font-size: 11px;
   color: #b45309;
@@ -2726,6 +2820,41 @@ input[type="range"]::-moz-range-track {
   background: #fff;
   color: var(--ink);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+[data-theme="dark"] .field input,
+[data-theme="dark"] .field select,
+[data-theme="dark"] .field textarea,
+[data-theme="dark"] .search-input,
+[data-theme="dark"] .search-select {
+  background: rgba(2, 6, 23, 0.78);
+  border-color: rgba(148, 163, 184, 0.18);
+  color: #f8fafc;
+  box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.05);
+}
+
+[data-theme="dark"] .field input:hover,
+[data-theme="dark"] .field select:hover,
+[data-theme="dark"] .field textarea:hover,
+[data-theme="dark"] .search-input:hover,
+[data-theme="dark"] .search-select:hover {
+  border-color: rgba(96, 165, 250, 0.28);
+}
+
+[data-theme="dark"] .field input:focus,
+[data-theme="dark"] .field select:focus,
+[data-theme="dark"] .field textarea:focus,
+[data-theme="dark"] .search-input:focus,
+[data-theme="dark"] .search-select:focus {
+  background: rgba(2, 6, 23, 0.88);
+  border-color: rgba(96, 165, 250, 0.36);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.18);
+}
+
+[data-theme="dark"] .field select option,
+[data-theme="dark"] .search-select option {
+  background: #0f172a;
+  color: #f8fafc;
 }
 
 .search-tabs {
@@ -3666,6 +3795,19 @@ input[type="range"]::-moz-range-track {
   color: var(--ink-soft);
   text-transform: uppercase;
   letter-spacing: 0.08em;
+}
+
+[data-theme="dark"] .mini-table {
+  background: rgba(2, 6, 23, 0.62);
+  border-color: rgba(148, 163, 184, 0.16);
+}
+
+[data-theme="dark"] .mini-row {
+  color: rgba(226, 232, 240, 0.74);
+}
+
+[data-theme="dark"] .mini-row.header {
+  color: rgba(248, 250, 252, 0.92);
 }
 
 .site-footer {
@@ -4645,6 +4787,26 @@ html {
   border-color: rgba(148, 163, 184, 0.16);
 }
 
+[data-theme="dark"] .header-link {
+  color: rgba(226, 232, 240, 0.86);
+}
+
+[data-theme="dark"] .header-link:hover {
+  background: rgba(30, 41, 59, 0.92);
+  border-color: rgba(96, 165, 250, 0.18);
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .header-link {
+  color: rgba(226, 232, 240, 0.86);
+}
+
+[data-theme="dark"] .header-link:hover {
+  background: rgba(30, 41, 59, 0.92);
+  border-color: rgba(96, 165, 250, 0.18);
+  color: #f8fafc;
+}
+
 [data-theme="dark"] .nav-section {
   background: rgba(15, 23, 42, 0.82);
   border-color: rgba(148, 163, 184, 0.14);
@@ -4684,6 +4846,40 @@ html {
 [data-theme="dark"] .nav-section.active {
   background: linear-gradient(160deg, rgba(15, 23, 42, 0.94), rgba(19, 36, 73, 0.86));
   border-color: rgba(96, 165, 250, 0.24);
+}
+
+[data-theme="dark"] .cfd-status-shell .status-card,
+[data-theme="dark"] .cfd-status-shell .details-block {
+  background: linear-gradient(180deg, rgba(2, 6, 23, 0.84), rgba(15, 23, 42, 0.74));
+  border-color: rgba(96, 165, 250, 0.14);
+}
+
+[data-theme="dark"] .cfd-status-shell strong,
+[data-theme="dark"] .cfd-evidence-grid .model-card h3 {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .cfd-status-shell .pill:not(.pill-good):not(.pill-bad) {
+  background: rgba(30, 41, 59, 0.88);
+  border-color: rgba(148, 163, 184, 0.16);
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .cfd-status-shell .status-card,
+[data-theme="dark"] .cfd-status-shell .details-block {
+  background: linear-gradient(180deg, rgba(2, 6, 23, 0.84), rgba(15, 23, 42, 0.74));
+  border-color: rgba(96, 165, 250, 0.14);
+}
+
+[data-theme="dark"] .cfd-status-shell strong,
+[data-theme="dark"] .cfd-evidence-grid .model-card h3 {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .cfd-status-shell .pill:not(.pill-good):not(.pill-bad) {
+  background: rgba(30, 41, 59, 0.88);
+  border-color: rgba(148, 163, 184, 0.16);
+  color: #e2e8f0;
 }
 
 .quick-action-grid {

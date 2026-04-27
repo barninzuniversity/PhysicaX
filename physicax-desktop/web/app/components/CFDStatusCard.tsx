@@ -194,6 +194,27 @@ export function CFDStatusCard() {
         : openfoamReady
           ? "You are ready for the full workflow: run the quick LBM test, then inspect the OpenFOAM sample CSV and streamline outputs."
           : "The backend is healthy. Start with the quick LBM test now, then wire in OpenFOAM export when you need sampled fields.";
+  const activeEngine = fluidx3dReady
+    ? "FluidX3D export lane"
+    : openfoamReady
+      ? "OpenFOAM artifact lane"
+      : backendReady
+        ? status?.backend === "lbm"
+          ? "LBM quick-validation lane"
+          : `${status?.backend ?? "Local"} runtime lane`
+        : "Runtime not ready";
+  const artifactFreshness = openfoamReady
+    ? `OpenFOAM sample ${formatTime(status?.openfoamMtime)}`
+    : fluidx3dReady
+      ? `FluidX3D export ${formatTime(status?.fluidx3dMtime)}`
+      : "No exported artifacts yet";
+  const exportedEvidence = pressureArtifactReady
+    ? "Pressure output is present."
+    : openfoamReady
+      ? "Uniform grid sampling is present."
+      : fluidx3dReady
+        ? "GPU solver binary is present."
+        : "Use the quick validation lane first, then promote into exports.";
 
   const capabilities = [
     { label: "Interactive backend", ready: backendReady },
@@ -202,23 +223,63 @@ export function CFDStatusCard() {
   ];
 
   return (
-    <div className="demo-panel">
+    <div className="demo-panel cfd-status-shell">
       <div className="demo-title">CFD Diagnostics</div>
       {error ? <div className="pill pill-bad">{error}</div> : null}
       {!error && !status ? <div className="demo-note">Checking status...</div> : null}
       {status ? (
         <>
-          <div className="inline-kv">
-            <span className={`pill ${status.status === "ready" ? "pill-good" : ""}`}>status: {status.status}</span>
-            <span className="pill">backend: {status.backend ?? "analytic"}</span>
-            <span className={`pill ${status.openfoam === "ready" ? "pill-good" : ""}`}>
-              openfoam: {status.openfoam ?? "unknown"}
-            </span>
-            <span className={`pill ${status.fluidx3d === "ready" ? "pill-good" : ""}`}>
-              fluidx3d: {status.fluidx3d ?? "unknown"}
-            </span>
+          <div className="cfd-status-title-row">
+            <div>
+              <strong>Current runtime</strong>
+              <p className="demo-note">
+                {backendReady
+                  ? "The local CFD stack is answering and ready for the next evidence step."
+                  : "Treat this as runtime bring-up until the local solver path answers cleanly."}
+              </p>
+            </div>
+            <div className="cfd-status-pill-row">
+              <span className={`pill ${status.status === "ready" ? "pill-good" : ""}`}>status: {status.status}</span>
+              <span className="pill">backend: {status.backend ?? "analytic"}</span>
+              <span className={`pill ${status.openfoam === "ready" ? "pill-good" : ""}`}>
+                openfoam: {status.openfoam ?? "unknown"}
+              </span>
+              <span className={`pill ${status.fluidx3d === "ready" ? "pill-good" : ""}`}>
+                fluidx3d: {status.fluidx3d ?? "unknown"}
+              </span>
+            </div>
           </div>
-          <div className="mini-table">
+          <div className="cfd-status-grid">
+            <div className="status-card">
+              <strong>Reachability</strong>
+              <div className={`pill ${backendReady ? "pill-good" : "pill-bad"}`}>
+                {backendReady ? "Healthy local backend" : "Backend needs attention"}
+              </div>
+              <p className="demo-note">
+                {status.backendUrl ? `Connected through ${status.backendUrl}.` : "Set CFD_BACKEND_URL to a live local backend."}
+              </p>
+            </div>
+            <div className="status-card">
+              <strong>Active engine</strong>
+              <div className="pill pill-active">{activeEngine}</div>
+              <p className="demo-note">
+                {backendReady
+                  ? "Use the current lane for quick evidence first, then promote only when stronger artifacts are justified."
+                  : "Do not interpret solver behavior until the runtime lane is healthy."}
+              </p>
+            </div>
+            <div className="status-card">
+              <strong>Artifact freshness</strong>
+              <div className={`pill ${openfoamReady || fluidx3dReady ? "pill-good" : ""}`}>{artifactFreshness}</div>
+              <p className="demo-note">{exportedEvidence}</p>
+            </div>
+            <div className="status-card">
+              <strong>Recommended action</strong>
+              <div className="pill">{confidenceLabel}</div>
+              <p className="demo-note">{nextStep}</p>
+            </div>
+          </div>
+          <div className="mini-table cfd-mini-table">
             <div className="mini-row header">
               <span>signal</span>
               <span>value</span>
@@ -247,39 +308,41 @@ export function CFDStatusCard() {
           </div>
         </>
       ) : null}
-      <div className="details-block">
-        <strong>Recommended next step</strong>
-        <p className="demo-note">{nextStep}</p>
-        <div className="pill-grid">
-          {capabilities.map((item) => (
-            <span key={item.label} className={`pill ${item.ready ? "pill-good" : ""}`}>
-              {item.label}: {item.ready ? "ready" : "pending"}
-            </span>
-          ))}
+      <div className="cfd-status-lanes">
+        <div className="details-block">
+          <strong>Recommended next step</strong>
+          <p className="demo-note">{nextStep}</p>
+          <div className="pill-grid">
+            {capabilities.map((item) => (
+              <span key={item.label} className={`pill ${item.ready ? "pill-good" : ""}`}>
+                {item.label}: {item.ready ? "ready" : "pending"}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="details-block">
-        <strong>Confidence snapshot</strong>
-        <p className="demo-note">
-          {confidenceLabel}: {confidenceSummary}
-        </p>
-        <div className="pill-grid">
-          {confidenceSignals.map((signal) => (
-            <span key={signal.label} className={`pill ${signal.ready ? "pill-good" : ""}`}>
-              {signal.label}: {signal.ready ? "ready" : "pending"}
-            </span>
-          ))}
+        <div className="details-block">
+          <strong>Confidence snapshot</strong>
+          <p className="demo-note">
+            {confidenceLabel}: {confidenceSummary}
+          </p>
+          <div className="pill-grid">
+            {confidenceSignals.map((signal) => (
+              <span key={signal.label} className={`pill ${signal.ready ? "pill-good" : ""}`}>
+                {signal.label}: {signal.ready ? "ready" : "pending"}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="details-block">
-        <strong>Escalation lane</strong>
-        <p className="demo-note">{escalationGuidance}</p>
+        <div className="details-block">
+          <strong>Escalation lane</strong>
+          <p className="demo-note">{escalationGuidance}</p>
+        </div>
       </div>
       <div className="demo-note">
         Set <span className="mono">CFD_BACKEND_URL</span> (or{" "}
         <span className="mono">NEXT_PUBLIC_CFD_BACKEND_URL</span>) in <span className="mono">.env</span> to connect.
       </div>
-      <div className="nav-row">
+      <div className="nav-row cfd-status-actions">
         <button type="button" className="control-chip" onClick={refresh} disabled={checking}>
           {checking ? "Refreshing..." : "Refresh status"}
         </button>

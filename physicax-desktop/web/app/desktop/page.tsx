@@ -39,6 +39,35 @@ type ReleaseVerificationPayload = {
   availableFiles?: string[];
   error?: string;
 };
+type RuntimeGpuAuxAttributes = {
+  glRenderer?: string;
+  glVendor?: string;
+  directRendering?: boolean;
+  optimus?: boolean;
+  amdSwitchable?: boolean;
+  inProcessGpu?: boolean;
+};
+type RuntimeGpuDevice = {
+  active: boolean;
+  deviceString: string;
+  vendorId?: number | string;
+  deviceId?: number | string;
+  driverVendor?: string;
+  driverVersion?: string;
+};
+type RuntimeDiagnosticsPayload = {
+  platform?: string;
+  sessionType?: string;
+  isWsl?: boolean;
+  gpuMode?: "high" | "low";
+  commandProfile?: "native-hardware" | "compatibility-software";
+  hardwareAccelerationEnabled?: boolean;
+  gpuFeatures?: Record<string, string>;
+  gpuDevices?: RuntimeGpuDevice[];
+  auxAttributes?: RuntimeGpuAuxAttributes;
+  notes?: string[];
+  collectedAt?: string;
+};
 type CommandGuide = {
   id: string;
   title: string;
@@ -46,6 +75,7 @@ type CommandGuide = {
   command: string;
   badge: string;
   note: string;
+  expect: string;
 };
 
 const operatingTracks = [
@@ -69,6 +99,12 @@ bash scripts/setup-linux.sh`;
 const linuxDesktopCommands = `cd "/path/to/PhysicaX"
 bash scripts/run-desktop-linux.sh`;
 
+const linuxDesktopGpuCommands = `cd "/path/to/PhysicaX"
+bash scripts/run-desktop-linux-gpu.sh`;
+
+const linuxDesktopDiscreteGpuCommands = `cd "/path/to/PhysicaX"
+PHYSICAX_GPU_VENDOR=discrete bash scripts/run-desktop-linux-gpu.sh`;
+
 const linuxWebCommands = `cd "/path/to/PhysicaX"
 bash scripts/run-web-linux.sh`;
 
@@ -87,7 +123,7 @@ const linuxBackendCommands = `cd "/path/to/PhysicaX"
 bash scripts/run-cfd-backend-linux.sh`;
 
 const linuxVerifyCommands = `cd "/path/to/PhysicaX"
-bash scripts/verify-linux.sh`;
+env PHYSICAX_SKIP_SETUP=1 bash scripts/verify-linux.sh`;
 
 const linuxCommandGuides: CommandGuide[] = [
   {
@@ -96,7 +132,8 @@ const linuxCommandGuides: CommandGuide[] = [
     body: "Use this first when you want the root folder to prepare Python and JavaScript dependencies without making you step through each package manually.",
     command: linuxSetupCommands,
     badge: "Recommended first step",
-    note: "This script creates the virtualenv, installs root Python requirements, and makes sure both npm workspaces are ready."
+    note: "This script creates the virtualenv, installs root Python requirements, and makes sure both npm workspaces are ready.",
+    expect: "The terminal should finish with Linux setup ready and point you to the desktop and web launch helpers."
   },
   {
     id: "desktop",
@@ -104,7 +141,26 @@ const linuxCommandGuides: CommandGuide[] = [
     body: "Use this when you want the full Linux desktop path from the repository root with the doctor check, runtime preparation, and Electron launch in one command.",
     command: linuxDesktopCommands,
     badge: "One-command desktop",
-    note: "This is the cleanest path when the app already lives on your machine and you want the real packaged-style runtime."
+    note: "This is the cleanest path when the app already lives on your machine and you want the real packaged-style runtime.",
+    expect: "The Linux doctor runs first, the runtime prepares, and then the Electron window opens on the desktop control surface."
+  },
+  {
+    id: "desktop-gpu",
+    title: "Force native GPU mode",
+    body: "Use this on native Linux after you have validated the machine's real graphics driver and want the desktop app to prefer hardware acceleration explicitly.",
+    command: linuxDesktopGpuCommands,
+    badge: "Native GPU launch",
+    note: "This helper forces PHYSICAX_GPU_MODE=high and overrides a previously saved low-GPU desktop setting for that launch. On hybrid laptops, it stays on the active hardware GPU by default and lets you opt into discrete offload only when you really want it.",
+    expect: "The Electron app opens with the hardware-preferred renderer path, while the doctor/runtime diagnostics stay visible in the terminal and desktop UI."
+  },
+  {
+    id: "desktop-gpu-discrete",
+    title: "Try the dedicated GPU on a hybrid laptop",
+    body: "Use this only when you intentionally want to test discrete-GPU offload on a hybrid Linux machine. It is optional and not required for normal GPU acceleration.",
+    command: linuxDesktopDiscreteGpuCommands,
+    badge: "Optional discrete offload",
+    note: "Most Linux laptops should stay on the active hardware GPU first. This command is for the narrower case where you specifically want to test dedicated NVIDIA-style offload.",
+    expect: "The app should still open normally, but now you can verify whether the renderer moved from the integrated GPU to the discrete one."
   },
   {
     id: "web",
@@ -112,7 +168,8 @@ const linuxCommandGuides: CommandGuide[] = [
     body: "Use this when you want the browser experience only and prefer to skip Electron while still running the production standalone server.",
     command: linuxWebCommands,
     badge: "One-command web",
-    note: "This path builds the standalone Next.js output and serves it locally on port 3000."
+    note: "This path builds the standalone Next.js output and serves it locally on port 3000.",
+    expect: "A local production web server should answer on http://127.0.0.1:3000."
   },
   {
     id: "doctor",
@@ -120,7 +177,8 @@ const linuxCommandGuides: CommandGuide[] = [
     body: "Use the Linux doctor before launching when you want a quick read on missing tools, build outputs, and release artifacts.",
     command: linuxDoctorCommands,
     badge: "Self-check",
-    note: "The doctor reports missing prerequisites and points you toward the next command instead of making you guess."
+    note: "The doctor reports missing prerequisites and points you toward the next command instead of making you guess.",
+    expect: "You should see a pass/fail checklist for tools, builds, release artifacts, and renderer diagnostics."
   },
   {
     id: "release",
@@ -128,7 +186,8 @@ const linuxCommandGuides: CommandGuide[] = [
     body: "Use the Linux launcher when you downloaded the packaged release folder from GitHub or received it from another machine.",
     command: linuxReleaseCommands,
     badge: "Portable release",
-    note: "This is the easiest handoff path for a finished Linux package."
+    note: "This is the easiest handoff path for a finished Linux package.",
+    expect: "The downloaded Linux release should open as the packaged desktop app without needing the source checkout."
   },
   {
     id: "deb",
@@ -136,7 +195,8 @@ const linuxCommandGuides: CommandGuide[] = [
     body: "Use the helper installer if you prefer a system install instead of running the AppImage-style release launcher directly.",
     command: linuxDebCommands,
     badge: "System install",
-    note: "Good for Debian and Ubuntu machines where you want the package registered with the desktop environment."
+    note: "Good for Debian and Ubuntu machines where you want the package registered with the desktop environment.",
+    expect: "The helper should install the package, after which you can launch PhysicaX from the system menu or the installed desktop entry."
   },
   {
     id: "backend",
@@ -144,7 +204,8 @@ const linuxCommandGuides: CommandGuide[] = [
     body: "Use this when you want to drive the browser workflow with a standalone backend or debug the CFD service separately from the desktop shell.",
     command: linuxBackendCommands,
     badge: "Service-only",
-    note: "Best for browser-based CFD debugging and manual backend verification."
+    note: "Best for browser-based CFD debugging and manual backend verification.",
+    expect: "The backend should answer on http://127.0.0.1:8000/status with a ready or inspectable runtime payload."
   },
   {
     id: "verify",
@@ -152,7 +213,8 @@ const linuxCommandGuides: CommandGuide[] = [
     body: "Use this when you want the repo to stress-test itself by running the doctor, preparing the runtime, smoke-testing the app, and rebuilding the Linux release bundle.",
     command: linuxVerifyCommands,
     badge: "Confidence pass",
-    note: "This is the strongest local check before you hand off the app or trust a fresh Linux package."
+    note: "This is the strongest local check before you hand off the app or trust a fresh Linux package.",
+    expect: "Doctor, prep, smoke, packaging, and release-verification steps should complete without hidden runtime surprises."
   }
 ];
 
@@ -299,6 +361,7 @@ declare global {
       getBackendUrl: () => Promise<string>;
       getSettings: () => Promise<DesktopSettings>;
       getReleaseVerification: () => Promise<ReleaseVerificationPayload>;
+      getRuntimeDiagnostics: () => Promise<RuntimeDiagnosticsPayload>;
       setGpuMode: (mode: "high" | "low") => Promise<DesktopSettings>;
       checkForUpdates: () => Promise<{ available: boolean; version?: string }>;
       getVersion: () => Promise<string>;
@@ -322,6 +385,7 @@ export default function DesktopSettingsPage() {
   const [backendStatusNote, setBackendStatusNote] = useState("");
   const [copiedCommandId, setCopiedCommandId] = useState<string | null>(null);
   const [releaseVerification, setReleaseVerification] = useState<ReleaseVerificationPayload | null>(null);
+  const [runtimeDiagnostics, setRuntimeDiagnostics] = useState<RuntimeDiagnosticsPayload | null>(null);
 
   const fetchBackendStatus = async (url: string) => {
     const controller = new AbortController();
@@ -363,16 +427,18 @@ export default function DesktopSettingsPage() {
     setRuntimeError("");
 
     try {
-      const [setts, ver, backend, verification] = await Promise.all([
+      const [setts, ver, backend, verification, diagnostics] = await Promise.all([
         window.physicaxDesktop.getSettings(),
         window.physicaxDesktop.getVersion(),
         window.physicaxDesktop.getBackendUrl(),
-        window.physicaxDesktop.getReleaseVerification()
+        window.physicaxDesktop.getReleaseVerification(),
+        window.physicaxDesktop.getRuntimeDiagnostics()
       ]);
       setSettings(setts);
       setVersion(ver);
       setBackendUrl(backend);
       setReleaseVerification(verification);
+      setRuntimeDiagnostics(diagnostics);
       setLastSynced(new Date());
       if (announce) {
         setMessage("Desktop runtime state refreshed.");
@@ -559,6 +625,29 @@ export default function DesktopSettingsPage() {
     };
   }, [releaseVerification]);
 
+  const accelerationSummary = useMemo(() => {
+    const features = runtimeDiagnostics?.gpuFeatures ?? {};
+    const webgl = features.webgl ?? "";
+    const compositing = features.gpu_compositing ?? "";
+    const renderer =
+      runtimeDiagnostics?.auxAttributes?.glRenderer || runtimeDiagnostics?.gpuDevices?.[0]?.deviceString || "Unknown renderer";
+    const software = /software|swiftshader|llvmpipe|softpipe|disabled_software|unavailable_software|disabled_off|unavailable_off/i.test(
+      `${webgl} ${compositing} ${renderer}`
+    );
+    const reduced = /enabled_readback/i.test(`${webgl} ${compositing}`);
+    const enabled = Boolean(runtimeDiagnostics?.hardwareAccelerationEnabled) && !software;
+
+    return {
+      level: software ? "bad" : enabled ? "good" : "warn",
+      label: software ? "Software fallback" : enabled ? (reduced ? "Accelerated (reduced)" : "Hardware accelerated") : "Pending",
+      note: software
+        ? "The renderer still looks software-backed. On Linux, install or repair the real GPU driver, confirm glxinfo -B is not using llvmpipe/SwiftShader, then relaunch with the native GPU helper."
+        : reduced
+          ? "Electron reports hardware acceleration, but Chromium is flagging reduced-performance readbacks. Keep native GPU mode on, but lower the heaviest 3D scene density if interaction still feels sticky."
+          : "The runtime is using a real accelerated renderer and is the right place to use the heavier 3D labs."
+    };
+  }, [runtimeDiagnostics]);
+
   const runtimeSnapshot = useMemo(
     () => [
       {
@@ -589,6 +678,13 @@ export default function DesktopSettingsPage() {
             : "Prefer this on validated native GPU stacks."
       },
       {
+        label: "Renderer acceleration",
+        value: accelerationSummary.label,
+        note: ready
+          ? accelerationSummary.note
+          : "Open the packaged desktop app to inspect the live renderer, GPU feature status, and driver-backed acceleration state."
+      },
+      {
         label: "Release handoff",
         value: releaseSummary.confidenceLabel,
         note: ready
@@ -598,7 +694,17 @@ export default function DesktopSettingsPage() {
           : "The browser preview explains the packaged release path and WSL launcher."
       }
     ],
-    [backendHealth, backendStatusNote, ready, releaseSummary.confidenceLabel, releaseVerification?.error, releaseVerification?.summaryExists, settings?.gpuMode]
+    [
+      accelerationSummary.label,
+      accelerationSummary.note,
+      backendHealth,
+      backendStatusNote,
+      ready,
+      releaseSummary.confidenceLabel,
+      releaseVerification?.error,
+      releaseVerification?.summaryExists,
+      settings?.gpuMode
+    ]
   );
 
   return (
@@ -683,6 +789,7 @@ export default function DesktopSettingsPage() {
             <h3>Recommended profile</h3>
             <ul className="feature-list">
               <li>On WSL, keep GPU mode on compatibility unless you have already validated accelerated rendering.</li>
+              <li>On native Linux, prefer the native GPU launcher after confirming the system renderer is not llvmpipe or SwiftShader.</li>
               <li>If the backend shows offline, start with status checks before assuming the CFD tools are broken.</li>
               <li>Use the update folder for offline package drops and release handoff.</li>
             </ul>
@@ -721,12 +828,58 @@ export default function DesktopSettingsPage() {
               <p className="demo-note">{backendStatusNote}</p>
             </div>
           ) : null}
+          {runtimeDiagnostics ? (
+            <div className="status-grid">
+              <div className={`status-card ${accelerationSummary.level === "good" ? "is-good" : accelerationSummary.level === "bad" ? "is-bad" : "is-warn"}`}>
+                <div className="status-label">Renderer</div>
+                <div className="status-value">{accelerationSummary.label}</div>
+                <div className="status-note">{runtimeDiagnostics.auxAttributes?.glRenderer || runtimeDiagnostics.gpuDevices?.[0]?.deviceString || "No renderer string yet."}</div>
+              </div>
+              <div className="status-card">
+                <div className="status-label">Graphics vendor</div>
+                <div className="status-value">{runtimeDiagnostics.auxAttributes?.glVendor || runtimeDiagnostics.gpuDevices?.[0]?.driverVendor || "Unknown"}</div>
+                <div className="status-note">
+                  {runtimeDiagnostics.gpuDevices?.[0]?.driverVersion
+                    ? `Driver ${runtimeDiagnostics.gpuDevices[0].driverVersion}`
+                    : "Use glxinfo -B or nvidia-smi on Linux when you need the driver version outside the app."}
+                </div>
+              </div>
+              <div className="status-card">
+                <div className="status-label">Linux session</div>
+                <div className="status-value">{runtimeDiagnostics.sessionType || "Unknown"}</div>
+                <div className="status-note">
+                  {runtimeDiagnostics.isWsl
+                    ? "WSL defaults to compatibility mode unless you explicitly force a high-performance relaunch."
+                    : "Native Linux sessions are the best fit for the accelerated desktop profile."}
+                </div>
+              </div>
+              <div className="status-card">
+                <div className="status-label">Bridge profile</div>
+                <div className="status-value">{runtimeDiagnostics.commandProfile === "compatibility-software" ? "Compatibility" : "Native hardware"}</div>
+                <div className="status-note">
+                  {runtimeDiagnostics.commandProfile === "compatibility-software"
+                    ? "Electron is in the safer software-backed launch profile."
+                    : "Electron is using the native hardware-preferred Linux profile."}
+                </div>
+              </div>
+            </div>
+          ) : null}
+          {runtimeDiagnostics?.notes?.length ? (
+            <div className="details-block">
+              <strong>Acceleration notes</strong>
+              <ul className="feature-list">
+                {runtimeDiagnostics.notes.map((note) => (
+                  <li key={note}>{note}</li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
           <div className="control-row">
             <div className="control-group">
               <button type="button" className="control-button" onClick={() => void toggleGpu("high")} disabled={Boolean(actionBusy)}>
                 {actionBusy === "high" ? "Restarting..." : "High Performance"}
               </button>
-              <div className="control-help">Prefer this on native GPU stacks when you want maximum renderer throughput.</div>
+              <div className="control-help">Prefer this on native Linux or Windows GPU stacks when you want maximum renderer throughput.</div>
             </div>
             <div className="control-group">
               <button type="button" className="control-button secondary" onClick={() => void toggleGpu("low")} disabled={Boolean(actionBusy)}>
@@ -943,8 +1096,8 @@ export default function DesktopSettingsPage() {
 
       <section className="section reveal" id="linux-quick-start">
         <div className="section-header">
-          <p className="section-kicker">Linux quick start</p>
-          <h2>Run PhysicaX Yourself On Linux</h2>
+          <p className="section-kicker">Launch matrix</p>
+          <h2>Launch Matrix For Linux</h2>
           <p className="section-lede">
             These launch paths now include root helper scripts, so the repo can bootstrap itself from one place instead
             of forcing you to memorize the web, desktop, and backend commands separately.
@@ -971,6 +1124,9 @@ export default function DesktopSettingsPage() {
                 </pre>
               </div>
               <p className="demo-note">{guide.note}</p>
+              <p className="demo-note">
+                <strong>Expect:</strong> {guide.expect}
+              </p>
             </div>
           ))}
         </div>
@@ -987,15 +1143,27 @@ export default function DesktopSettingsPage() {
       </section>
 
       <section className="section reveal" id="wsl-linux-notes">
-        <h2>WSL / Linux Notes</h2>
+        <h2>Linux / Kali Notes</h2>
         <p>
           If you are using the Linux package inside WSL, the most reliable launch path is the prepared WSL launcher. On
-          native Linux, the new general launcher starts the AppImage in extract-and-run mode by default so it works
-          more reliably on machines that do not have FUSE configured.
+          native Linux, use the dedicated GPU launcher after you have verified that the machine is not falling back to
+          llvmpipe or SwiftShader. On hybrid Linux laptops, that helper stays on the active hardware GPU by default,
+          because that is the most stable path for Electron on many driver stacks. The general launcher still starts
+          the AppImage in extract-and-run mode by default so it works more reliably on machines that do not have FUSE
+          configured.
         </p>
         <div className="code-block">
           <pre>
-            <code>{`cd /path/to/downloaded/PhysicaX-linux-release
+            <code>{`# Native Linux hardware-preferred launch:
+cd "/path/to/PhysicaX"
+bash scripts/run-desktop-linux-gpu.sh
+
+# Optional hybrid-laptop discrete GPU attempt:
+cd "/path/to/PhysicaX"
+PHYSICAX_GPU_VENDOR=discrete bash scripts/run-desktop-linux-gpu.sh
+
+# Downloaded release:
+cd /path/to/downloaded/PhysicaX-linux-release
 chmod +x run-PhysicaX-linux.sh
 ./run-PhysicaX-linux.sh
 
@@ -1007,6 +1175,32 @@ chmod +x run-PhysicaX-wsl.sh
         <p className="demo-note">
           Expected DBus warnings in WSL are usually non-fatal. What matters is that the local UI responds and the
           backend status resolves to ready.
+        </p>
+        <div className="code-block">
+          <pre>
+            <code>{`# Kali Linux general GPU verification:
+sudo apt install -y mesa-utils vulkan-tools pciutils
+glxinfo -B
+
+# Kali Linux NVIDIA path:
+sudo apt update
+sudo apt -y full-upgrade
+sudo apt install -y linux-headers-$(uname -r) linux-headers-amd64 mesa-utils vulkan-tools pciutils nvidia-driver nvidia-cuda-toolkit
+sudo reboot
+nvidia-smi
+glxinfo -B
+cd "/path/to/PhysicaX"
+bash scripts/run-desktop-linux-gpu.sh`}</code>
+          </pre>
+        </div>
+        <p className="demo-note">
+          If <span className="mono">glxinfo -B</span> shows <span className="mono">llvmpipe</span> or <span className="mono">SwiftShader</span>,
+          the renderer is still on CPU fallback. If it shows Intel or another integrated renderer while an NVIDIA GPU
+          is present, the app is still GPU-accelerated, just not on the discrete GPU. Use{" "}
+          <span className="mono">PHYSICAX_GPU_VENDOR=discrete bash scripts/run-desktop-linux-gpu.sh</span> only when
+          you want to try dedicated offload. On NVIDIA-based Kali systems with display startup trouble, Kali's graphics
+          troubleshooting guide also recommends checking{" "}
+          <span className="mono">nvidia_drm.modeset=1</span>.
         </p>
       </section>
     </>

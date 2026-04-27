@@ -1313,8 +1313,8 @@ def _find_openfoam_samples(case_dir: Path) -> Tuple[Optional[Path], Optional[Pat
 
 
 def _openfoam_field(path_str: str, p_path_str: Optional[str] = None) -> Dict[str, object]:
-    path = Path(path_str).expanduser()
-    p_path = Path(p_path_str).expanduser() if p_path_str else None
+    path = _normalize_host_path(path_str).expanduser()
+    p_path = _normalize_host_path(p_path_str).expanduser() if p_path_str else None
 
     if path.exists() and path.is_dir():
         sample_path, sample_p = _find_openfoam_samples(path)
@@ -1420,7 +1420,7 @@ def _openfoam_field(path_str: str, p_path_str: Optional[str] = None) -> Dict[str
 
 
 def _read_vtk_field(path_str: str) -> Dict[str, object]:
-    path = Path(path_str).expanduser()
+    path = _normalize_host_path(path_str).expanduser()
     if not path.exists():
         raise FileNotFoundError(f"FluidX3D field not found: {path}")
 
@@ -1759,7 +1759,8 @@ def queue_update(job_id: str, req: QueueUpdate) -> Dict[str, object]:
 
 @app.get("/status")
 def status(meshId: Optional[str] = None) -> Dict[str, object]:
-    openfoam_path = OPENFOAM_EXPORT_PATH
+    configured_openfoam_path = str(_normalize_host_path(OPENFOAM_EXPORT_PATH)) if OPENFOAM_EXPORT_PATH else ""
+    openfoam_path = configured_openfoam_path if configured_openfoam_path and Path(configured_openfoam_path).exists() else ""
     openfoam_pressure_path = None
     if meshId:
         case_dir = UPLOAD_DIR / meshId / "case"
@@ -1780,7 +1781,8 @@ def status(meshId: Optional[str] = None) -> Dict[str, object]:
         stat = Path(openfoam_pressure_path).stat()
         openfoam_mtime = max(openfoam_mtime or 0, stat.st_mtime)
         openfoam_size = (openfoam_size or 0) + stat.st_size
-    fluidx3d_path = FLUIDX3D_FIELD_PATH
+    configured_fluidx3d_path = str(_normalize_host_path(FLUIDX3D_FIELD_PATH)) if FLUIDX3D_FIELD_PATH else ""
+    fluidx3d_path = configured_fluidx3d_path if configured_fluidx3d_path and Path(configured_fluidx3d_path).exists() else ""
     if meshId:
         mesh_dir = UPLOAD_DIR / meshId
         if mesh_dir.exists():

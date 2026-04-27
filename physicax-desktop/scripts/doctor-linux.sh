@@ -87,6 +87,71 @@ warn_if_missing "linux AppImage" "$RELEASE_DIR/PhysicaX-0.1.0.AppImage" "run: cd
 warn_if_missing "linux deb package" "$RELEASE_DIR/physicax-desktop_0.1.0_amd64.deb" "run: cd \"$DESKTOP_DIR\" && npm run desktop:package:linux"
 warn_if_missing "release verification summary" "$RELEASE_DIR/verification-summary.json" "run: cd \"$DESKTOP_DIR\" && npm run desktop:verify-release:linux"
 
+gpu_list=""
+gpu_count=0
+if command -v lspci >/dev/null 2>&1; then
+  gpu_list="$(lspci | grep -E 'VGA|3D|Display' || true)"
+  gpu_line="$(printf '%s\n' "$gpu_list" | head -n 1 || true)"
+  gpu_count="$(printf '%s\n' "$gpu_list" | sed '/^$/d' | wc -l | tr -d ' ')"
+  if [[ -n "$gpu_line" ]]; then
+    print_status info "gpu adapter" "$gpu_line"
+  fi
+  if [[ "$gpu_count" -gt 1 ]]; then
+    print_status info "gpu topology" "hybrid / multi-GPU (${gpu_count} adapters detected)"
+  fi
+fi
+
+print_status info "session" "${XDG_SESSION_TYPE:-unknown}"
+
+if command -v prime-run >/dev/null 2>&1; then
+  print_status ok "prime-run" "$(command -v prime-run)"
+elif command -v nvidia-smi >/dev/null 2>&1 && [[ "$gpu_count" -gt 1 ]]; then
+  print_status info "prime-run" "not installed; use PHYSICAX_GPU_VENDOR=discrete bash scripts/run-desktop-linux-gpu.sh to try NVIDIA offload manually"
+fi
+
+if command -v glxinfo >/dev/null 2>&1; then
+  if [[ -n "${DISPLAY:-}" || -n "${WAYLAND_DISPLAY:-}" ]]; then
+    renderer="$(glxinfo -B 2>/dev/null | awk -F': ' '/OpenGL renderer string/ {print $2; exit}')"
+    vendor="$(glxinfo -B 2>/dev/null | awk -F': ' '/OpenGL vendor string/ {print $2; exit}')"
+    if [[ -n "$renderer" ]]; then
+      if [[ "$renderer" =~ llvmpipe|softpipe|SwiftShader|swiftshader ]]; then
+        print_status warn "opengl renderer" "$renderer (software rendering detected)"
+        warnings=$((warnings + 1))
+      else
+        print_status ok "opengl renderer" "${renderer}${vendor:+ | vendor: $vendor}"
+        if command -v nvidia-smi >/dev/null 2>&1 && [[ "$gpu_count" -gt 1 ]] && [[ ! "$renderer" =~ NVIDIA ]]; then
+          print_status info "gpu offload" "an NVIDIA GPU is also present. Use PHYSICAX_GPU_VENDOR=discrete bash scripts/run-desktop-linux-gpu.sh only if you want to try the dedicated GPU."
+        fi
+      fi
+    else
+      print_status warn "opengl renderer" "glxinfo is installed but the active desktop session did not return a renderer"
+      warnings=$((warnings + 1))
+    fi
+  else
+    print_status warn "opengl renderer" "no DISPLAY/WAYLAND_DISPLAY found; run the doctor from the active desktop session to confirm hardware acceleration"
+    warnings=$((warnings + 1))
+  fi
+else
+  print_status warn "glxinfo" "install mesa-utils to verify the OpenGL renderer (recommended on Linux and Kali)"
+  warnings=$((warnings + 1))
+fi
+
+if command -v vulkaninfo >/dev/null 2>&1; then
+  print_status ok "vulkaninfo" "$(command -v vulkaninfo)"
+else
+  print_status warn "vulkaninfo" "install vulkan-tools for extra GPU verification on Linux"
+  warnings=$((warnings + 1))
+fi
+
+if command -v nvidia-smi >/dev/null 2>&1; then
+  nvidia_summary="$(nvidia-smi --query-gpu=name,driver_version --format=csv,noheader 2>/dev/null | head -n 1 || true)"
+  if [[ -n "$nvidia_summary" ]]; then
+    print_status ok "nvidia-smi" "$nvidia_summary"
+  else
+    print_status ok "nvidia-smi" "$(command -v nvidia-smi)"
+  fi
+fi
+
 echo
 if (( failures > 0 )); then
   print_status fail "summary" "$failures blocking issue(s), $warnings warning(s)"

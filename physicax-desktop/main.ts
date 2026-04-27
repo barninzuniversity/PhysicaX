@@ -86,6 +86,38 @@ type ReleaseVerificationSummary = {
   verifiedFiles?: ReleaseVerifiedFile[];
 };
 
+type RuntimeGpuAuxAttributes = {
+  glRenderer?: string;
+  glVendor?: string;
+  directRendering?: boolean;
+  optimus?: boolean;
+  amdSwitchable?: boolean;
+  inProcessGpu?: boolean;
+};
+
+type RuntimeGpuDevice = {
+  active: boolean;
+  deviceString: string;
+  vendorId?: number | string;
+  deviceId?: number | string;
+  driverVendor?: string;
+  driverVersion?: string;
+};
+
+type RuntimeDiagnostics = {
+  platform: NodeJS.Platform;
+  sessionType: string;
+  isWsl: boolean;
+  gpuMode: "high" | "low";
+  commandProfile: "native-hardware" | "compatibility-software";
+  hardwareAccelerationEnabled: boolean;
+  gpuFeatures: Record<string, string>;
+  gpuDevices: RuntimeGpuDevice[];
+  auxAttributes: RuntimeGpuAuxAttributes;
+  notes: string[];
+  collectedAt?: string;
+};
+
 const defaultSettings: DesktopSettings = {
   gpuMode: "high",
   autoUpdate: true
@@ -142,6 +174,14 @@ const isWsl =
 const settings = loadSettings();
 const envGpuMode = process.env.PHYSICAX_GPU_MODE;
 const forceLowGpu = isWsl && envGpuMode !== "high";
+const shouldUseLowGpuMode =
+  forceLowGpu || envGpuMode === "low" || (envGpuMode !== "high" && settings.gpuMode === "low");
+const hasNvidiaPrimeOffload = process.platform === "linux" && process.env.__NV_PRIME_RENDER_OFFLOAD === "1";
+const hasDriPrimeOffload = process.platform === "linux" && Boolean(process.env.DRI_PRIME);
+const sessionType =
+  process.platform === "linux"
+    ? process.env.XDG_SESSION_TYPE || (process.env.WAYLAND_DISPLAY ? "wayland" : process.env.DISPLAY ? "x11" : "headless")
+    : "";
 appendBootstrapLog("desktop-main:settings-loaded", {
   isWsl,
   envGpuMode,
@@ -153,7 +193,193 @@ if (forceLowGpu) {
   settings.gpuMode = "low";
 }
 
-if (forceLowGpu || settings.gpuMode === "low" || envGpuMode === "low") {
+const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === "object" && value !== null;
+
+const readRecordString = (record: Record<string, unknown>, ...keys: string[]) => {
+  for (const key of keys) {
+    const value = record[key];
+    if (typeof value === "string" && value.trim()) {
+      return value.trim();
+    }
+  }
+  return undefined;
+};
+
+const readRecordBoolean = (record: Record<string, unknown>, ...keys: string[]) => {
+  for (const key of keys) {
+    const value = record[key];
+    if (typeof value === "boolean") {
+      return value;
+    }
+    if (typeof value === "string") {
+      if (value.toLowerCase() === "true") return true;
+      if (value.toLowerCase() === "false") return false;
+    }
+  }
+  return undefined;
+};
+
+const extractGpuDevices = (value: unknown): RuntimeGpuDevice[] => {
+  if (!isRecord(value)) return [];
+  const rawDevices = value.gpuDevice;
+  if (!Array.isArray(rawDevices)) return [];
+  const devices: RuntimeGpuDevice[] = [];
+  for (const entry of rawDevices) {
+    if (!isRecord(entry)) continue;
+    const deviceString = readRecordString(entry, "deviceString", "device_string");
+    if (!deviceString) continue;
+    devices.push({
+      active: Boolean(entry.active),
+      deviceString,
+      vendorId:
+        typeof entry.vendorId === "number" || typeof entry.vendorId === "string" ? entry.vendorId : undefined,
+      deviceId:
+        typeof entry.deviceId === "number" || typeof entry.deviceId === "string" ? entry.deviceId : undefined,
+      driverVendor: readRecordString(entry, "driverVendor", "driver_vendor"),
+      driverVersion: readRecordString(entry, "driverVersion", "driver_version")
+    });
+  }
+  return devices;
+};
+
+const extractGpuAuxAttributes = (value: unknown): RuntimeGpuAuxAttributes => {
+  if (!isRecord(value) || !isRecord(value.auxAttributes)) {
+    return {};
+  }
+  const aux = value.auxAttributes;
+  return {
+    glRenderer: readRecordString(aux, "glRenderer", "gl_renderer"),
+    glVendor: readRecordString(aux, "glVendor", "gl_vendor"),
+    directRendering: readRecordBoolean(aux, "directRendering", "direct_rendering"),
+    optimus: readRecordBoolean(aux, "optimus"),
+    amdSwitchable: readRecordBoolean(aux, "amdSwitchable", "amd_switchable"),
+    inProcessGpu: readRecordBoolean(aux, "inProcessGpu", "in_process_gpu")
+  };
+};
+
+const statusSuggestsSoftwareFallback = (
+  featureStatus: Record<string, string>,
+  auxAttributes: RuntimeGpuAuxAttributes
+) => {
+  const statusValues = [featureStatus.gpu_compositing, featureStatus.webgl, featureStatus.webgl2]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+  const renderer = (auxAttributes.glRenderer || "").toLowerCase();
+  return /software|swiftshader|disabled_software|unavailable_software|disabled_off|unavailable_off/.test(
+    `${statusValues} ${renderer}`
+  );
+};
+
+const statusSuggestsReducedPerformance = (featureStatus: Record<string, string>) => {
+  const statusValues = [featureStatus.gpu_compositing, featureStatus.webgl, featureStatus.webgl2]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+  return statusValues.includes("enabled_readback");
+};
+
+let runtimeDiagnostics: RuntimeDiagnostics = {
+  platform: process.platform,
+  sessionType,
+  isWsl,
+  gpuMode: shouldUseLowGpuMode ? "low" : "high",
+  commandProfile: shouldUseLowGpuMode ? "compatibility-software" : "native-hardware",
+  hardwareAccelerationEnabled: !shouldUseLowGpuMode,
+  gpuFeatures: {},
+  gpuDevices: [],
+  auxAttributes: {},
+  notes: shouldUseLowGpuMode
+    ? [
+        "Compatibility mode disables hardware acceleration and uses SwiftShader for safer launches on WSL or unstable GPU stacks."
+      ]
+    : [
+        "Native Linux high-performance mode prefers the real hardware-accelerated OpenGL path and avoids software fallback unless you switch modes."
+  ]
+};
+
+const isHardwareAccelerationEnabled = () => {
+  const candidate = app as typeof app & { isHardwareAccelerationEnabled?: () => boolean };
+  return typeof candidate.isHardwareAccelerationEnabled === "function"
+    ? candidate.isHardwareAccelerationEnabled()
+    : !shouldUseLowGpuMode;
+};
+
+const refreshRuntimeDiagnostics = async (reason: string) => {
+  const featureStatus = Object.fromEntries(
+    Object.entries(app.getGPUFeatureStatus()).filter(([, value]) => typeof value === "string")
+  ) as Record<string, string>;
+
+  let gpuDevices: RuntimeGpuDevice[] = [];
+  let auxAttributes: RuntimeGpuAuxAttributes = {};
+  try {
+    const [basicInfo, completeInfo] = await Promise.all([app.getGPUInfo("basic"), app.getGPUInfo("complete")]);
+    gpuDevices = extractGpuDevices(basicInfo);
+    auxAttributes = extractGpuAuxAttributes(completeInfo);
+  } catch (error) {
+    appendBootstrapLog("desktop-main:gpu-info-read-failed", {
+      reason,
+      detail: error instanceof Error ? error.message : String(error)
+    });
+  }
+
+  const notes = runtimeDiagnostics.commandProfile === "compatibility-software"
+    ? [
+        "Compatibility mode disables hardware acceleration and uses SwiftShader for safer launches on WSL or unstable GPU stacks."
+      ]
+    : [
+        "Native Linux high-performance mode prefers the real hardware-accelerated OpenGL path and avoids software fallback unless you switch modes."
+      ];
+
+  if (runtimeDiagnostics.commandProfile === "native-hardware" && statusSuggestsSoftwareFallback(featureStatus, auxAttributes)) {
+    notes.push(
+      "Electron is still reporting a software or blocked renderer. Install or repair the native GPU driver, confirm glxinfo -B is not using llvmpipe/SwiftShader, then relaunch with PHYSICAX_GPU_MODE=high."
+    );
+  }
+  if (hasNvidiaPrimeOffload) {
+    notes.push(
+      "This launch requested NVIDIA PRIME offload, so Electron should prefer the discrete NVIDIA GPU when the Linux driver stack is healthy."
+    );
+  } else if (hasDriPrimeOffload) {
+    notes.push("This launch requested DRI_PRIME offload so Linux can prefer the higher-performance GPU on hybrid Mesa systems.");
+  }
+  if (statusSuggestsReducedPerformance(featureStatus)) {
+    notes.push(
+      "The renderer is hardware accelerated but Chromium is reporting readback-heavy reduced performance. Lower scene density or keep the native GPU profile while avoiding very high capture-style workloads."
+    );
+  }
+  if (isWsl && runtimeDiagnostics.commandProfile === "compatibility-software") {
+    notes.push("WSL keeps the desktop in compatibility mode by default. Force PHYSICAX_GPU_MODE=high only after validating the graphics stack.");
+  }
+
+  runtimeDiagnostics = {
+    platform: process.platform,
+    sessionType,
+    isWsl,
+    gpuMode: shouldUseLowGpuMode ? "low" : "high",
+    commandProfile: shouldUseLowGpuMode ? "compatibility-software" : "native-hardware",
+    hardwareAccelerationEnabled: isHardwareAccelerationEnabled(),
+    gpuFeatures: featureStatus,
+    gpuDevices,
+    auxAttributes,
+    notes,
+    collectedAt: new Date().toISOString()
+  };
+
+  appendBootstrapLog("desktop-main:runtime-diagnostics-updated", {
+    reason,
+    sessionType: runtimeDiagnostics.sessionType,
+    gpuMode: runtimeDiagnostics.gpuMode,
+    commandProfile: runtimeDiagnostics.commandProfile,
+    hardwareAccelerationEnabled: runtimeDiagnostics.hardwareAccelerationEnabled,
+    gpuCompositing: featureStatus.gpu_compositing,
+    webgl: featureStatus.webgl,
+    glRenderer: auxAttributes.glRenderer,
+    device: gpuDevices[0]?.deviceString
+  });
+};
+
+if (shouldUseLowGpuMode) {
   appendBootstrapLog("desktop-main:apply-low-gpu-mode");
   app.disableHardwareAcceleration();
   app.commandLine.appendSwitch("disable-gpu");
@@ -162,6 +388,17 @@ if (forceLowGpu || settings.gpuMode === "low" || envGpuMode === "low") {
   app.commandLine.appendSwitch("use-gl", "swiftshader");
   process.env.LIBGL_ALWAYS_SOFTWARE = "1";
   process.env.ELECTRON_DISABLE_GPU = "1";
+} else {
+  appendBootstrapLog("desktop-main:apply-native-gpu-profile", {
+    platform: process.platform,
+    sessionType
+  });
+  if (process.platform === "linux") {
+    app.disableDomainBlockingFor3DAPIs();
+    app.commandLine.appendSwitch("ignore-gpu-blocklist");
+    app.commandLine.appendSwitch("enable-gpu-rasterization");
+    app.commandLine.appendSwitch("enable-zero-copy");
+  }
 }
 
 const resolveUpdateDir = () => {
@@ -796,6 +1033,7 @@ const createWindow = (startUrl: string, show = true) => {
 ipcMain.handle("physicax:get-backend-url", () => backendUrl);
 ipcMain.handle("physicax:get-settings", () => settings);
 ipcMain.handle("physicax:get-release-verification", () => getReleaseVerification());
+ipcMain.handle("physicax:get-runtime-diagnostics", () => runtimeDiagnostics);
 ipcMain.handle("physicax:set-gpu-mode", (_event, mode: "high" | "low") => {
   settings.gpuMode = mode;
   saveSettings(settings);
@@ -849,12 +1087,18 @@ app.on("ready", () => {
   appendBootstrapLog("desktop-main:ready-event");
 });
 
+app.on("gpu-info-update", () => {
+  appendBootstrapLog("desktop-main:gpu-info-update");
+  void refreshRuntimeDiagnostics("gpu-info-update");
+});
+
 app.whenReady().then(async () => {
   appendBootstrapLog("desktop-main:when-ready", {
     appPath: app.getAppPath(),
     userData: app.getPath("userData"),
     resourcesPath: process.resourcesPath
   });
+  void refreshRuntimeDiagnostics("when-ready");
   const startUrl = process.env.ELECTRON_START_URL || `http://localhost:${uiPort}`;
   const win = createWindow(splashHtml("Starting local server..."), false);
   win.show();

@@ -126,6 +126,20 @@ This packages the experience for local operation.
 
 ## Run PhysicaX on Linux
 
+### Launch matrix
+
+Use these exact commands from this checkout, depending on what you want to run.
+
+| Target | Command | What success looks like |
+| --- | --- | --- |
+| Desktop app | `cd "/home/ibrahim/Desktop/Project (copy 1)"`<br>`bash scripts/setup-linux.sh`<br>`bash scripts/run-desktop-linux.sh` | The Linux doctor runs, the runtime prepares, and the Electron desktop window opens. |
+| GPU-preferred desktop app | `cd "/home/ibrahim/Desktop/Project (copy 1)"`<br>`bash scripts/run-desktop-linux-gpu.sh` | The Electron app opens with the hardware-preferred renderer path instead of a low-GPU fallback profile. |
+| Website only | `cd "/home/ibrahim/Desktop/Project (copy 1)"`<br>`bash scripts/run-web-linux.sh` | The local production web server answers on `http://127.0.0.1:3000`. |
+| CFD backend only | `cd "/home/ibrahim/Desktop/Project (copy 1)"`<br>`bash scripts/run-cfd-backend-linux.sh` | The backend answers on `http://127.0.0.1:8000/status`. |
+| Full verification | `cd "/home/ibrahim/Desktop/Project (copy 1)"`<br>`env PHYSICAX_SKIP_SETUP=1 bash scripts/verify-linux.sh` | Doctor, prep, smoke, packaging, and release-verification checks complete end to end. |
+| Downloaded Linux release | `cd /path/to/linux-release`<br>`chmod +x run-PhysicaX-linux.sh`<br>`./run-PhysicaX-linux.sh` | The packaged Linux release opens without needing the source checkout. |
+| Optional hybrid-laptop discrete GPU attempt | `cd "/home/ibrahim/Desktop/Project (copy 1)"`<br>`PHYSICAX_GPU_VENDOR=discrete bash scripts/run-desktop-linux-gpu.sh` | The app still opens normally, and you can verify whether rendering moved from the integrated GPU to the discrete one. |
+
 ### Start here on this PC
 
 If you want the full PhysicaX desktop app from the exact folder already on your machine, use this:
@@ -162,6 +176,13 @@ bash scripts/setup-linux.sh
 bash scripts/run-desktop-linux.sh
 ```
 
+#### Full desktop app with native GPU preference
+
+```bash
+cd "/home/ibrahim/Desktop/Project (copy 1)"
+bash scripts/run-desktop-linux-gpu.sh
+```
+
 #### Website only
 
 ```bash
@@ -184,7 +205,7 @@ Then check `http://127.0.0.1:8000/status`.
 
 ```bash
 cd "/home/ibrahim/Desktop/Project (copy 1)"
-bash scripts/verify-linux.sh
+env PHYSICAX_SKIP_SETUP=1 bash scripts/verify-linux.sh
 ```
 
 Use this when you want the strongest confidence pass before packaging, demoing, or pushing changes.
@@ -198,7 +219,7 @@ bash scripts/setup-linux.sh
 bash scripts/run-web-linux.sh
 bash scripts/run-desktop-linux.sh
 bash scripts/run-cfd-backend-linux.sh
-bash scripts/verify-linux.sh
+env PHYSICAX_SKIP_SETUP=1 bash scripts/verify-linux.sh
 ```
 
 What each script does:
@@ -217,14 +238,84 @@ If your project folder name contains spaces, keep the quotes around your `cd` co
 - The first run can take longer because it installs Python packages and builds the production web app.
 - If the web app does not open, confirm that `http://127.0.0.1:3000` responds after `bash scripts/run-web-linux.sh`.
 - If the CFD backend does not respond, open `http://127.0.0.1:8000/status` after `bash scripts/run-cfd-backend-linux.sh`.
-- If you want to re-check the whole machine state, run `bash scripts/verify-linux.sh`.
+- If you want to re-check the whole machine state, run `env PHYSICAX_SKIP_SETUP=1 bash scripts/verify-linux.sh`.
 - If port `3000` or `8000` is already in use, stop the older process or launch with different ports before rerunning.
+- If the desktop feels slow on Linux, run `npm --prefix physicax-desktop run desktop:doctor:linux` and check whether the reported OpenGL renderer is real hardware or a software fallback such as `llvmpipe` or `SwiftShader`.
 
 ### Exact URLs after launch
 
 - Desktop app: opens as an Electron window on your Linux desktop.
 - Website: `http://127.0.0.1:3000`
 - CFD backend health: `http://127.0.0.1:8000/status`
+
+## GPU acceleration on Linux
+
+On native Linux, PhysicaX now has a dedicated GPU-preferred launcher:
+
+```bash
+cd "/home/ibrahim/Desktop/Project (copy 1)"
+bash scripts/run-desktop-linux-gpu.sh
+```
+
+This helper sets `PHYSICAX_GPU_MODE=high` before launch so the Electron runtime prefers the native hardware-accelerated OpenGL path on the active Linux GPU. If the desktop becomes less stable on your machine, switch back to:
+
+```bash
+cd "/home/ibrahim/Desktop/Project (copy 1)"
+bash scripts/run-desktop-linux.sh
+```
+
+On hybrid Linux laptops, the default helper deliberately stays on the active hardware GPU because that is the most stable Electron path on many Linux driver stacks. If you want to try the dedicated GPU explicitly, use:
+
+```bash
+cd "/home/ibrahim/Desktop/Project (copy 1)"
+PHYSICAX_GPU_VENDOR=discrete bash scripts/run-desktop-linux-gpu.sh
+```
+
+General Linux GPU verification:
+
+```bash
+sudo apt install -y mesa-utils vulkan-tools pciutils
+glxinfo -B
+```
+
+What to look for:
+
+- `OpenGL renderer string` should show your real GPU, not `llvmpipe`, `softpipe`, or `SwiftShader`
+- If `OpenGL renderer string` shows Intel, AMD, or NVIDIA hardware, the app is already using GPU acceleration rather than CPU fallback
+- If you specifically want the dedicated GPU on a hybrid laptop, try `PHYSICAX_GPU_VENDOR=discrete bash scripts/run-desktop-linux-gpu.sh`
+- `npm --prefix physicax-desktop run desktop:doctor:linux` now reports the active OpenGL renderer and warns when software rendering is detected
+
+## Kali Linux GPU path
+
+Kali-specific baseline tools:
+
+```bash
+sudo apt install -y mesa-utils vulkan-tools pciutils
+glxinfo -B
+```
+
+Kali on NVIDIA:
+
+```bash
+grep "contrib non-free" /etc/apt/sources.list
+sudo apt update
+sudo apt -y full-upgrade
+sudo apt install -y linux-headers-$(uname -r) linux-headers-amd64 mesa-utils vulkan-tools pciutils nvidia-driver nvidia-cuda-toolkit
+sudo reboot
+nvidia-smi
+glxinfo -B
+cd "/home/ibrahim/Desktop/Project (copy 1)"
+bash scripts/run-desktop-linux-gpu.sh
+```
+
+If `glxinfo -B` still reports `llvmpipe` or `SwiftShader`, you are still on CPU fallback. If it reports Intel while `nvidia-smi` works, the app is already accelerated but is still on the integrated GPU, so use the dedicated-GPU attempt below only if you need NVIDIA specifically:
+
+```bash
+cd "/home/ibrahim/Desktop/Project (copy 1)"
+PHYSICAX_GPU_VENDOR=discrete bash scripts/run-desktop-linux-gpu.sh
+```
+
+If Kali still struggles to start the accelerated graphics stack after NVIDIA driver updates, Kali's graphics troubleshooting docs also call out `nvidia_drm.modeset=1` as a common fix for display startup issues.
 
 ### Fastest source checkout path
 
@@ -320,7 +411,7 @@ npm run desktop:smoke-test
 Or, from the repository root:
 
 ```bash
-bash scripts/verify-linux.sh
+env PHYSICAX_SKIP_SETUP=1 bash scripts/verify-linux.sh
 ```
 
 ### Linux release validation

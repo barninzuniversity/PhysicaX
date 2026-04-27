@@ -5,19 +5,24 @@ import { ScenarioPlanner, type PlannerScenario } from "../components/ScenarioPla
 
 const workflowCards = [
   {
-    title: "Quick LBM Validation",
-    body: "Use the bundled backend to verify geometry, boundary conditions, and a first-pass velocity field before committing to a heavier run.",
-    note: "Fastest path"
+    title: "Check runtime",
+    body: "Confirm the backend is reachable, the active engine is the one you expect, and the local lane is healthy before you interpret physics.",
+    note: "Operator first"
   },
   {
-    title: "OpenFOAM Export",
-    body: "Promote validated cases to full OpenFOAM post-processing when you need sampled CSV fields, pressure, and streamline artifacts.",
-    note: "Highest fidelity"
+    title: "Run quick validation",
+    body: "Use the LBM smoke test to catch geometry and boundary-condition mistakes cheaply before paying for heavier export work.",
+    note: "Fast evidence"
   },
   {
-    title: "Desktop + WSL Packaging",
-    body: "Run the packaged Linux build with the WSL-safe launcher when you want a repeatable local stack instead of assembling services manually.",
-    note: "Best for deployment"
+    title: "Inspect artifacts",
+    body: "Read uniform grids, pressure outputs, and streamline evidence directly instead of trusting vague success logs from a heavy run.",
+    note: "Concrete proof"
+  },
+  {
+    title: "Escalate to desktop/export",
+    body: "Promote into the packaged desktop lane or OpenFOAM export only when the quick path already looks physically sensible.",
+    note: "Controlled promotion"
   }
 ];
 
@@ -74,6 +79,29 @@ const cfdEvidenceChecklist = [
   "Run the quick LBM validation first to catch geometry and boundary-condition mistakes cheaply.",
   "Escalate into OpenFOAM only after the fast pass looks physically sensible.",
   "Inspect uniformGrid.csv, pressure output, and streamline files before trusting the heavy run."
+];
+
+const quickLaunchCards = [
+  {
+    title: "Run the full desktop runtime",
+    command: `cd "/path/to/PhysicaX"\nbash scripts/run-desktop-linux.sh`,
+    note: "Expect the Electron window to open after the Linux doctor and runtime prep complete."
+  },
+  {
+    title: "Run the website only",
+    command: `cd "/path/to/PhysicaX"\nbash scripts/run-web-linux.sh`,
+    note: "Expect a local production web server on http://127.0.0.1:3000."
+  },
+  {
+    title: "Run the CFD backend only",
+    command: `cd "/path/to/PhysicaX"\nbash scripts/run-cfd-backend-linux.sh`,
+    note: "Expect the FastAPI backend to answer on http://127.0.0.1:8000/status."
+  },
+  {
+    title: "Run the full confidence pass",
+    command: `cd "/path/to/PhysicaX"\nenv PHYSICAX_SKIP_SETUP=1 bash scripts/verify-linux.sh`,
+    note: "Expect doctor, prep, smoke, packaging, and release-verification checks to run end to end."
+  }
 ];
 
 const cfdScenarios = [
@@ -156,18 +184,19 @@ export default function CFDPage() {
     <>
       <section className="section reveal hero">
         <div>
-          <p className="hero-kicker">Validated local CFD workflow</p>
-          <h1>Move from quick airflow checks to OpenFOAM-backed exports without losing track of what the solver stack is doing.</h1>
+          <p className="hero-kicker">Validated local CFD control deck</p>
+          <h1>Run CFD like an operator: check the runtime, validate cheaply, then promote only when the evidence gets stronger.</h1>
           <p className="hero-lede">
-            PhysicaX keeps CFD approachable by splitting the path into clear stages: quick LBM validation, backend
-            health checks, and full OpenFOAM export when you need sampled fields, pressure, and streamline artifacts.
+            PhysicaX keeps the local solver story readable by making runtime health, quick validation, and exported
+            evidence visible in one place. The goal is not to press a magic button. It is to know what the current lane
+            can prove, what it cannot prove yet, and when heavier export work is justified.
           </p>
           <div className="hero-badges">
+            <span>Runtime health</span>
             <span>LBM quick test</span>
-            <span>OpenFOAM 10</span>
+            <span>OpenFOAM evidence</span>
             <span>Sample CSV</span>
-            <span>Streamlines VTK</span>
-            <span>WSL-safe desktop flow</span>
+            <span>Desktop + Linux handoff</span>
           </div>
           <div className="hero-actions">
             <Link href="/labs/mechanics/drag/flow-3d" className="control-button large">
@@ -180,36 +209,37 @@ export default function CFDPage() {
           <div className="workflow-strip">
             <div className="workflow-card">
               <div className="workflow-index">01</div>
-              <h3>Check service health</h3>
-              <p>Confirm the backend responds before treating any CFD problem as a modeling issue.</p>
+              <h3>Check runtime</h3>
+              <p>Confirm the backend responds and the active lane is the one you think you are using.</p>
             </div>
             <div className="workflow-card">
               <div className="workflow-index">02</div>
               <h3>Validate fast</h3>
-              <p>Use the lightest useful run first so geometry and boundary-condition mistakes surface quickly.</p>
+              <p>Use the lightest useful run first so setup mistakes surface before expensive post-processing.</p>
             </div>
             <div className="workflow-card">
               <div className="workflow-index">03</div>
-              <h3>Export artifacts</h3>
-              <p>Promote the case only when you need sampled fields, pressure output, or streamline review.</p>
+              <h3>Review evidence</h3>
+              <p>Inspect exported fields and streamline outputs before you trust the heavy path.</p>
             </div>
           </div>
         </div>
-        <div className="hero-panel">
+        <div className="hero-panel cfd-hero-console">
+          <CFDStatusCard />
           <div className="panel-card">
-            <h3>Choose the right engine</h3>
+            <h3>Control deck</h3>
             <ul className="feature-list">
-              <li>Use LBM for fast iteration and geometry sanity checks.</li>
-              <li>Use OpenFOAM when you need higher-fidelity post-processing outputs.</li>
-              <li>Use the packaged desktop flow when you want the whole stack managed locally.</li>
+              <li>Refresh runtime state before changing the model.</li>
+              <li>Run the quick LBM lane before escalating into OpenFOAM.</li>
+              <li>Use the packaged desktop flow when local runtime trust matters as much as solver output.</li>
             </ul>
           </div>
           <div className="panel-card">
-            <h3>What you should expect</h3>
+            <h3>What success looks like</h3>
             <ul className="feature-list">
-              <li>A clear backend status before you launch the heavy step.</li>
-              <li>Explicit exported artifacts instead of vague solver success.</li>
-              <li>Enough explanation in the UI to know what to run next.</li>
+              <li>A healthy backend and a readable recommended next action.</li>
+              <li>Explicit exported artifacts instead of vague “solver succeeded” language.</li>
+              <li>A calm escalation path from runtime check to artifact-backed review.</li>
             </ul>
           </div>
         </div>
@@ -268,12 +298,6 @@ export default function CFDPage() {
       </section>
 
       <section className="section reveal">
-        <h2>Backend Status</h2>
-        <p>Check this before you assume the physics is wrong. A healthy backend makes the rest of the workflow much easier to interpret.</p>
-        <CFDStatusCard />
-      </section>
-
-      <section className="section reveal">
         <div className="section-header">
           <p className="section-kicker">Run order</p>
           <h2>Recommended Workflow</h2>
@@ -302,6 +326,30 @@ export default function CFDPage() {
             <h3>Inspect artifacts</h3>
             <p>Look for the CSV grid and streamline VTK outputs. Those files are the proof that the full pipeline actually completed.</p>
           </div>
+        </div>
+      </section>
+
+      <section className="section reveal">
+        <div className="section-header">
+          <p className="section-kicker">Quick launch</p>
+          <h2>Use the right launch lane for the job</h2>
+          <p className="section-lede">
+            Start light when you are exploring, then use the stronger runtime or verification lanes only when you need
+            more evidence.
+          </p>
+        </div>
+        <div className="card-grid">
+          {quickLaunchCards.map((card) => (
+            <div className="card" key={card.title}>
+              <h3>{card.title}</h3>
+              <div className="code-block compact">
+                <pre>
+                  <code>{card.command}</code>
+                </pre>
+              </div>
+              <p className="demo-note">{card.note}</p>
+            </div>
+          ))}
         </div>
       </section>
 
