@@ -104,6 +104,27 @@ const quickLaunchCards = [
   }
 ];
 
+const runtimeRecoveryCards = [
+  {
+    title: "Backend offline? Start the service directly",
+    command: `cd "/path/to/PhysicaX"\nbash scripts/run-cfd-backend-linux.sh`,
+    note: "Use this when the CFD status card cannot reach the local backend and you want the smallest possible recovery step.",
+    expect: "The backend should answer on http://127.0.0.1:8000/status."
+  },
+  {
+    title: "Need the full local runtime? Launch the desktop lane",
+    command: `cd "/path/to/PhysicaX"\nbash scripts/run-desktop-linux.sh`,
+    note: "Use this when backend health, GPU policy, and packaged local operation all need to move together.",
+    expect: "The Linux doctor runs, the runtime prepares, and the Electron desktop app opens."
+  },
+  {
+    title: "Need a browser-first check? Launch the web workspace",
+    command: `cd "/path/to/PhysicaX"\nbash scripts/run-web-linux.sh`,
+    note: "Use this when you want to keep the CFD page and airflow lab in the browser while the backend runs separately.",
+    expect: "The local production web server should answer on http://127.0.0.1:3000."
+  }
+];
+
 const cfdScenarios = [
   {
     id: "validate",
@@ -255,6 +276,33 @@ export default function CFDPage() {
               </div>
               <h3>{card.title}</h3>
               <p>{card.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="section reveal">
+        <div className="section-header">
+          <p className="section-kicker">Recovery deck</p>
+          <h2>Bring The Runtime Back Before You Debug The Physics</h2>
+          <p className="section-lede">
+            When the CFD card is offline, the fastest win is to recover the runtime lane first. These are the three
+            commands that matter most when you want to get back to a trustworthy local control deck.
+          </p>
+        </div>
+        <div className="card-grid">
+          {runtimeRecoveryCards.map((card) => (
+            <div className="card" key={card.title}>
+              <h3>{card.title}</h3>
+              <p>{card.note}</p>
+              <div className="code-block compact">
+                <pre>
+                  <code>{card.command}</code>
+                </pre>
+              </div>
+              <p className="demo-note">
+                <strong>Expect:</strong> {card.expect}
+              </p>
             </div>
           ))}
         </div>

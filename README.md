@@ -126,6 +126,91 @@ This packages the experience for local operation.
 
 ## Run PhysicaX on Linux
 
+### Three run lanes
+
+Use the lane that matches how you want to start PhysicaX:
+
+1. Run the checkout that is already on this PC.
+2. Clone the published GitHub branch and run from source.
+3. Download the packaged Linux release from GitHub and run without a source checkout.
+
+### Run from this PC
+
+This is the fastest path when the project already lives on your machine:
+
+```bash
+cd "/home/ibrahim/Desktop/Project (copy 1)"
+bash scripts/setup-linux.sh
+bash scripts/run-desktop-linux.sh
+```
+
+Success looks like:
+
+- the Linux doctor runs first
+- the runtime prepares the web app and CFD backend
+- the Electron desktop window opens
+
+### Clone from GitHub and run from source
+
+Use this when you want the exact published branch from GitHub:
+
+```bash
+git clone --branch codex/full-app-github-runbook-pass https://github.com/barninzuniversity/PhysicaX.git
+cd PhysicaX
+bash scripts/setup-linux.sh
+bash scripts/run-desktop-linux.sh
+```
+
+Website only after cloning:
+
+```bash
+bash scripts/run-web-linux.sh
+```
+
+CFD backend only after cloning:
+
+```bash
+bash scripts/run-cfd-backend-linux.sh
+```
+
+Success looks like:
+
+- desktop app: the Electron window opens after doctor and runtime prep
+- website only: `http://127.0.0.1:3000` responds
+- backend only: `http://127.0.0.1:8000/status` responds
+
+### Download from GitHub and run without source
+
+Use the GitHub release tarball as the default download path:
+
+```bash
+mkdir -p ~/Downloads/physicax-release
+cd ~/Downloads/physicax-release
+wget https://github.com/barninzuniversity/PhysicaX/releases/download/v0.1.0/PhysicaX-0.1.0-linux-release.tar.gz
+tar -xzf PhysicaX-0.1.0-linux-release.tar.gz
+cd PhysicaX-0.1.0-linux-release
+chmod +x run-PhysicaX-linux.sh
+./run-PhysicaX-linux.sh
+```
+
+Advanced GitHub release alternatives:
+
+```bash
+# Raw AppImage
+wget https://github.com/barninzuniversity/PhysicaX/releases/download/v0.1.0/PhysicaX-0.1.0.AppImage
+chmod +x PhysicaX-0.1.0.AppImage
+./PhysicaX-0.1.0.AppImage
+
+# Raw Debian package
+wget https://github.com/barninzuniversity/PhysicaX/releases/download/v0.1.0/physicax-desktop_0.1.0_amd64.deb
+sudo apt install ./physicax-desktop_0.1.0_amd64.deb
+```
+
+Success looks like:
+
+- the extracted release folder contains the launcher, AppImage, `.deb`, `README.txt`, and `verification-summary.json`
+- `./run-PhysicaX-linux.sh` opens the packaged desktop app without needing the repo source tree
+
 ### Launch matrix
 
 Use these exact commands from this checkout, depending on what you want to run.
@@ -137,6 +222,8 @@ Use these exact commands from this checkout, depending on what you want to run.
 | Website only | `cd "/home/ibrahim/Desktop/Project (copy 1)"`<br>`bash scripts/run-web-linux.sh` | The local production web server answers on `http://127.0.0.1:3000`. |
 | CFD backend only | `cd "/home/ibrahim/Desktop/Project (copy 1)"`<br>`bash scripts/run-cfd-backend-linux.sh` | The backend answers on `http://127.0.0.1:8000/status`. |
 | Full verification | `cd "/home/ibrahim/Desktop/Project (copy 1)"`<br>`env PHYSICAX_SKIP_SETUP=1 bash scripts/verify-linux.sh` | Doctor, prep, smoke, packaging, and release-verification checks complete end to end. |
+| Clone from GitHub and run from source | `git clone --branch codex/full-app-github-runbook-pass https://github.com/barninzuniversity/PhysicaX.git`<br>`cd PhysicaX`<br>`bash scripts/setup-linux.sh`<br>`bash scripts/run-desktop-linux.sh` | The published branch clones cleanly, setup completes, and the Electron desktop app launches from source. |
+| GitHub release tarball | `wget https://github.com/barninzuniversity/PhysicaX/releases/download/v0.1.0/PhysicaX-0.1.0-linux-release.tar.gz`<br>`tar -xzf PhysicaX-0.1.0-linux-release.tar.gz`<br>`cd PhysicaX-0.1.0-linux-release`<br>`./run-PhysicaX-linux.sh` | The packaged Linux release opens without needing the source checkout. |
 | Downloaded Linux release | `cd /path/to/linux-release`<br>`chmod +x run-PhysicaX-linux.sh`<br>`./run-PhysicaX-linux.sh` | The packaged Linux release opens without needing the source checkout. |
 | Optional hybrid-laptop discrete GPU attempt | `cd "/home/ibrahim/Desktop/Project (copy 1)"`<br>`PHYSICAX_GPU_VENDOR=discrete bash scripts/run-desktop-linux-gpu.sh` | The app still opens normally, and you can verify whether rendering moved from the integrated GPU to the discrete one. |
 

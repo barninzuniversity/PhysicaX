@@ -22,4 +22,5 @@ physicax_log "Packaging and verifying the Linux release"
 npm --prefix "$PHYSICAX_DESKTOP_DIR" run desktop:package:linux
 
 physicax_log "Release verification summary written to $PHYSICAX_DESKTOP_DIR/dist/linux-release/verification-summary.json"
+physicax_log "GitHub release tarball written to $PHYSICAX_DESKTOP_DIR/dist/PhysicaX-0.1.0-linux-release.tar.gz"
 physicax_log "Linux verification finished successfully."

@@ -9,6 +9,7 @@ const packageJson = JSON.parse(fs.readFileSync(path.join(root, "package.json"), 
 const version = packageJson.version || "0.1.0";
 const appImageName = `PhysicaX-${version}.AppImage`;
 const debName = `physicax-desktop_${version}_amd64.deb`;
+const githubBundleName = `PhysicaX-${version}-linux-release.tar.gz`;
 
 const ensureDir = (dir) => fs.mkdirSync(dir, { recursive: true });
 
@@ -129,6 +130,9 @@ Folder contents:
 - install-PhysicaX-deb.sh  (helper installer for Debian/Ubuntu)
 - verification-summary.json  (written after release verification with file hashes and sizes)
 
+GitHub Release asset published alongside this folder:
+- ${githubBundleName}  (default download for "run without source")
+
 Run on Linux after downloading this folder:
 1) chmod +x run-PhysicaX-linux.sh
 2) ./run-PhysicaX-linux.sh
@@ -147,6 +151,13 @@ sudo apt install ./${debName}
 Or use the helper installer:
 1) chmod +x install-PhysicaX-deb.sh
 2) ./install-PhysicaX-deb.sh
+
+Default GitHub download path:
+1) download ${githubBundleName}
+2) tar -xzf ${githubBundleName}
+3) cd PhysicaX-${version}-linux-release
+4) chmod +x run-PhysicaX-linux.sh
+5) ./run-PhysicaX-linux.sh
 
 Notes:
 - run-PhysicaX-linux.sh uses extract-and-run mode by default, which avoids the common FUSE problem on many Linux machines.
@@ -178,7 +189,8 @@ const summary = {
   deb: copiedDeb ? path.join(releaseDir, debName) : null,
   linuxLauncher: path.join(releaseDir, "run-PhysicaX-linux.sh"),
   wslLauncher: path.join(releaseDir, "run-PhysicaX-wsl.sh"),
-  installScript: path.join(releaseDir, "install-PhysicaX-deb.sh")
+  installScript: path.join(releaseDir, "install-PhysicaX-deb.sh"),
+  githubBundle: path.join(distDir, githubBundleName)
 };
 
 console.log(JSON.stringify(summary, null, 2));

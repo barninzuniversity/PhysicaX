@@ -184,6 +184,42 @@ export function CFDStatusCard() {
         : confidenceReadyCount === 3
           ? "You are in the export-review lane. Compare sampled fields and pressure output before packaging or reporting the run."
           : "You are ready for the strongest local CFD path in PhysicaX: artifact-backed review with portable desktop handoff when needed.";
+  const proofNow =
+    confidenceReadyCount <= 1
+      ? [
+          "Whether the local CFD runtime is reachable at all.",
+          "Whether the backend URL and packaged lane are wired correctly.",
+          "Whether it is safe to move into a cheap validation step."
+        ]
+      : confidenceReadyCount === 2
+        ? [
+            "Whether the geometry and boundary-condition setup survives a cheap LBM sanity check.",
+            "Whether the current local lane is healthy enough for fast validation.",
+            "Whether the case is worth promoting into OpenFOAM or a heavier export path."
+          ]
+        : [
+            "Whether the heavier export lane is producing inspectable CFD artifacts.",
+            "Whether the sampled field and pressure outputs are present for review.",
+            "Whether the run is strong enough to share, compare, or package locally."
+          ];
+  const notYet =
+    confidenceReadyCount <= 1
+      ? [
+          "This does not prove the physics are correct yet.",
+          "This does not prove the export lane is configured.",
+          "This does not justify a solver-backed interpretation."
+        ]
+      : confidenceReadyCount === 2
+        ? [
+            "A quick LBM pass still does not replace artifact review.",
+            "This does not prove OpenFOAM sampling or streamline export completed.",
+            "This is still too early for a release-quality CFD claim."
+          ]
+        : [
+            "Artifact presence still does not replace engineering judgment.",
+            "A successful export still needs comparison and review before publication.",
+            "This does not make the case portable until the desktop handoff bundle is verified."
+          ];
 
   const nextStep = error
     ? "Launch the packaged desktop app or start the FastAPI backend manually, then refresh status before running a CFD test."
@@ -336,6 +372,24 @@ export function CFDStatusCard() {
         <div className="details-block">
           <strong>Escalation lane</strong>
           <p className="demo-note">{escalationGuidance}</p>
+        </div>
+        <div className="status-grid">
+          <div className="status-card">
+            <strong>What this lane can prove</strong>
+            <ul className="feature-list">
+              {proofNow.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="status-card">
+            <strong>What it still cannot prove</strong>
+            <ul className="feature-list">
+              {notYet.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
       <div className="demo-note">

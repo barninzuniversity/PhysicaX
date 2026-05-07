@@ -50,6 +50,33 @@ const workflowModes = [
   }
 ];
 
+const launchLanes = [
+  {
+    tag: "Run from this PC",
+    title: "Use the checkout that is already on this machine.",
+    body: "Best when PhysicaX is already on disk and you want the shortest path into the verified Linux desktop helper flow.",
+    command: `cd "/path/to/PhysicaX"\nbash scripts/setup-linux.sh\nbash scripts/run-desktop-linux.sh`,
+    href: "/desktop#linux-quick-start",
+    action: "Open local launch guide"
+  },
+  {
+    tag: "Clone from GitHub",
+    title: "Pull the branch and run from source.",
+    body: "Best when you want the repo history, the exact published branch, and the option to run the desktop app, website, or backend from source.",
+    command: `git clone --branch codex/full-app-github-runbook-pass https://github.com/barninzuniversity/PhysicaX.git\ncd PhysicaX\nbash scripts/setup-linux.sh\nbash scripts/run-desktop-linux.sh`,
+    href: "/desktop#github-runbook",
+    action: "Open GitHub source guide"
+  },
+  {
+    tag: "Download release",
+    title: "Run the packaged Linux release without source.",
+    body: "Best when you want a finished handoff artifact from GitHub with the launcher scripts, README, and verification summary already together.",
+    command: `mkdir -p ~/Downloads/physicax-release\ncd ~/Downloads/physicax-release\nwget https://github.com/barninzuniversity/PhysicaX/releases/download/v0.1.0/PhysicaX-0.1.0-linux-release.tar.gz\ntar -xzf PhysicaX-0.1.0-linux-release.tar.gz`,
+    href: "/desktop#github-runbook",
+    action: "Open packaged release guide"
+  }
+];
+
 const heroPreviewDeck = [
   {
     label: "Browser",
@@ -251,6 +278,9 @@ export default function HomePage() {
             <Link className="control-button secondary" href="/desktop">
               Desktop Controls
             </Link>
+            <Link className="control-chip" href="#start-anywhere">
+              Launch runbook
+            </Link>
             <Link className="control-chip" href="/cfd">
               CFD Control Center
             </Link>
@@ -320,6 +350,37 @@ export default function HomePage() {
               <p>{mode.body}</p>
               <Link className="control-button secondary" href={mode.href}>
                 {mode.action}
+              </Link>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="section reveal" id="start-anywhere">
+        <div className="section-header">
+          <p className="section-kicker">Start anywhere</p>
+          <h2>Pick The Run Lane That Matches Your Machine</h2>
+          <p className="section-lede">
+            PhysicaX now exposes the three real ways people start it in practice: run the checkout already on this PC,
+            clone the GitHub branch and run from source, or download the packaged Linux release and skip the source
+            tree entirely.
+          </p>
+        </div>
+        <div className="card-grid">
+          {launchLanes.map((lane) => (
+            <div className="card" key={lane.title}>
+              <div className="inline-kv">
+                <span className="pill pill-active">{lane.tag}</span>
+              </div>
+              <h3>{lane.title}</h3>
+              <p>{lane.body}</p>
+              <div className="code-block compact">
+                <pre>
+                  <code>{lane.command}</code>
+                </pre>
+              </div>
+              <Link className="control-chip" href={lane.href}>
+                {lane.action}
               </Link>
             </div>
           ))}

@@ -432,10 +432,13 @@ const getReleaseVerification = () => {
       summaryExists: false,
       missingFiles: [],
       availableFiles: [],
+      bundleExists: false,
       error: "No Linux release directory was found from the desktop runtime."
     };
   }
 
+  const defaultBundlePath = path.join(path.dirname(releaseDir), `PhysicaX-${app.getVersion()}-linux-release.tar.gz`);
+  const defaultBundleExists = fs.existsSync(defaultBundlePath);
   const summaryPath = path.join(releaseDir, summaryName);
   const availableFiles = fs.existsSync(releaseDir) ? fs.readdirSync(releaseDir).sort() : [];
   if (!fs.existsSync(summaryPath)) {
@@ -445,12 +448,18 @@ const getReleaseVerification = () => {
       summaryExists: false,
       missingFiles: [],
       availableFiles,
+      bundlePath: defaultBundlePath,
+      bundleExists: defaultBundleExists,
+      bundleSize: defaultBundleExists ? fs.statSync(defaultBundlePath).size : undefined,
       error: "verification-summary.json is missing from the current release directory."
     };
   }
 
   try {
     const summary = JSON.parse(fs.readFileSync(summaryPath, "utf-8")) as ReleaseVerificationSummary;
+    const bundleVersion = summary.version || app.getVersion();
+    const bundlePath = path.join(path.dirname(releaseDir), `PhysicaX-${bundleVersion}-linux-release.tar.gz`);
+    const bundleExists = fs.existsSync(bundlePath);
     const verifiedFiles = (summary.verifiedFiles ?? []).map((file) => {
       const fileName = file.fileName || file.relativePath || path.basename(file.path);
       const actualPath = fileName ? path.join(releaseDir, fileName) : file.path;
@@ -475,7 +484,10 @@ const getReleaseVerification = () => {
       generatedAt: summary.generatedAt,
       verifiedFiles,
       missingFiles,
-      availableFiles
+      availableFiles,
+      bundlePath,
+      bundleExists,
+      bundleSize: bundleExists ? fs.statSync(bundlePath).size : undefined
     };
   } catch (error) {
     return {
@@ -484,6 +496,9 @@ const getReleaseVerification = () => {
       summaryExists: false,
       missingFiles: [],
       availableFiles,
+      bundlePath: defaultBundlePath,
+      bundleExists: defaultBundleExists,
+      bundleSize: defaultBundleExists ? fs.statSync(defaultBundlePath).size : undefined,
       error: error instanceof Error ? error.message : "Could not parse verification summary."
     };
   }

@@ -32,6 +32,9 @@ type ReleaseVerificationPayload = {
   releaseDir?: string;
   summaryPath?: string;
   summaryExists?: boolean;
+  bundlePath?: string;
+  bundleExists?: boolean;
+  bundleSize?: number;
   version?: string;
   generatedAt?: string;
   verifiedFiles?: ReleaseVerifiedFile[];
@@ -118,6 +121,33 @@ chmod +x run-PhysicaX-linux.sh
 const linuxDebCommands = `cd /path/to/downloaded/PhysicaX-linux-release
 chmod +x install-PhysicaX-deb.sh
 ./install-PhysicaX-deb.sh`;
+
+const githubCloneDesktopCommands = `git clone --branch codex/full-app-github-runbook-pass https://github.com/barninzuniversity/PhysicaX.git
+cd PhysicaX
+bash scripts/setup-linux.sh
+bash scripts/run-desktop-linux.sh`;
+
+const githubCloneWebCommands = `git clone --branch codex/full-app-github-runbook-pass https://github.com/barninzuniversity/PhysicaX.git
+cd PhysicaX
+bash scripts/run-web-linux.sh`;
+
+const githubCloneBackendCommands = `git clone --branch codex/full-app-github-runbook-pass https://github.com/barninzuniversity/PhysicaX.git
+cd PhysicaX
+bash scripts/run-cfd-backend-linux.sh`;
+
+const githubReleaseTarballCommands = `mkdir -p ~/Downloads/physicax-release
+cd ~/Downloads/physicax-release
+wget https://github.com/barninzuniversity/PhysicaX/releases/download/v0.1.0/PhysicaX-0.1.0-linux-release.tar.gz
+tar -xzf PhysicaX-0.1.0-linux-release.tar.gz
+cd PhysicaX-0.1.0-linux-release
+chmod +x run-PhysicaX-linux.sh
+./run-PhysicaX-linux.sh`;
+
+const githubReleaseAppImageCommands = `mkdir -p ~/Downloads/physicax-release
+cd ~/Downloads/physicax-release
+wget https://github.com/barninzuniversity/PhysicaX/releases/download/v0.1.0/PhysicaX-0.1.0.AppImage
+chmod +x PhysicaX-0.1.0.AppImage
+./PhysicaX-0.1.0.AppImage`;
 
 const linuxBackendCommands = `cd "/path/to/PhysicaX"
 bash scripts/run-cfd-backend-linux.sh`;
@@ -215,6 +245,54 @@ const linuxCommandGuides: CommandGuide[] = [
     badge: "Confidence pass",
     note: "This is the strongest local check before you hand off the app or trust a fresh Linux package.",
     expect: "Doctor, prep, smoke, packaging, and release-verification steps should complete without hidden runtime surprises."
+  }
+];
+
+const githubRunGuides: CommandGuide[] = [
+  {
+    id: "github-clone-desktop",
+    title: "Clone from GitHub and run the full desktop app",
+    body: "Use this when you want the exact branch published for this pass and prefer to run from source instead of a packaged release download.",
+    command: githubCloneDesktopCommands,
+    badge: "GitHub source",
+    note: "This pulls the new branch directly, bootstraps the repo, and launches the same desktop helper flow documented for the local checkout.",
+    expect: "The repo clones into a PhysicaX folder, setup completes, and the Electron window opens after the Linux doctor and runtime prep."
+  },
+  {
+    id: "github-clone-web",
+    title: "Clone from GitHub and run the website only",
+    body: "Use this when you want the browser workspace from source without launching the Electron shell.",
+    command: githubCloneWebCommands,
+    badge: "GitHub web",
+    note: "Best when you want the standalone local site on a machine that does not need the packaged desktop runtime right away.",
+    expect: "The local production web server should answer on http://127.0.0.1:3000 from the cloned PhysicaX folder."
+  },
+  {
+    id: "github-clone-backend",
+    title: "Clone from GitHub and run the CFD backend only",
+    body: "Use this when you want the source checkout but only need the CFD service for browser debugging or backend inspection.",
+    command: githubCloneBackendCommands,
+    badge: "GitHub backend",
+    note: "This is the quickest source-clone path into the FastAPI CFD runtime.",
+    expect: "The backend should answer on http://127.0.0.1:8000/status with a ready or inspectable payload."
+  },
+  {
+    id: "github-release-tarball",
+    title: "Download the GitHub release tarball and run without source",
+    body: "Use this as the default GitHub download path when you want a finished Linux release instead of a source checkout.",
+    command: githubReleaseTarballCommands,
+    badge: "Release tarball",
+    note: "This is the cleanest handoff path: download, extract, launch, and keep the verification summary with the release folder.",
+    expect: "You should end up inside a PhysicaX-0.1.0-linux-release folder, then the packaged Linux launcher should open the desktop app."
+  },
+  {
+    id: "github-release-appimage",
+    title: "Download the raw AppImage directly",
+    body: "Use this only when you specifically want the raw AppImage asset instead of the recommended bundled tarball.",
+    command: githubReleaseAppImageCommands,
+    badge: "Advanced asset",
+    note: "The AppImage path is still useful, but the tarball keeps the launcher scripts, README, and verification summary together.",
+    expect: "The standalone AppImage should open directly after you mark it executable."
   }
 ];
 
@@ -689,7 +767,9 @@ export default function DesktopSettingsPage() {
         value: releaseSummary.confidenceLabel,
         note: ready
           ? releaseVerification?.summaryExists
-            ? "The desktop runtime can read the same verification artifact that ships with the Linux release folder."
+            ? releaseVerification?.bundleExists
+              ? "The desktop runtime can read the same verification artifact that ships with the Linux release folder, and the GitHub-ready tarball is present beside it."
+              : "The desktop runtime can read the same verification artifact that ships with the Linux release folder."
             : releaseVerification?.error || "Refresh runtime state after generating the Linux release bundle."
           : "The browser preview explains the packaged release path and WSL launcher."
       }
@@ -700,6 +780,7 @@ export default function DesktopSettingsPage() {
       backendHealth,
       backendStatusNote,
       ready,
+      releaseVerification?.bundleExists,
       releaseSummary.confidenceLabel,
       releaseVerification?.error,
       releaseVerification?.summaryExists,
@@ -957,6 +1038,15 @@ export default function DesktopSettingsPage() {
               <div className="status-value">{releaseVerification?.version || version || "Unknown"}</div>
               <div className="status-note">Useful when you are matching a packaged runtime with a release handoff bundle.</div>
             </div>
+            <div className={`status-card ${releaseVerification?.bundleExists ? "is-good" : "is-warn"}`}>
+              <div className="status-label">GitHub tarball</div>
+              <div className="status-value">{releaseVerification?.bundleExists ? "Ready" : "Missing"}</div>
+              <div className="status-note">
+                {releaseVerification?.bundleExists
+                  ? `${releaseVerification.bundlePath} (${formatReleaseFileSize(releaseVerification.bundleSize)})`
+                  : "Generate the Linux package again to emit the release tarball beside the release folder."}
+              </div>
+            </div>
           </div>
           {releaseVerification?.error ? (
             <div className="details-block">
@@ -1139,6 +1229,48 @@ export default function DesktopSettingsPage() {
         <p className="demo-note">
           If you already have the repo on your machine, replace <span className="mono">/path/to/PhysicaX</span> with your
           local checkout path and keep the quotes when that path contains spaces.
+        </p>
+      </section>
+
+      <section className="section reveal" id="github-runbook">
+        <div className="section-header">
+          <p className="section-kicker">GitHub runbook</p>
+          <h2>Run From GitHub In Source Or Packaged Form</h2>
+          <p className="section-lede">
+            Use a source clone when you want to build and inspect the repo yourself. Use the GitHub release tarball
+            when you want the finished Linux package without a source checkout.
+          </p>
+        </div>
+        <div className="card-grid">
+          {githubRunGuides.map((guide) => (
+            <div className="card" key={guide.id}>
+              <div className="inline-kv">
+                <span className="pill pill-active">{guide.badge}</span>
+                <button
+                  type="button"
+                  className="control-chip"
+                  onClick={() => void copyCommand(guide.id, guide.command)}
+                >
+                  {copiedCommandId === guide.id ? "Copied" : "Copy command"}
+                </button>
+              </div>
+              <h3>{guide.title}</h3>
+              <p>{guide.body}</p>
+              <div className="code-block compact">
+                <pre>
+                  <code>{guide.command}</code>
+                </pre>
+              </div>
+              <p className="demo-note">{guide.note}</p>
+              <p className="demo-note">
+                <strong>Expect:</strong> {guide.expect}
+              </p>
+            </div>
+          ))}
+        </div>
+        <p className="demo-note">
+          Prefer the release tarball when you want the easiest GitHub download path. Drop to the raw AppImage or
+          Debian package only when you intentionally want a single asset instead of the full Linux release folder.
         </p>
       </section>
 

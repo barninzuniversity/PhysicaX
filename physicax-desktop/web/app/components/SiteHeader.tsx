@@ -462,7 +462,11 @@ export function SiteHeader() {
               {actionsOpen ? (
                 <div className="quick-actions-menu" role="menu">
                   <div className="quick-actions-title">{t("quickActions")}</div>
-                  <div className="quick-actions-meta">This surface</div>
+                  <div className="quick-actions-intro">
+                    <strong className="quick-actions-intro-title">{surfaceContext.title}</strong>
+                    <p className="quick-actions-intro-body">{surfaceContext.summary}</p>
+                  </div>
+                  <div className="quick-actions-meta">Surface links</div>
                   <div className="quick-actions-list quick-actions-list-compact">
                     {surfaceContext.actions.map((action) => (
                       <Link key={action.href} href={action.href} className="quick-actions-item quick-actions-item-context">
@@ -470,13 +474,14 @@ export function SiteHeader() {
                       </Link>
                     ))}
                   </div>
-                  <div className="quick-actions-meta">Workspace</div>
+                  <div className="quick-actions-meta">Workspace links</div>
                   <div className="quick-actions-list">
                     <Link href="/search" className="quick-actions-item">{t("searchTitle")}</Link>
                     <Link href="/dashboard" className="quick-actions-item">{t("dashboard")}</Link>
                     <Link href="/registry" className="quick-actions-item">{t("workspaceQuickRegistry")}</Link>
                     <Link href="/formulas" className="quick-actions-item">{t("workspaceQuickFormulas")}</Link>
                     <Link href="/solvers" className="quick-actions-item">{t("workspaceQuickSolvers")}</Link>
+                    <Link href="/desktop#github-runbook" className="quick-actions-item">Launch runbook</Link>
                   </div>
                   <div className="quick-actions-meta">{t("recentLabsTitle")}</div>
                   {recentLabs.length ? (

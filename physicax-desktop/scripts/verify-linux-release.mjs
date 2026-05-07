@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -10,6 +11,9 @@ const packageJson = JSON.parse(fs.readFileSync(path.join(root, "package.json"), 
 const version = packageJson.version || "0.1.0";
 const appImageName = `PhysicaX-${version}.AppImage`;
 const debName = `physicax-desktop_${version}_amd64.deb`;
+const bundleDirName = `PhysicaX-${version}-linux-release`;
+const bundleFileName = `${bundleDirName}.tar.gz`;
+const bundlePath = path.join(distDir, bundleFileName);
 
 const requiredFiles = [
   appImageName,
@@ -22,6 +26,17 @@ const requiredFiles = [
 
 const issues = [];
 const checksumFileName = "verification-summary.json";
+const bundleStageRoot = path.join(distDir, ".linux-release-bundle");
+
+const buildReleaseBundle = () => {
+  fs.rmSync(bundleStageRoot, { recursive: true, force: true });
+  fs.rmSync(bundlePath, { force: true });
+  const stageDir = path.join(bundleStageRoot, bundleDirName);
+  fs.mkdirSync(bundleStageRoot, { recursive: true });
+  fs.cpSync(releaseDir, stageDir, { recursive: true });
+  execFileSync("tar", ["-czf", bundlePath, "-C", bundleStageRoot, bundleDirName]);
+  fs.rmSync(bundleStageRoot, { recursive: true, force: true });
+};
 
 const expectFile = (fileName) => {
   const filePath = path.join(releaseDir, fileName);
@@ -72,6 +87,7 @@ const expectedReadmeSnippets = [
   `sudo apt install ./${debName}`,
   appImageName,
   debName,
+  bundleFileName,
   `npm run desktop:run:linux`,
   checksumFileName
 ];
@@ -98,5 +114,15 @@ const summary = {
 };
 
 fs.writeFileSync(path.join(releaseDir, checksumFileName), JSON.stringify(summary, null, 2));
+buildReleaseBundle();
 
-console.log(JSON.stringify(summary, null, 2));
+console.log(
+  JSON.stringify(
+    {
+      ...summary,
+      bundlePath
+    },
+    null,
+    2
+  )
+);
