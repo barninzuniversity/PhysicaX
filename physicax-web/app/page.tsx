@@ -63,7 +63,7 @@ const launchLanes = [
     tag: "Clone from GitHub",
     title: "Pull the branch and run from source.",
     body: "Best when you want the repo history, the exact published branch, and the option to run the desktop app, website, or backend from source.",
-    command: `git clone --branch codex/full-app-github-runbook-pass https://github.com/barninzuniversity/PhysicaX.git\ncd PhysicaX\nbash scripts/setup-linux.sh\nbash scripts/run-desktop-linux.sh`,
+    command: `git clone --branch codex/kali-cfd-gpu-smoothness-pass https://github.com/barninzuniversity/PhysicaX.git\ncd PhysicaX\nbash scripts/setup-linux.sh\nbash scripts/run-desktop-linux.sh`,
     href: "/desktop#github-runbook",
     action: "Open GitHub source guide"
   },

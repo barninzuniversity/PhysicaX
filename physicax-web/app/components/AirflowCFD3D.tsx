@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { createNoise3D } from "simplex-noise";
 import { MeshBVH, acceleratedRaycast, computeBoundsTree, disposeBoundsTree } from "three-mesh-bvh";
+import { useCfdStatus } from "./useCfdStatus";
 
 type BodyShape = "sphere" | "capsule" | "teardrop" | "box" | "cylinder" | "car" | "custom";
 type ColorMap = "thermal" | "viridis";
@@ -141,6 +142,24 @@ type BackendField = {
   pMax?: number;
 };
 
+type BackendMetaStatusPayload = {
+  openfoam?: string;
+  openfoamConfigured?: boolean;
+  openfoamConfiguredPath?: string;
+  openfoamPath?: string;
+  openfoamPressurePath?: string;
+  openfoamMtime?: number;
+  openfoamSize?: number;
+  fluidx3d?: string;
+  fluidx3dBinary?: "present" | "absent";
+  fluidx3dConfigured?: boolean;
+  fluidx3dPath?: string;
+  fluidx3dMtime?: number;
+  fluidx3dSize?: number;
+  status?: string;
+  backendUrl?: string | null;
+};
+
 type WakeFrame = {
   center: THREE.Vector3;
   flowDir: THREE.Vector3;
@@ -253,7 +272,7 @@ export function AirflowCFD3D() {
     radius: 0.35,
     turbulence: 0.35,
     turbulenceModel: "smagorinsky",
-    particleCount: 1400,
+    particleCount: 1100,
     spread: 1.6,
     kinematicViscosity: 1.5e-5,
     density: 1.225,
@@ -275,7 +294,7 @@ export function AirflowCFD3D() {
   const [radius, setRadius] = useState("0.35");
   const [turbulence, setTurbulence] = useState("0.35");
   const [turbulenceModel, setTurbulenceModel] = useState<"noise" | "smagorinsky" | "sst">("smagorinsky");
-  const [particleCount, setParticleCount] = useState("1400");
+  const [particleCount, setParticleCount] = useState("1100");
   const [spread, setSpread] = useState("1.6");
   const [cfdOnly, setCfdOnly] = useState(true);
   const [density, setDensity] = useState("1.225");
@@ -289,8 +308,8 @@ export function AirflowCFD3D() {
   const [bodyRoll, setBodyRoll] = useState("0");
   const [showParticles, setShowParticles] = useState(true);
   const [showStreamlines, setShowStreamlines] = useState(true);
-  const [streamlineCount, setStreamlineCount] = useState("520");
-  const [streamlineSteps, setStreamlineSteps] = useState("240");
+  const [streamlineCount, setStreamlineCount] = useState("360");
+  const [streamlineSteps, setStreamlineSteps] = useState("180");
   const [streamlineStep, setStreamlineStep] = useState("0.07");
   const [streamlineOpacity, setStreamlineOpacity] = useState("0.85");
   const [streamlineSeedJitter, setStreamlineSeedJitter] = useState("0.08");
@@ -304,14 +323,14 @@ export function AirflowCFD3D() {
   const [objectOffsetX, setObjectOffsetX] = useState("0");
   const [objectOffsetY, setObjectOffsetY] = useState("0");
   const [objectOffsetZ, setObjectOffsetZ] = useState("0");
-  const [showBoundaryLayer, setShowBoundaryLayer] = useState(true);
+  const [showBoundaryLayer, setShowBoundaryLayer] = useState(false);
   const [boundaryLayerMargin, setBoundaryLayerMargin] = useState("0.06");
   const [boundaryLayerRadius, setBoundaryLayerRadius] = useState("0.006");
   const [showSurfacePressure, setShowSurfacePressure] = useState(true);
   const [surfaceMode, setSurfaceMode] = useState<"pressure" | "speed" | "cp" | "separation">("pressure");
   const [surfaceBanding, setSurfaceBanding] = useState(true);
   const [surfaceBands, setSurfaceBands] = useState("9");
-  const [showVortexCores, setShowVortexCores] = useState(true);
+  const [showVortexCores, setShowVortexCores] = useState(false);
   const [showVorticityField, setShowVorticityField] = useState(false);
   const [vorticityDensity, setVorticityDensity] = useState("8");
   const [vorticityOpacity, setVorticityOpacity] = useState("0.28");
@@ -372,21 +391,10 @@ export function AirflowCFD3D() {
   const [runLogLines, setRunLogLines] = useState<string[]>([]);
   const [autoSwapFinal, setAutoSwapFinal] = useState(true);
   const [autoRefresh, setAutoRefresh] = useState(false);
-  const [autoRefreshInterval, setAutoRefreshInterval] = useState("6");
+  const [autoRefreshInterval, setAutoRefreshInterval] = useState("12");
   const [sessionReady, setSessionReady] = useState(false);
   const [sessionError, setSessionError] = useState("");
-  const [backendMeta, setBackendMeta] = useState<{
-    openfoam?: string;
-    openfoamPath?: string;
-    openfoamPressurePath?: string;
-    openfoamMtime?: number;
-    openfoamSize?: number;
-    fluidx3d?: string;
-    fluidx3dPath?: string;
-    fluidx3dMtime?: number;
-    fluidx3dSize?: number;
-    status?: string;
-  } | null>(null);
+  const [backendMeta, setBackendMeta] = useState<BackendMetaStatusPayload | null>(null);
   const [fluidx3dFieldLabel, setFluidx3dFieldLabel] = useState("");
   const [fluidx3dFieldError, setFluidx3dFieldError] = useState("");
   const [fluidx3dFieldMeta, setFluidx3dFieldMeta] = useState<{ nx: number; ny: number; nz: number } | null>(null);
@@ -1273,6 +1281,35 @@ export function AirflowCFD3D() {
     }
     return "";
   })();
+  const backendStatusUrl = useMemo(() => {
+    if (!sessionReady || dataSource !== "backend") {
+      return null;
+    }
+    return meshMeta?.meshId ? `/api/cfd?meshId=${encodeURIComponent(meshMeta.meshId)}` : "/api/cfd";
+  }, [dataSource, meshMeta?.meshId, sessionReady]);
+  const { data: sharedBackendMeta, refresh: refreshSharedBackendMeta } = useCfdStatus<BackendMetaStatusPayload>(
+    backendStatusUrl,
+    {
+      enabled: Boolean(backendStatusUrl),
+      intervalMs: 45000,
+      timeoutMs: 5000,
+      pauseWhenHidden: true
+    }
+  );
+
+  useEffect(() => {
+    if (sharedBackendMeta) {
+      setBackendMeta(sharedBackendMeta);
+    }
+  }, [sharedBackendMeta]);
+
+  const refreshBackendMeta = useCallback(async () => {
+    const payload = await refreshSharedBackendMeta();
+    if (payload) {
+      setBackendMeta(payload);
+    }
+    return payload;
+  }, [refreshSharedBackendMeta]);
 
   const ensureBackendReachable = async (engineOverride?: "lbm" | "openfoam" | "fluidx3d") => {
     const engine = engineOverride ?? backendEngine;
@@ -1289,13 +1326,9 @@ export function AirflowCFD3D() {
       return false;
     }
     try {
-      const res = await fetch(`${backendUrl}/status`);
-      if (!res.ok) {
+      const payload = await refreshBackendMeta();
+      if (!payload?.status || payload.status.toLowerCase() !== "ready") {
         throw new Error("Backend status failed");
-      }
-      const payload = await res.json().catch(() => null);
-      if (payload) {
-        setBackendMeta(payload);
       }
       setBackendStatus("idle");
       setBackendError("");
@@ -1758,32 +1791,6 @@ export function AirflowCFD3D() {
     }
   };
 
-  const fetchBackendStatus = async () => {
-    try {
-      const statusUrl = meshMeta?.meshId ? `/api/cfd?meshId=${encodeURIComponent(meshMeta.meshId)}` : "/api/cfd";
-      const res = await fetch(statusUrl);
-      if (!res.ok) {
-        return null;
-      }
-      const payload = (await res.json()) as {
-        openfoam?: string;
-        openfoamPath?: string;
-        openfoamPressurePath?: string;
-        openfoamMtime?: number;
-        openfoamSize?: number;
-        fluidx3d?: string;
-        fluidx3dPath?: string;
-        fluidx3dMtime?: number;
-        fluidx3dSize?: number;
-        status?: string;
-      };
-      setBackendMeta(payload);
-      return payload;
-    } catch {
-      return null;
-    }
-  };
-
   const generateCase = async (meshIdOverride?: string): Promise<boolean> => {
     const targetMeshId = meshIdOverride ?? meshMeta?.meshId;
     if (!backendUrl || !targetMeshId) {
@@ -1905,7 +1912,7 @@ export function AirflowCFD3D() {
     const started = await runCase();
     if (started) {
       setAutoRefresh(true);
-      await fetchBackendStatus();
+      await refreshBackendMeta();
     }
   };
 
@@ -1920,7 +1927,7 @@ export function AirflowCFD3D() {
     const started = await runCase(meshId);
     if (started) {
       setAutoRefresh(true);
-      await fetchBackendStatus();
+      await refreshBackendMeta();
     }
   };
 
@@ -1929,9 +1936,9 @@ export function AirflowCFD3D() {
       return;
     }
     if (dataSource === "backend" && (backendEngine === "openfoam" || backendEngine === "fluidx3d")) {
-      fetchBackendStatus();
+      void refreshBackendMeta();
     }
-  }, [sessionReady, dataSource, backendEngine, exportPath, meshMeta?.meshId]);
+  }, [sessionReady, dataSource, backendEngine, exportPath, meshMeta?.meshId, refreshBackendMeta]);
 
   useEffect(() => {
     if (!sessionReady) {
@@ -1957,12 +1964,12 @@ export function AirflowCFD3D() {
       return;
     }
     let active = true;
-    const intervalSeconds = Math.max(2, Number(autoRefreshInterval) || 6);
+    const intervalSeconds = Math.max(6, Number(autoRefreshInterval) || 12);
     const tick = async () => {
-      if (!active) {
+      if (!active || document.hidden) {
         return;
       }
-      const status = await fetchBackendStatus();
+      const status = await refreshBackendMeta();
       const mtime = backendEngine === "fluidx3d" ? status?.fluidx3dMtime : status?.openfoamMtime;
       if (!mtime) {
         return;
@@ -1973,13 +1980,20 @@ export function AirflowCFD3D() {
         await requestBackendField();
       }
     };
-    tick();
+    const onVisibilityChange = () => {
+      if (!document.hidden) {
+        void tick();
+      }
+    };
+    void tick();
     const id = window.setInterval(tick, intervalSeconds * 1000);
+    document.addEventListener("visibilitychange", onVisibilityChange);
     return () => {
       active = false;
       window.clearInterval(id);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-  }, [autoRefresh, autoRefreshInterval, dataSource, backendEngine, meshMeta?.meshId]);
+  }, [autoRefresh, autoRefreshInterval, dataSource, backendEngine, meshMeta?.meshId, refreshBackendMeta]);
 
   useEffect(() => {
     if (!sessionReady) {
@@ -5001,14 +5015,28 @@ export function AirflowCFD3D() {
       ? (Math.abs(flowVal) * 2 * radiusVal) / nuVal
       : NaN;
   const openfoamReady = backendMeta?.openfoam === "ready";
+  const openfoamPending = backendMeta?.openfoam === "artifact_pending";
   const fluidx3dReady = backendMeta?.fluidx3d === "ready";
+  const fluidx3dPending = backendMeta?.fluidx3d === "artifact_pending";
   let pipelineLabel = "preview";
   if (dataSource !== "backend") {
     pipelineLabel = "analytic preview";
   } else if (backendEngine === "openfoam") {
-    pipelineLabel = openfoamReady ? "OpenFOAM ready" : runStatus === "running" ? "OpenFOAM running" : "OpenFOAM pending";
+    pipelineLabel = openfoamReady
+      ? "OpenFOAM ready"
+      : runStatus === "running"
+        ? "OpenFOAM running"
+        : openfoamPending
+          ? "OpenFOAM waiting for export"
+          : "OpenFOAM optional";
   } else if (backendEngine === "fluidx3d") {
-    pipelineLabel = openfoamReady ? "OpenFOAM ready (finalizing)" : fluidx3dReady ? "FluidX3D ready" : "FluidX3D preview";
+    pipelineLabel = openfoamReady
+      ? "OpenFOAM ready (finalizing)"
+      : fluidx3dReady
+        ? "FluidX3D ready"
+        : fluidx3dPending
+          ? "FluidX3D waiting for field"
+          : "FluidX3D preview";
   }
   const artifactPath =
     dataSource !== "backend"
@@ -5042,11 +5070,15 @@ export function AirflowCFD3D() {
           ? "OpenFOAM artifact-backed"
           : runStatus === "running"
             ? "OpenFOAM runtime in progress"
-            : "OpenFOAM staging"
+            : openfoamPending
+              ? "OpenFOAM configured"
+              : "OpenFOAM optional"
         : backendEngine === "fluidx3d"
           ? fluidx3dReady
             ? "FluidX3D field-backed"
-            : "FluidX3D preview"
+            : fluidx3dPending
+              ? "FluidX3D configured"
+              : "FluidX3D preview"
           : backendStatus === "ready"
             ? "LBM proxy ready"
             : "LBM proxy preview";

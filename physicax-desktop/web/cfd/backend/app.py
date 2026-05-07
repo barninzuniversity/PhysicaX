@@ -14,7 +14,7 @@ from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 from fastapi import FastAPI, File, UploadFile
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from pydantic import BaseModel
@@ -1757,20 +1757,40 @@ def queue_update(job_id: str, req: QueueUpdate) -> Dict[str, object]:
     return {"error": "Job not found"}
 
 
+@app.get("/", include_in_schema=False)
+def root() -> Dict[str, object]:
+    return {
+        "service": "PhysicaX CFD backend",
+        "status": "ok",
+        "statusUrl": "/status",
+        "flowUrl": "/flow",
+        "note": "Open /status for runtime health and artifact visibility."
+    }
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon() -> Response:
+    return Response(status_code=204)
+
+
 @app.get("/status")
 def status(meshId: Optional[str] = None) -> Dict[str, object]:
     configured_openfoam_path = str(_normalize_host_path(OPENFOAM_EXPORT_PATH)) if OPENFOAM_EXPORT_PATH else ""
     openfoam_path = configured_openfoam_path if configured_openfoam_path and Path(configured_openfoam_path).exists() else ""
     openfoam_pressure_path = None
+    mesh_case_present = False
     if meshId:
         case_dir = UPLOAD_DIR / meshId / "case"
         if case_dir.exists():
+            mesh_case_present = True
             sample_path, sample_p = _find_openfoam_samples(case_dir)
             if sample_path:
                 openfoam_path = str(sample_path)
             if sample_p:
                 openfoam_pressure_path = str(sample_p)
     openfoam_ready = bool(openfoam_path and Path(openfoam_path).exists())
+    openfoam_configured = bool(configured_openfoam_path or mesh_case_present)
+    openfoam_status = "ready" if openfoam_ready else "artifact_pending" if openfoam_configured else "not_configured"
     openfoam_mtime = None
     openfoam_size = None
     if openfoam_ready:
@@ -1782,6 +1802,7 @@ def status(meshId: Optional[str] = None) -> Dict[str, object]:
         openfoam_mtime = max(openfoam_mtime or 0, stat.st_mtime)
         openfoam_size = (openfoam_size or 0) + stat.st_size
     configured_fluidx3d_path = str(_normalize_host_path(FLUIDX3D_FIELD_PATH)) if FLUIDX3D_FIELD_PATH else ""
+    fluidx3d_command_present = bool(FLUIDX3D_RUN_COMMAND.strip())
     fluidx3d_path = configured_fluidx3d_path if configured_fluidx3d_path and Path(configured_fluidx3d_path).exists() else ""
     if meshId:
         mesh_dir = UPLOAD_DIR / meshId
@@ -1790,6 +1811,9 @@ def status(meshId: Optional[str] = None) -> Dict[str, object]:
             if candidates:
                 fluidx3d_path = str(max(candidates, key=lambda p: p.stat().st_mtime))
     fluidx3d_ready = bool(fluidx3d_path and Path(fluidx3d_path).exists())
+    fluidx3d_configured = bool(configured_fluidx3d_path or fluidx3d_command_present)
+    fluidx3d_binary = "present" if fluidx3d_configured else "absent"
+    fluidx3d_status = "ready" if fluidx3d_ready else "artifact_pending" if fluidx3d_configured else "binary_absent"
     fluidx3d_mtime = None
     fluidx3d_size = None
     if fluidx3d_ready:
@@ -1799,12 +1823,16 @@ def status(meshId: Optional[str] = None) -> Dict[str, object]:
     return {
         "status": "ready",
         "backend": "lbm",
-        "openfoam": "ready" if openfoam_ready else "missing",
+        "openfoam": openfoam_status,
+        "openfoamConfigured": openfoam_configured,
+        "openfoamConfiguredPath": configured_openfoam_path,
         "openfoamPath": openfoam_path,
         "openfoamPressurePath": openfoam_pressure_path,
         "openfoamMtime": openfoam_mtime,
         "openfoamSize": openfoam_size,
-        "fluidx3d": "ready" if fluidx3d_ready else "missing",
+        "fluidx3d": fluidx3d_status,
+        "fluidx3dBinary": fluidx3d_binary,
+        "fluidx3dConfigured": fluidx3d_configured,
         "fluidx3dPath": fluidx3d_path,
         "fluidx3dMtime": fluidx3d_mtime,
         "fluidx3dSize": fluidx3d_size,

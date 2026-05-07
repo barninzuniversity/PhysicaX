@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { FeatureChecklist } from "../components/FeatureChecklist";
 import { ScenarioPlanner, type PlannerScenario } from "../components/ScenarioPlanner";
+import { useCfdStatus } from "../components/useCfdStatus";
 
 type DesktopSettings = {
   gpuMode: "high" | "low";
@@ -16,6 +17,7 @@ type BackendStatusPayload = {
   status?: string;
   openfoam?: string;
   fluidx3d?: string;
+  fluidx3dBinary?: string;
 };
 type ReleaseVerifiedFile = {
   path: string;
@@ -114,6 +116,13 @@ bash scripts/run-web-linux.sh`;
 const linuxDoctorCommands = `cd /path/to/PhysicaX/physicax-desktop
 npm run desktop:doctor:linux`;
 
+const kaliGpuCheckCommands = `sudo apt install -y mesa-utils vulkan-tools pciutils
+glxinfo -B
+vulkaninfo --summary
+nvidia-smi
+cd "/path/to/PhysicaX"
+npm --prefix physicax-desktop run desktop:doctor:linux`;
+
 const linuxReleaseCommands = `cd /path/to/downloaded/PhysicaX-linux-release
 chmod +x run-PhysicaX-linux.sh
 ./run-PhysicaX-linux.sh`;
@@ -122,16 +131,16 @@ const linuxDebCommands = `cd /path/to/downloaded/PhysicaX-linux-release
 chmod +x install-PhysicaX-deb.sh
 ./install-PhysicaX-deb.sh`;
 
-const githubCloneDesktopCommands = `git clone --branch codex/full-app-github-runbook-pass https://github.com/barninzuniversity/PhysicaX.git
+const githubCloneDesktopCommands = `git clone --branch codex/kali-cfd-gpu-smoothness-pass https://github.com/barninzuniversity/PhysicaX.git
 cd PhysicaX
 bash scripts/setup-linux.sh
 bash scripts/run-desktop-linux.sh`;
 
-const githubCloneWebCommands = `git clone --branch codex/full-app-github-runbook-pass https://github.com/barninzuniversity/PhysicaX.git
+const githubCloneWebCommands = `git clone --branch codex/kali-cfd-gpu-smoothness-pass https://github.com/barninzuniversity/PhysicaX.git
 cd PhysicaX
 bash scripts/run-web-linux.sh`;
 
-const githubCloneBackendCommands = `git clone --branch codex/full-app-github-runbook-pass https://github.com/barninzuniversity/PhysicaX.git
+const githubCloneBackendCommands = `git clone --branch codex/kali-cfd-gpu-smoothness-pass https://github.com/barninzuniversity/PhysicaX.git
 cd PhysicaX
 bash scripts/run-cfd-backend-linux.sh`;
 
@@ -209,6 +218,15 @@ const linuxCommandGuides: CommandGuide[] = [
     badge: "Self-check",
     note: "The doctor reports missing prerequisites and points you toward the next command instead of making you guess.",
     expect: "You should see a pass/fail checklist for tools, builds, release artifacts, and renderer diagnostics."
+  },
+  {
+    id: "kali-gpu-check",
+    title: "Verify the GPU path on Kali Linux",
+    body: "Use this when Kali feels laggy and you need to tell the difference between real hardware rendering, software fallback, and an NVIDIA driver that is installed but not actually attached.",
+    command: kaliGpuCheckCommands,
+    badge: "Kali GPU check",
+    note: "Intel or AMD shown by glxinfo still counts as real GPU acceleration. The bad states are llvmpipe, SwiftShader, or an nvidia-smi binary that exists but cannot talk to the driver.",
+    expect: "glxinfo should report real hardware, vulkaninfo should summarize a GPU-capable stack, and the Linux doctor should print the next launch command for your current renderer state."
   },
   {
     id: "release",
@@ -406,12 +424,25 @@ const interpretBackendStatus = (payload: BackendStatusPayload | null) => {
   const status = payload?.status?.toLowerCase();
   const openfoam = payload?.openfoam?.toLowerCase();
   const fluidx3d = payload?.fluidx3d?.toLowerCase();
+  const fluidx3dBinary = payload?.fluidx3dBinary?.toLowerCase();
 
   if (status === "ready") {
     if (openfoam === "ready" || fluidx3d === "ready") {
       return {
         health: "ready" as const,
         note: "The backend is ready and at least one heavier artifact lane is already visible."
+      };
+    }
+    if (openfoam === "artifact_pending" || fluidx3d === "artifact_pending") {
+      return {
+        health: "ready" as const,
+        note: "The backend is ready and a heavier artifact lane is configured, but the exported field is not present yet."
+      };
+    }
+    if (fluidx3dBinary === "absent" && openfoam === "not_configured") {
+      return {
+        health: "ready" as const,
+        note: "The backend is ready. Heavy artifact lanes are still optional, so start with the quick validation path first."
       };
     }
     return {
@@ -453,34 +484,25 @@ export default function DesktopSettingsPage() {
   const [settings, setSettings] = useState<DesktopSettings | null>(null);
   const [version, setVersion] = useState("");
   const [backendUrl, setBackendUrl] = useState("");
-  const [backendHealth, setBackendHealth] = useState<BackendHealth>("checking");
   const [message, setMessage] = useState("");
   const [runtimeBusy, setRuntimeBusy] = useState(false);
   const [actionBusy, setActionBusy] = useState<string | null>(null);
   const [runtimeError, setRuntimeError] = useState("");
   const [lastSynced, setLastSynced] = useState<Date | null>(null);
-  const [lastBackendCheck, setLastBackendCheck] = useState<Date | null>(null);
-  const [backendStatusNote, setBackendStatusNote] = useState("");
   const [copiedCommandId, setCopiedCommandId] = useState<string | null>(null);
   const [releaseVerification, setReleaseVerification] = useState<ReleaseVerificationPayload | null>(null);
   const [runtimeDiagnostics, setRuntimeDiagnostics] = useState<RuntimeDiagnosticsPayload | null>(null);
-
-  const fetchBackendStatus = async (url: string) => {
-    const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 3500);
-    try {
-      const response = await fetch(`${url}/status`, { cache: "no-store", signal: controller.signal });
-      let payload: BackendStatusPayload | null = null;
-      try {
-        payload = (await response.json()) as BackendStatusPayload;
-      } catch {
-        payload = null;
-      }
-      return { response, payload };
-    } finally {
-      window.clearTimeout(timeout);
-    }
-  };
+  const {
+    data: backendPayload,
+    error: backendPollError,
+    lastCheckedAt: backendLastCheckedAt,
+    refresh: refreshSharedBackendStatus
+  } = useCfdStatus<BackendStatusPayload>(ready && backendUrl ? `${backendUrl}/status` : null, {
+    enabled: ready,
+    intervalMs: 30000,
+    timeoutMs: 3500,
+    pauseWhenHidden: true
+  });
 
   const copyCommand = async (commandId: string, command: string) => {
     try {
@@ -534,8 +556,6 @@ export default function DesktopSettingsPage() {
 
   const refreshBackendHealth = async (announce = false) => {
     if (!ready || !backendUrl) {
-      setBackendHealth(ready ? "offline" : "checking");
-      setBackendStatusNote(ready ? "No backend URL is configured for the packaged runtime." : "Backend checks are available inside the desktop app.");
       if (announce) {
         setMessage(ready ? "No backend URL is configured for the packaged runtime." : "Backend checks are available inside the desktop app.");
       }
@@ -546,26 +566,19 @@ export default function DesktopSettingsPage() {
     setRuntimeError("");
 
     try {
-      setBackendHealth("checking");
-      const { response, payload } = await fetchBackendStatus(backendUrl);
-      const interpreted = response.ok
+      const payload = await refreshSharedBackendStatus();
+      const interpreted = payload
         ? interpretBackendStatus(payload)
-        : { health: "offline" as const, note: `The backend returned HTTP ${response.status}.` };
-      setBackendHealth(interpreted.health);
-      setBackendStatusNote(interpreted.note);
-      setLastBackendCheck(new Date());
+        : {
+            health: "offline" as const,
+            note: "The backend did not answer within the short confidence-check timeout."
+          };
       if (announce) {
         setMessage(
           interpreted.health === "ready"
             ? "Backend health refreshed successfully."
             : `Backend needs attention. ${interpreted.note}`
         );
-      }
-    } catch (error) {
-      setBackendHealth("offline");
-      setBackendStatusNote("The backend did not answer within the short confidence-check timeout.");
-      if (announce) {
-        setMessage(`Backend check failed: ${describeDesktopError(error)}`);
       }
     } finally {
       setActionBusy(null);
@@ -577,49 +590,41 @@ export default function DesktopSettingsPage() {
   }, []);
 
   useEffect(() => {
-    if (!ready || !backendUrl) {
-      setBackendHealth(ready ? "offline" : "checking");
-      setBackendStatusNote(ready ? "No backend URL is configured for the packaged runtime." : "Backend checks are available inside the desktop app.");
-      return;
-    }
-
-    let cancelled = false;
-
-    const checkBackend = async () => {
-      try {
-        setBackendHealth("checking");
-        const { response, payload } = await fetchBackendStatus(backendUrl);
-        if (cancelled) return;
-        const interpreted = response.ok
-          ? interpretBackendStatus(payload)
-          : { health: "offline" as const, note: `The backend returned HTTP ${response.status}.` };
-        setBackendHealth(interpreted.health);
-        setBackendStatusNote(interpreted.note);
-        setLastBackendCheck(new Date());
-      } catch {
-        if (!cancelled) {
-          setBackendHealth("offline");
-          setBackendStatusNote("The backend did not answer within the short confidence-check timeout.");
-        }
-      }
-    };
-
-    void checkBackend();
-    const interval = window.setInterval(() => {
-      void checkBackend();
-    }, 20000);
-
-    return () => {
-      cancelled = true;
-      window.clearInterval(interval);
-    };
-  }, [ready, backendUrl]);
-
-  useEffect(() => {
     if (!copiedCommandId) return;
     const timeout = window.setTimeout(() => setCopiedCommandId(null), 1800);
     return () => window.clearTimeout(timeout);
   }, [copiedCommandId]);
+
+  const lastBackendCheck = backendLastCheckedAt ? new Date(backendLastCheckedAt) : null;
+  const backendAssessment = useMemo(() => {
+    if (!ready) {
+      return {
+        health: "checking" as BackendHealth,
+        note: "Backend checks are available inside the desktop app."
+      };
+    }
+    if (!backendUrl) {
+      return {
+        health: "offline" as BackendHealth,
+        note: "No backend URL is configured for the packaged runtime."
+      };
+    }
+    if (backendPollError) {
+      return {
+        health: "offline" as BackendHealth,
+        note: "The backend did not answer within the short confidence-check timeout."
+      };
+    }
+    if (backendPayload) {
+      return interpretBackendStatus(backendPayload);
+    }
+    return {
+      health: "checking" as BackendHealth,
+      note: "Checking the packaged backend health."
+    };
+  }, [backendPayload, backendPollError, backendUrl, ready]);
+  const backendHealth = backendAssessment.health;
+  const backendStatusNote = backendAssessment.note;
 
   const toggleGpu = async (mode: "high" | "low") => {
     if (!window.physicaxDesktop) return;

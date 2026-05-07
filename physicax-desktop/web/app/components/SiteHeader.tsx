@@ -8,6 +8,7 @@ import { UserMenu } from "./UserMenu";
 import { useRailState } from "./useRailState";
 import { useLocale } from "./LocaleProvider";
 import { BrandMark } from "./BrandMark";
+import { useCfdStatus } from "./useCfdStatus";
 
 const hexToRgb = (hex: string) => {
   const normalized = hex.replace("#", "");
@@ -36,16 +37,6 @@ const applyAccent = (value: string) => {
   document.documentElement.style.setProperty("--accent-2", value);
   document.documentElement.style.setProperty("--accent-3", rgbToHex(accent3));
   document.documentElement.style.setProperty("--ring", `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.35)`);
-};
-
-const fetchWithTimeout = async (input: string, timeoutMs = 3000) => {
-  const controller = new AbortController();
-  const timer = window.setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    return await fetch(input, { signal: controller.signal, cache: "no-store" });
-  } finally {
-    window.clearTimeout(timer);
-  }
 };
 
 const getSurfaceContext = (pathname: string, desktopAvailable: boolean) => {
@@ -118,9 +109,9 @@ export function SiteHeader() {
   const [collapsed, setCollapsed] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [desktopAvailable, setDesktopAvailable] = useState(false);
+  const [runtimeBackendUrl, setRuntimeBackendUrl] = useState("");
   const [gpuMode, setGpuMode] = useState<"high" | "low">("high");
   const [gpuBusy, setGpuBusy] = useState(false);
-  const [backendStatus, setBackendStatus] = useState<"checking" | "online" | "offline">("checking");
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [accent, setAccent] = useState("#2563eb");
   const [actionsOpen, setActionsOpen] = useState(false);
@@ -144,6 +135,25 @@ export function SiteHeader() {
     return pathname.startsWith(href);
   };
   const surfaceContext = getSurfaceContext(pathname, desktopAvailable);
+  const { data: runtimeStatusPayload, error: runtimeStatusError } = useCfdStatus<{ status?: string }>(
+    desktopAvailable && runtimeBackendUrl ? `${runtimeBackendUrl}/status` : null,
+    {
+      enabled: desktopAvailable,
+      intervalMs: 30000,
+      timeoutMs: 3000,
+      pauseWhenHidden: true
+    }
+  );
+  const backendStatus: "checking" | "online" | "offline" =
+    !desktopAvailable || !runtimeBackendUrl
+      ? "checking"
+      : runtimeStatusError
+        ? "offline"
+        : runtimeStatusPayload?.status?.toLowerCase() === "ready"
+          ? "online"
+          : runtimeStatusPayload
+            ? "offline"
+            : "checking";
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -162,6 +172,7 @@ export function SiteHeader() {
     const desktopBridge = (window as typeof window & { physicaxDesktop?: unknown }).physicaxDesktop as
       | {
           getSettings?: () => Promise<{ gpuMode?: "high" | "low" } | null | undefined>;
+          getBackendUrl?: () => Promise<string | null | undefined>;
         }
       | undefined;
     const desktopReady = Boolean(desktopBridge);
@@ -177,6 +188,16 @@ export function SiteHeader() {
           }
         })
         .catch(() => {});
+      desktopBridge
+        ?.getBackendUrl?.()
+        .then((backendUrl) => {
+          setRuntimeBackendUrl(backendUrl || "");
+        })
+        .catch(() => {
+          setRuntimeBackendUrl("");
+        });
+    } else {
+      setRuntimeBackendUrl("");
     }
 
     const storedTheme = window.localStorage.getItem("physicaxTheme");
@@ -304,39 +325,6 @@ export function SiteHeader() {
       setGpuBusy(false);
     }
   };
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-    if (!desktopAvailable) {
-      setBackendStatus("checking");
-      return;
-    }
-    let cancelled = false;
-    const check = async () => {
-      try {
-        const desktopBridge = (window as typeof window & {
-          physicaxDesktop?: { getBackendUrl?: () => Promise<string> };
-        }).physicaxDesktop;
-        const runtimeBackendUrl = await desktopBridge?.getBackendUrl?.();
-        if (!runtimeBackendUrl) {
-          if (!cancelled) setBackendStatus("offline");
-          return;
-        }
-        const res = await fetchWithTimeout(`${runtimeBackendUrl}/status`);
-        if (!cancelled) setBackendStatus(res.ok ? "online" : "offline");
-      } catch {
-        if (!cancelled) setBackendStatus("offline");
-      }
-    };
-    void check();
-    const interval = window.setInterval(check, 15000);
-    return () => {
-      cancelled = true;
-      window.clearInterval(interval);
-    };
-  }, [desktopAvailable]);
 
   useEffect(() => {
     if (typeof window === "undefined") {

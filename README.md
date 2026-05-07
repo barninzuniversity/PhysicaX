@@ -155,7 +155,7 @@ Success looks like:
 Use this when you want the exact published branch from GitHub:
 
 ```bash
-git clone --branch codex/full-app-github-runbook-pass https://github.com/barninzuniversity/PhysicaX.git
+git clone --branch codex/kali-cfd-gpu-smoothness-pass https://github.com/barninzuniversity/PhysicaX.git
 cd PhysicaX
 bash scripts/setup-linux.sh
 bash scripts/run-desktop-linux.sh
@@ -222,7 +222,7 @@ Use these exact commands from this checkout, depending on what you want to run.
 | Website only | `cd "/home/ibrahim/Desktop/Project (copy 1)"`<br>`bash scripts/run-web-linux.sh` | The local production web server answers on `http://127.0.0.1:3000`. |
 | CFD backend only | `cd "/home/ibrahim/Desktop/Project (copy 1)"`<br>`bash scripts/run-cfd-backend-linux.sh` | The backend answers on `http://127.0.0.1:8000/status`. |
 | Full verification | `cd "/home/ibrahim/Desktop/Project (copy 1)"`<br>`env PHYSICAX_SKIP_SETUP=1 bash scripts/verify-linux.sh` | Doctor, prep, smoke, packaging, and release-verification checks complete end to end. |
-| Clone from GitHub and run from source | `git clone --branch codex/full-app-github-runbook-pass https://github.com/barninzuniversity/PhysicaX.git`<br>`cd PhysicaX`<br>`bash scripts/setup-linux.sh`<br>`bash scripts/run-desktop-linux.sh` | The published branch clones cleanly, setup completes, and the Electron desktop app launches from source. |
+| Clone from GitHub and run from source | `git clone --branch codex/kali-cfd-gpu-smoothness-pass https://github.com/barninzuniversity/PhysicaX.git`<br>`cd PhysicaX`<br>`bash scripts/setup-linux.sh`<br>`bash scripts/run-desktop-linux.sh` | The published branch clones cleanly, setup completes, and the Electron desktop app launches from source. |
 | GitHub release tarball | `wget https://github.com/barninzuniversity/PhysicaX/releases/download/v0.1.0/PhysicaX-0.1.0-linux-release.tar.gz`<br>`tar -xzf PhysicaX-0.1.0-linux-release.tar.gz`<br>`cd PhysicaX-0.1.0-linux-release`<br>`./run-PhysicaX-linux.sh` | The packaged Linux release opens without needing the source checkout. |
 | Downloaded Linux release | `cd /path/to/linux-release`<br>`chmod +x run-PhysicaX-linux.sh`<br>`./run-PhysicaX-linux.sh` | The packaged Linux release opens without needing the source checkout. |
 | Optional hybrid-laptop discrete GPU attempt | `cd "/home/ibrahim/Desktop/Project (copy 1)"`<br>`PHYSICAX_GPU_VENDOR=discrete bash scripts/run-desktop-linux-gpu.sh` | The app still opens normally, and you can verify whether rendering moved from the integrated GPU to the discrete one. |
@@ -363,6 +363,7 @@ General Linux GPU verification:
 ```bash
 sudo apt install -y mesa-utils vulkan-tools pciutils
 glxinfo -B
+vulkaninfo --summary
 ```
 
 What to look for:
@@ -370,7 +371,7 @@ What to look for:
 - `OpenGL renderer string` should show your real GPU, not `llvmpipe`, `softpipe`, or `SwiftShader`
 - If `OpenGL renderer string` shows Intel, AMD, or NVIDIA hardware, the app is already using GPU acceleration rather than CPU fallback
 - If you specifically want the dedicated GPU on a hybrid laptop, try `PHYSICAX_GPU_VENDOR=discrete bash scripts/run-desktop-linux-gpu.sh`
-- `npm --prefix physicax-desktop run desktop:doctor:linux` now reports the active OpenGL renderer and warns when software rendering is detected
+- `npm --prefix physicax-desktop run desktop:doctor:linux` now reports the active OpenGL renderer, warns when software rendering is detected, and prints the next launch command that matches the current GPU state
 
 ## Kali Linux GPU path
 
@@ -379,6 +380,7 @@ Kali-specific baseline tools:
 ```bash
 sudo apt install -y mesa-utils vulkan-tools pciutils
 glxinfo -B
+vulkaninfo --summary
 ```
 
 Kali on NVIDIA:
@@ -391,6 +393,7 @@ sudo apt install -y linux-headers-$(uname -r) linux-headers-amd64 mesa-utils vul
 sudo reboot
 nvidia-smi
 glxinfo -B
+vulkaninfo --summary
 cd "/home/ibrahim/Desktop/Project (copy 1)"
 bash scripts/run-desktop-linux-gpu.sh
 ```
@@ -401,6 +404,8 @@ If `glxinfo -B` still reports `llvmpipe` or `SwiftShader`, you are still on CPU 
 cd "/home/ibrahim/Desktop/Project (copy 1)"
 PHYSICAX_GPU_VENDOR=discrete bash scripts/run-desktop-linux-gpu.sh
 ```
+
+If `nvidia-smi` exists but says it cannot communicate with the NVIDIA driver, treat that as a driver-stack problem, not as proof that PhysicaX is falling back to CPU. In that case, check `glxinfo -B` first: if it shows real Intel or AMD hardware instead of `llvmpipe`, the app is still GPU-accelerated on the active Linux renderer.
 
 If Kali still struggles to start the accelerated graphics stack after NVIDIA driver updates, Kali's graphics troubleshooting docs also call out `nvidia_drm.modeset=1` as a common fix for display startup issues.
 
@@ -525,6 +530,12 @@ The browser flow can talk to an external CFD backend through:
 - `CFD_BACKEND_URL`
 - `NEXT_PUBLIC_CFD_BACKEND_URL`
 
+Optional AI env scaffolding is also available for future local integrations, but this pass does not ship a visible AI feature and does not commit any real key:
+
+- `OPENROUTER_API_KEY`
+- `OPENROUTER_MODEL`
+- `OPENROUTER_BASE_URL`
+
 Manual backend startup from the repository root:
 
 ```bash
@@ -535,6 +546,12 @@ pip install -r requirements.txt
 cd physicax-web/cfd/backend
 uvicorn app:app --host 0.0.0.0 --port 8000
 ```
+
+Backend behavior notes:
+
+- repeated `GET /status 200` lines are expected while the UI is polling runtime health
+- opening `http://127.0.0.1:8000/` now returns a small service note that points to `/status`
+- `http://127.0.0.1:8000/favicon.ico` returns no content so testing the backend in a browser no longer creates a confusing extra 404
 
 ## Project layout
 

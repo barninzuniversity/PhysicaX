@@ -80,10 +80,10 @@ const dictionary: Record<Locale, Record<string, string>> = {
       "Controls, notes, diagnostics, and plots stay close together so you can explain a result instead of only generating one.",
     tourStep3Title: "Choose browser or desktop mode",
     tourStep3Body:
-      "Use the browser for quick exploration and the desktop app when you want bundled local services, GPU controls, and offline packaging.",
+      "Use the browser for quick exploration, then move into the desktop app when bundled local services, GPU controls, and package-level trust matter.",
     tourStep4Title: "Escalate to CFD when needed",
     tourStep4Body:
-      "Start with the quick LBM check, then promote stable cases to OpenFOAM when you need sampled fields, pressure, and streamlines.",
+      "Start with the quick LBM check, then promote only the stable cases into OpenFOAM when you really need sampled fields, pressure, or streamlines.",
     challengeLibrary: "Challenge Library",
     classroomHub: "Classroom Hub",
     educationLayerTitle: "Education and Classroom Layer",
@@ -1568,10 +1568,10 @@ const dictionary: Record<Locale, Record<string, string>> = {
       "Les controles, notes, diagnostics et graphes restent ensemble pour expliquer un resultat, pas seulement le produire.",
     tourStep3Title: "Choisir navigateur ou desktop",
     tourStep3Body:
-      "Utilisez le navigateur pour l'exploration rapide et l'app desktop pour les services locaux, le mode GPU et le packaging hors ligne.",
+      "Utilisez le navigateur pour l'exploration rapide, puis passez a l'app desktop quand les services locaux, le mode GPU et la confiance de runtime comptent vraiment.",
     tourStep4Title: "Passer au CFD si necessaire",
     tourStep4Body:
-      "Commencez par le test LBM rapide, puis passez a OpenFOAM quand vous avez besoin de champs echantillonnes, pression et streamlines.",
+      "Commencez par le test LBM rapide, puis ne passez a OpenFOAM que pour les cas stables quand vous avez vraiment besoin de champs echantillonnes, de pression ou de streamlines.",
     challengeLibrary: "Bibliotheque de defis",
     classroomHub: "Espace classe",
     educationLayerTitle: "Education et salle de classe",

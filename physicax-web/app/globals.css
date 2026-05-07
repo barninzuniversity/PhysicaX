@@ -267,8 +267,9 @@ textarea:focus-visible {
 }
 
 [data-theme="dark"] .status-pill {
-  background: rgba(15, 23, 42, 0.7);
-  border-color: rgba(148, 163, 184, 0.2);
+  background: linear-gradient(180deg, rgba(9, 15, 30, 0.94), rgba(15, 23, 42, 0.82));
+  border-color: rgba(125, 211, 252, 0.2);
+  color: #f8fafc;
 }
 
 @media (max-width: 900px) {
@@ -435,6 +436,26 @@ textarea:focus-visible {
   background: var(--menu-hover);
   border-color: rgba(96, 165, 250, 0.28);
   color: #ffffff;
+}
+
+[data-theme="dark"] .quick-actions-menu {
+  background:
+    radial-gradient(circle at top right, rgba(56, 189, 248, 0.14), transparent 42%),
+    linear-gradient(180deg, rgba(2, 6, 23, 0.98), rgba(15, 23, 42, 0.94));
+  border-color: rgba(125, 211, 252, 0.18);
+  box-shadow: 0 24px 64px rgba(2, 6, 23, 0.62);
+}
+
+[data-theme="dark"] .quick-actions-field span {
+  color: rgba(226, 232, 240, 0.82);
+}
+
+[data-theme="dark"] .quick-actions-toggle-wrap,
+[data-theme="dark"] .quick-actions-accent-picker,
+[data-theme="dark"] .theme-toggle-wrap {
+  background: rgba(15, 23, 42, 0.88);
+  border-color: rgba(125, 211, 252, 0.16);
+  color: #f8fafc;
 }
 
 .theme-toggle-wrap {
@@ -3772,7 +3793,7 @@ input[type="range"]::-moz-range-track {
 
 .mini-row {
   display: grid;
-  grid-template-columns: 60px 1fr 1fr;
+  grid-template-columns: 84px 1.25fr 1fr;
   gap: 12px;
   font-size: 12px;
   color: var(--muted);
@@ -3786,12 +3807,12 @@ input[type="range"]::-moz-range-track {
 }
 
 [data-theme="dark"] .mini-table {
-  background: rgba(2, 6, 23, 0.62);
-  border-color: rgba(148, 163, 184, 0.16);
+  background: linear-gradient(180deg, rgba(2, 6, 23, 0.86), rgba(15, 23, 42, 0.78));
+  border-color: rgba(125, 211, 252, 0.16);
 }
 
 [data-theme="dark"] .mini-row {
-  color: rgba(226, 232, 240, 0.74);
+  color: rgba(226, 232, 240, 0.82);
 }
 
 [data-theme="dark"] .mini-row.header {
@@ -4842,6 +4863,30 @@ html {
   background: rgba(30, 41, 59, 0.88);
   border-color: rgba(148, 163, 184, 0.16);
   color: #e2e8f0;
+}
+
+[data-theme="dark"] .cfd-status-shell .status-card.is-good {
+  background: linear-gradient(180deg, rgba(6, 78, 59, 0.36), rgba(15, 23, 42, 0.86));
+  border-color: rgba(52, 211, 153, 0.22);
+}
+
+[data-theme="dark"] .cfd-status-shell .status-card.is-warn {
+  background: linear-gradient(180deg, rgba(120, 53, 15, 0.34), rgba(15, 23, 42, 0.86));
+  border-color: rgba(251, 191, 36, 0.22);
+}
+
+[data-theme="dark"] .cfd-status-shell .status-card.is-bad {
+  background: linear-gradient(180deg, rgba(127, 29, 29, 0.34), rgba(15, 23, 42, 0.86));
+  border-color: rgba(248, 113, 113, 0.22);
+}
+
+[data-theme="dark"] .cfd-status-shell .demo-note,
+[data-theme="dark"] .cfd-status-shell .status-note {
+  color: rgba(226, 232, 240, 0.8);
+}
+
+[data-theme="dark"] .cfd-status-shell .mini-row span:nth-child(2) {
+  color: #f8fafc;
 }
 
 [data-theme="dark"] .cfd-status-shell .status-card,
