@@ -33,11 +33,15 @@
           ]
         }
       ],
-      "artifactName": "PhysicaX-${version}-${arch}.${ext}"
+      "artifactName": "PhysicaX-${version}-${arch}.${ext}",
+      "sign": false,
+      "verifyUpdateCodeSignature": false
     },
     "portable": {
       "artifactName": "PhysicaX-${version}-${arch}.${ext}"
-    }
+    },
+    "publish": null,
+    "forceCodeSigning": false
   },
   "devDependencies": {
     "electron": "^33.0.0",
