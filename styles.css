@@ -328,12 +328,47 @@ body {
   font-weight: 600;
 }
 
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  width: auto;
+  height: auto;
+  padding: 10px 14px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  z-index: 1000;
+  text-decoration: none;
+  font-weight: 600;
+}
+
 .ocr {
   white-space: pre-wrap;
   font-family: "Courier New", monospace;
   font-size: 12px;
   line-height: 1.5;
   color: #1f2a30;
+}
+
+.details-block summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.details-block {
+  margin-top: 18px;
+  background: rgba(16, 24, 32, 0.04);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
 }
 
 .timeline {

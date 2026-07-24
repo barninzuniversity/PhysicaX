@@ -1,0 +1,39 @@
+{
+  "name": "physicax-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PhysicaX desktop shell for Windows and other platforms.",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win",
+    "build:dir": "electron-builder --win --dir",
+    "dist": "npm run build",
+    "pack": "electron-builder --dir"
+  },
+  "build": {
+    "appId": "com.physicax.app",
+    "productName": "PhysicaX",
+    "files": [
+      "electron/**/*",
+      "index.html",
+      "styles.css",
+      "script.js",
+      "PhysicaX_Formula_Reference.md"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "artifactName": "PhysicaX-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^24.9.1"
+  }
+}
