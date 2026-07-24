@@ -1,0 +1,1 @@
+/* PhysicaX postinstall hook: placeholder. */
