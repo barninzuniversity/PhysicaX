@@ -1,0 +1,136 @@
+.lab-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.control-group {
+  display: grid;
+  gap: 6px;
+}
+
+.control-group label {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.control-group input,
+.control-group select {
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  background: white;
+}
+
+.control-group input:focus,
+.control-group select:focus {
+  border-color: var(--accent);
+}
+
+.lab-actions {
+  align-self: end;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.result-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  box-shadow: 0 10px 25px rgba(16, 24, 32, 0.08);
+}
+
+.result-label {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.plot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.plot-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  box-shadow: 0 10px 25px rgba(16, 24, 32, 0.08);
+}
+
+.plot-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.formula-reference {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.formula-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: 0 10px 25px rgba(16, 24, 32, 0.08);
+}
+
+.formula-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.formula {
+  background: #0b1a1d;
+  color: #e7f1f1;
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+}
+
+.formula-note {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.saved-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.saved-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  box-shadow: 0 10px 25px rgba(16, 24, 32, 0.08);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.unit-hint {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
