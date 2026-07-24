@@ -5,7 +5,10 @@ _video_frames/
 dist/
 build/
 .next/
+out/
+release/
 node_modules/
 *.sst
 *.pack
 .DS_Store
+.env
