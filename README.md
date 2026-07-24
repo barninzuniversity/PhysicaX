@@ -16,7 +16,18 @@ This repo currently hosts the specification and reference pack. Implementation w
 
 ## Quick Start
 
-Open `index.html` in a browser.
+Option A: run the setup installer first
+
+1. Double-click `install.bat`
+2. After it finishes, run `npm start`
+
+Option B: manual setup
+
+1. Install Node.js from https://nodejs.org
+2. Run `npm install`
+3. Run `npm start`
+
+To build a Windows installer: `npm run build`
 
 ## Contributing
 
