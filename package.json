@@ -26,13 +26,17 @@
     ],
     "win": {
       "target": [
-        "nsis"
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
       ],
       "artifactName": "PhysicaX-${version}-${arch}.${ext}"
     },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+    "portable": {
+      "artifactName": "PhysicaX-${version}-${arch}.${ext}"
     }
   },
   "devDependencies": {
