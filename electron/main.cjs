@@ -1,7 +1,54 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const { spawn } = require('child_process');
 
-const isDev = process.env.NODE_ENV === 'development' || app.commandLine?.hasSwitch('dev');
+let aiProcess = null;
+let aiReady = false;
+
+function ensureAiBackend() {
+  if (aiReady && aiProcess) return;
+
+  const python = `python`;
+  const script = path.join(__dirname, '..', 'ai-backend', 'app.py');
+
+  aiProcess = spawn(python, [script], {
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+
+  aiProcess.stdout.on('data', (data) => {
+    const msg = data.toString();
+    if (msg.includes('Uvicorn running on')) {
+      aiReady = true;
+    }
+  });
+
+  aiProcess.stderr.on('data', () => {
+    // keep startup noisy output internal
+  });
+
+  aiProcess.on('error', (err) => {
+    aiReady = false;
+  });
+}
+
+function stopAiBackend() {
+  if (aiProcess) {
+    try {
+      aiProcess.kill();
+    } catch (_e) {}
+    aiProcess = null;
+    aiReady = false;
+  }
+}
+
+async function waitForAi(maxMs = 5000) {
+  const start = Date.now();
+  while (Date.now() - start < maxMs) {
+    if (aiReady) return true;
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+  return aiReady;
+}
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -13,19 +60,20 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.cjs'),
       sandbox: false,
       contextIsolation: true,
-      nodeIntegration: false
-    }
+      nodeIntegration: false,
+    },
   });
 
-  const indexHtml = path.join(__dirname, '..', 'index.html');
-  win.loadFile(indexHtml);
-
-  if (isDev) {
-    win.webContents.openDevTools({ mode: 'detach' });
-  }
+  win.loadFile(path.join(__dirname, '..', 'index.html'));
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
+  try {
+    ensureAiBackend();
+  } catch (_e) {
+    aiReady = false;
+  }
+
   createWindow();
 
   app.on('activate', () => {
@@ -36,7 +84,37 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
+  stopAiBackend();
   if (process.platform !== 'darwin') {
     app.quit();
   }
+});
+
+ipcMain.handle('ai:chat', async (_event, message, history) => {
+  const payload = { message, history: history || [] };
+
+  if (!aiReady) {
+    await waitForAi(2000);
+  }
+
+  if (aiReady) {
+    try {
+      const resp = await fetch('http://127.0.0.1:8000/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (resp.ok) {
+        const data = await resp.json();
+        return data.response || '[Empty backend response]';
+      }
+
+      return `[AI backend error] Status ${resp.status}`;
+    } catch (_e) {
+      return '[AI backend unavailable]';
+    }
+  }
+
+  return '[AI offline] Backend did not start. Make sure Python is installed.';
 });

@@ -1,10 +1,5 @@
-window.addEventListener('DOMContentLoaded', () => {
-  const replaceText = (selector, text) => {
-    const el = document.querySelector(selector);
-    if (el) el.textContent = text;
-  };
+const { contextBridge, ipcRenderer } = require('electron');
 
-  for (const type of ['chrome', 'node', 'electron']) {
-    replaceText(`.${type}-version`, process.versions[type] || '');
-  }
+contextBridge.exposeInMainWorld('physicaxAI', {
+  chat: (message, history) => ipcRenderer.invoke('ai:chat', message, history),
 });

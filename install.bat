@@ -1,5 +1,6 @@
 @echo off
 setlocal
+title PhysicaX Setup
 
 echo.
 echo ================================
@@ -7,35 +8,27 @@ echo  PhysicaX Windows Setup
 echo ================================
 echo.
 
-where node >nul 2>nul
+python --version >nul 2>&1
 if %ERRORLEVEL% NEQ 0 (
-  echo [ERROR] Node.js is required but not found.
-  echo Install it from https://nodejs.org and re-run this script.
+  echo Python is missing.
+  echo This installer requires Python 3.10+.
   pause
   exit /b 1
 )
 
-where npm >nul 2>nul
+echo [1/2] Installing AI backend dependencies...
+python ai-backend\install_requirements.py
 if %ERRORLEVEL% NEQ 0 (
-  echo [ERROR] npm is required but not found.
-  echo Reinstall Node.js and ensure npm is included.
-  pause
-  exit /b 1
-)
-
-echo [1/2] Installing dependencies...
-call npm install
-if %ERRORLEVEL% NEQ 0 (
-  echo [ERROR] npm install failed.
+  echo [ERROR] Failed to install Python dependencies.
   pause
   exit /b 1
 )
 
 echo.
-echo [2/2] Verifying Electron install...
-call npx electron --version >nul 2>nul
+echo [2/2] Installing Node dependencies...
+npm install
 if %ERRORLEVEL% NEQ 0 (
-  echo [ERROR] Electron verification failed.
+  echo [ERROR] npm install failed.
   pause
   exit /b 1
 )
@@ -45,9 +38,7 @@ echo ================================
 echo  Setup complete.
 echo ================================
 echo.
-echo Next steps:
-echo   - Run app:  npm start
-echo   - Build EXE: npm run build
+echo Start the app with:
+echo   npm start
 echo.
-
 pause

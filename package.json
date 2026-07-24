@@ -2,20 +2,23 @@
   "name": "physicax-desktop",
   "version": "0.1.0",
   "private": true,
-  "description": "PhysicaX desktop shell for Windows and other platforms.",
+  "description": "PhysicaX desktop shell with optional offline AI tutor.",
   "main": "electron/main.cjs",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder --win",
     "build:dir": "electron-builder --win --dir",
     "dist": "npm run build",
-    "pack": "electron-builder --dir"
+    "pack": "electron-builder --dir",
+    "postinstall": "node scripts/postinstall.cjs"
   },
   "build": {
     "appId": "com.physicax.app",
     "productName": "PhysicaX",
     "files": [
       "electron/**/*",
+      "ai-backend/**/*",
+      "scripts/**/*",
       "index.html",
       "styles.css",
       "script.js",
