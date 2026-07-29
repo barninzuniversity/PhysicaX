@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PhysicaX - MechanicsLab</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#lab-main">Skip to content</a>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark">PX</div>
+      <div class="brand-text">
+        <div class="brand-title">PhysicaX</div>
+        <div class="brand-subtitle">Mechanics Lab</div>
+      </div>
+    </div>
+    <nav class="top-nav">
+      <a href="../index.html">Back to Blueprint</a>
+      <a href="#lab-main">Lab</a>
+      <a href="#formulas">Formulas</a>
+    </nav>
+  </header>
+
+  <main id="lab-main" class="layout">
+    <aside class="toc" aria-label="Lab contents">
+      <div class="toc-title">MechanicsLab</div>
+      <a href="#parameters">Parameters</a>
+      <a href="#results">Results</a>
+      <a href="#plots">Plots</a>
+      <a href="#formulas">Formulas</a>
+    </aside>
+
+    <div class="content">
+      <section id="parameters" class="section reveal">
+        <h2>Projectile Motion</h2>
+        <div class="lab-controls">
+          <div class="control-group">
+            <label for="v0">Initial Speed (m/s)</label>
+            <input id="v0" type="number" value="30" min="0.1" step="0.1" />
+          </div>
+
+          <div class="control-group">
+            <label for="angle">Launch Angle (deg)</label>
+            <input id="angle" type="number" value="45" min="0.1" step="0.1" />
+          </div>
+
+          <div class="control-group">
+            <label for="h0">Initial Height (m)</label>
+            <input id="h0" type="number" value="0" step="0.1" />
+          </div>
+
+          <div class="control-group">
+            <label for="g">Gravity (m/s²)</label>
+            <input id="g" type="number" value="9.81" min="0.1" step="0.01" />
+          </div>
+
+          <div class="control-group lab-actions">
+            <button id="run-btn" class="btn primary">Run Simulation</button>
+            <button id="reset-btn" class="btn ghost">Reset</button>
+          </div>
+        </div>
+
+        <div class="unit-hint">
+          No drag in this version. Results are idealized vacuum projectile motion.
+        </div>
+      </section>
+
+      <section id="results" class="section reveal">
+        <h2>Results</h2>
+        <div id="results-grid" class="results-grid">
+          <div class="result-card">
+            <div class="result-label">Flight</div>
+            <pre id="flight" class="code-block">-</pre>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Range / Height</div>
+            <pre id="range" class="code-block">-</pre>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Impact</div>
+            <pre id="impact" class="code-block">-</pre>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Assumptions</div>
+            <pre id="assumptions" class="code-block">No air drag. Constant g. Flat ground unless initial height is nonzero.</pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="plots" class="section reveal">
+        <h2>Plots</h2>
+        <div class="plot-grid">
+          <div id="trajectory-plot" class="plot-card">
+            <div class="plot-title">Trajectory</div>
+          </div>
+          <div id="velocity-plot" class="plot-card">
+            <div class="plot-title">Velocity Components</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="formulas" class="section reveal">
+        <h2>Formulas Used</h2>
+        <div class="formula-reference">
+          <div class="formula-card">
+            <h3>No-Drag Projectile</h3>
+            <pre class="formula">x(t) = v0 cos(θ) t
+y(t) = h0 + v0 sin(θ) t - ½ g t²</pre>
+            <p class="formula-note">Constant g, no air resistance.</p>
+          </div>
+          <div class="formula-card">
+            <h3>Range / Time</h3>
+            <pre class="formula">t_flight from y(t)=0
+R = v0 cos(θ) t_flight</pre>
+            <p class="formula-note">For h0 = 0 and 0° &lt; θ &lt; 90°.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
